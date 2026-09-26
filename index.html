@@ -9,51 +9,347 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Vazirmatn:wght@400;600;700;800&display=swap');
 
     :root, [data-theme="guts"] {
-      --bg: #030304; --red: #8a0000; --accent: #ff1a2a; --gold: #b8860b;
-      --bone: #e8dcc8; --dim: #6a645c; --panel: #0e0a0a;
-      --line: rgba(180,20,20,0.45); --glow: rgba(180,0,0,0.55);
-      --grad: linear-gradient(180deg,#ffe8c8,#c45c20,#8a0000);
-      --chip: linear-gradient(135deg,#5a0000,#1a0000);
-      --card: linear-gradient(165deg,#1a1010,#050303);
+      --bg: #030304;
+      --red: #8a0000;
+      --red2: #e01828;
+      --gold: #b8860b;
+      --bone: #e8dcc8;
+      --dim: #6a645c;
+      --panel: #0e0a0a;
+      --line: rgba(180,20,20,0.45);
+      --accent: #ff1a2a;
+      --glow: rgba(180,0,0,0.65);
+      --grad: linear-gradient(180deg, #ffe8c8 0%, #c45c20 35%, #8a0000 70%, #2a0000 100%);
+      --chip: linear-gradient(135deg, #5a0000, #1a0000);
+      --row-bar: linear-gradient(180deg, #ff1a2a, #8a0000, #3a1510);
+      --code-bg: rgba(140,0,0,0.22);
+      --code-c: #ff6a6a;
+      --code-b: rgba(200,30,30,0.45);
+      --card-bg: linear-gradient(165deg, #1a1010 0%, #0a0606 55%, #050303 100%);
+      --hero-bg: radial-gradient(ellipse at 50% 0%, rgba(140,0,0,0.4) 0%, transparent 55%);
+      --noise: rgba(255,40,40,0.03);
     }
     [data-theme="griffith"] {
-      --bg: #08090f; --red: #7b8cff; --accent: #e8eefc; --gold: #f0e0b0;
-      --bone: #f7f4ef; --dim: #9aa0b4; --panel: #0e1018;
-      --line: rgba(200,210,255,0.22); --glow: rgba(140,150,220,0.35);
-      --grad: linear-gradient(180deg,#fff,#f0e0b0,#a8b0ff);
-      --chip: linear-gradient(135deg,#2a3048,#141820);
-      --card: linear-gradient(165deg,#141822,#060810);
+      --bg: #08090f;
+      --red: #7b8cff;
+      --red2: #d4daf8;
+      --gold: #f0e0b0;
+      --bone: #f7f4ef;
+      --dim: #9aa0b4;
+      --panel: #0e1018;
+      --line: rgba(200,210,255,0.22);
+      --accent: #e8eefc;
+      --glow: rgba(140,150,220,0.35);
+      --grad: linear-gradient(180deg, #ffffff 0%, #f0e0b0 40%, #c8d0f0 75%, #8890c0 100%);
+      --chip: linear-gradient(135deg, #2a3048, #141820);
+      --row-bar: linear-gradient(180deg, #f0e0b0, #c8d0f8, #8890c0);
+      --code-bg: rgba(200,210,255,0.1);
+      --code-c: #d0d8ff;
+      --code-b: rgba(200,210,255,0.28);
+      --card-bg: linear-gradient(165deg, #141822 0%, #0a0c14 55%, #060810 100%);
+      --hero-bg: radial-gradient(ellipse at 50% 0%, rgba(200,210,255,0.18) 0%, transparent 50%);
+      --noise: rgba(220,230,255,0.025);
+    }
+    [data-theme="eclipse"] {
+      --bg: #06040a;
+      --red: #9b1040;
+      --red2: #ff4a6a;
+      --gold: #e8c878;
+      --bone: #f0e8dc;
+      --dim: #7a7080;
+      --panel: #0c0a12;
+      --line: rgba(180,40,80,0.35);
+      --accent: #ff6a8a;
+      --glow: rgba(160,30,80,0.5);
+      --grad: linear-gradient(180deg, #fff0d8 0%, #e8c878 25%, #c04060 55%, #4a1870 85%, #1a0a28 100%);
+      --chip: linear-gradient(135deg, #4a1030, #1a0a28);
+      --row-bar: linear-gradient(180deg, #e8c878, #ff4a6a, #6a2080);
+      --code-bg: rgba(160,30,80,0.16);
+      --code-c: #ff8aaa;
+      --code-b: rgba(200,60,100,0.4);
+      --card-bg: linear-gradient(165deg, #161018 0%, #0a0810 50%, #080612 100%);
+      --hero-bg: radial-gradient(ellipse at 30% 0%, rgba(160,30,80,0.35) 0%, transparent 45%),
+                 radial-gradient(ellipse at 70% 0%, rgba(100,40,140,0.25) 0%, transparent 45%);
+      --noise: rgba(255,80,120,0.03);
+    }
+    [data-theme="behelit"] {
+      --bg: #040806;
+      --red: #1a8a4a;
+      --red2: #3dff8a;
+      --gold: #c8ff6a;
+      --bone: #e8ffe8;
+      --dim: #6a8a70;
+      --panel: #080f0c;
+      --line: rgba(40,200,100,0.35);
+      --accent: #5fff9a;
+      --glow: rgba(40,220,100,0.5);
+      --grad: linear-gradient(180deg, #e8ffe0 0%, #6aff9a 30%, #1a8a4a 60%, #0a3a28 85%, #020806 100%);
+      --chip: linear-gradient(135deg, #0a4a28, #042018);
+      --row-bar: linear-gradient(180deg, #c8ff6a, #3dff8a, #0a5a30);
+      --code-bg: rgba(40,180,80,0.15);
+      --code-c: #7fffb0;
+      --code-b: rgba(60,220,100,0.4);
+      --card-bg: linear-gradient(165deg, #0c1812 0%, #060e0a 50%, #040806 100%);
+      --hero-bg: radial-gradient(ellipse at 50% 0%, rgba(40,200,100,0.3) 0%, transparent 50%),
+                 radial-gradient(ellipse at 20% 80%, rgba(200,255,80,0.08) 0%, transparent 40%);
+      --noise: rgba(80,255,140,0.04);
+    }
+    /* live theme motion */
+    [data-theme="behelit"] .card {
+      animation: breath 4s ease-in-out infinite;
+    }
+    [data-theme="behelit"] .card:nth-child(2n) { animation-delay: 0.4s; }
+    [data-theme="behelit"] .card:nth-child(3n) { animation-delay: 0.8s; }
+    [data-theme="behelit"] .hero h1 {
+      animation: hueShift 6s linear infinite, beat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px var(--glow));
+    }
+    [data-theme="behelit"] .seal .k {
+      color: var(--accent);
+      animation: beat 1.1s ease-in-out infinite;
+    }
+    [data-theme="behelit"] body::before,
+    body[data-theme="behelit"]::before {
+      animation: pulseBg 5s ease-in-out infinite;
+    }
+    @keyframes breath {
+      0%,100% { box-shadow: 0 0 0 transparent; border-color: var(--line); }
+      50% { box-shadow: 0 0 18px var(--glow); border-color: var(--accent); }
+    }
+    @keyframes hueShift {
+      0% { filter: drop-shadow(0 0 16px var(--glow)) hue-rotate(0deg); }
+      50% { filter: drop-shadow(0 0 28px var(--glow)) hue-rotate(25deg); }
+      100% { filter: drop-shadow(0 0 16px var(--glow)) hue-rotate(0deg); }
+    }
+    @keyframes pulseBg {
+      0%,100% { opacity: 0.9; }
+      50% { opacity: 1; }
+    }
+    [data-theme="behelit"] .row::before {
+      animation: barFlow 2.5s linear infinite;
+      background-size: 100% 200%;
+    }
+    @keyframes barFlow {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(1.5); }
+      100% { filter: brightness(1); }
+    }
+    [data-theme="guts"] .hero h1 { animation: gutsFlicker 3s ease-in-out infinite; }
+    @keyframes gutsFlicker {
+      0%,100% { filter: drop-shadow(0 0 12px var(--glow)); }
+      40% { filter: drop-shadow(0 0 22px var(--glow)); }
+      42% { filter: drop-shadow(0 0 4px var(--glow)) brightness(1.2); }
+      44% { filter: drop-shadow(0 0 20px var(--glow)); }
+    }
+    [data-theme="griffith"] .hero h1 {
+      animation: softGlow 4s ease-in-out infinite;
+    }
+    @keyframes softGlow {
+      0%,100% { filter: drop-shadow(0 0 10px var(--glow)); opacity: 1; }
+      50% { filter: drop-shadow(0 0 26px var(--glow)); opacity: 0.95; }
+    }
+    [data-theme="eclipse"] .card {
+      animation: eclipsePulse 5s ease-in-out infinite;
+    }
+    [data-theme="eclipse"] .card:nth-child(odd) { animation-delay: 0.6s; }
+    @keyframes eclipsePulse {
+      0%,100% { box-shadow: inset 0 0 0 transparent; }
+      50% { box-shadow: inset 0 0 20px rgba(160,30,80,0.15); }
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      min-height: 100%; background: var(--bg); color: var(--bone);
-      font-family: "Vazirmatn", system-ui, sans-serif; overflow-x: hidden;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--bone);
+      font-family: "Vazirmatn", system-ui, sans-serif;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.3s ease;
     }
     body.en { direction: ltr; }
 
-    #gate {
-      position: fixed; inset: 0; z-index: 50;
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        var(--hero-bg),
+        radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--red) 20%, transparent) 0%, transparent 42%),
+        radial-gradient(circle at 80% 75%, color-mix(in srgb, var(--gold) 12%, transparent) 0%, transparent 38%),
+        radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 40%);
+      opacity: 1;
+      transition: opacity 0.45s ease;
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, var(--noise) 3px, var(--noise) 4px);
+      opacity: 0.8;
+    }
+
+    /* ===== LOADER ===== */
+    #loader {
+      position: fixed; inset: 0; z-index: 10000;
       background: var(--bg);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 24px; text-align: center;
+      transition: opacity 0.9s ease, visibility 0.9s;
+      overflow: hidden;
     }
-    #gate.hide { display: none; }
-    #gate h1 {
-      font-family: Cinzel, serif; font-size: 1.8rem; letter-spacing: 0.2em;
-      background: var(--grad); -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent; margin-bottom: 12px;
+    #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+    .slash {
+      position: absolute; width: 160%; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      transform: rotate(-20deg) scaleX(0);
+      animation: slash 0.85s cubic-bezier(.2,.8,.2,1) 0.25s forwards;
     }
-    #gate p { color: var(--dim); font-size: 0.9rem; line-height: 1.7; margin-bottom: 28px; max-width: 280px; }
-    .btn {
-      border: 1px solid var(--line); background: var(--chip); color: var(--bone);
-      border-radius: 14px; padding: 14px 28px; font-family: inherit; font-weight: 700;
-      font-size: 0.95rem; cursor: pointer;
-      box-shadow: 0 0 24px var(--glow);
+    .slash2 {
+      position: absolute; width: 160%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: rotate(12deg) scaleX(0);
+      animation: slash 0.7s cubic-bezier(.2,.8,.2,1) 0.55s forwards;
+      opacity: 0.7;
     }
-    .btn:active { transform: scale(0.97); }
-    .btn.ghost { background: transparent; box-shadow: none; margin-top: 12px; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    @keyframes slash {
+      0% { transform: rotate(-20deg) scaleX(0); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: rotate(-20deg) scaleX(1); opacity: 0.2; }
+    }
+    .seal {
+      width: 130px; height: 130px;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .seal .ring {
+      position: absolute; inset: 0;
+      border: 2px solid var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 50px var(--glow), inset 0 0 28px color-mix(in srgb, var(--red) 30%, transparent);
+    }
+    .seal .ring.r2 {
+      inset: -16px;
+      border-color: color-mix(in srgb, var(--red) 45%, transparent);
+      border-style: dashed;
+      animation: rot 7s linear infinite;
+    }
+    .seal .ring.r3 {
+      inset: -32px;
+      border-color: color-mix(in srgb, var(--gold) 25%, transparent);
+      animation: rot 12s linear reverse infinite;
+    }
+    .seal .ring.r4 {
+      inset: -48px;
+      border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+      animation: rot 18s linear infinite;
+    }
+    @keyframes rot { to { transform: rotate(360deg); } }
+    .seal .k {
+      font-family: "Cinzel", serif;
+      font-size: 3rem; font-weight: 800;
+      color: var(--accent);
+      text-shadow: 0 0 36px var(--glow);
+      animation: beat 1.3s ease-in-out infinite;
+      z-index: 2;
+    }
+    @keyframes beat {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    .ltitle {
+      margin-top: 40px;
+      font-family: "Cinzel", serif;
+      font-size: 1.7rem; font-weight: 800;
+      letter-spacing: 0.4em;
+      background: var(--grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0; animation: up 0.55s ease 0.45s forwards;
+    }
+    .lsub {
+      margin-top: 14px; color: var(--dim); font-size: 0.88rem;
+      opacity: 0; animation: up 0.55s ease 0.7s forwards;
+    }
+    .lbar {
+      width: 220px; height: 2px; margin-top: 30px;
+      background: #1a1a22; overflow: hidden;
+      opacity: 0; animation: up 0.4s ease 0.85s forwards;
+    }
+    .lbar span {
+      display: block; height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--red), var(--accent), var(--gold));
+      animation: bar 2.2s ease 1s forwards;
+    }
+    @keyframes bar { to { width: 100%; } }
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+    .lfoot {
+      position: absolute; bottom: 40px; text-align: center;
+      font-size: 0.78rem; color: var(--dim); line-height: 1.85;
+      opacity: 0; animation: up 0.55s ease 1.15s forwards;
+    }
+    .lfoot b { color: var(--gold); }
+
+    .load-particles {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+    }
+    .load-particles i {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: spark 2.4s ease-in-out infinite;
+      box-shadow: 0 0 6px var(--glow);
+    }
+    .load-particles i:nth-child(1) { left: 20%; top: 30%; animation-delay: 0.2s; }
+    .load-particles i:nth-child(2) { left: 70%; top: 25%; animation-delay: 0.5s; }
+    .load-particles i:nth-child(3) { left: 40%; top: 60%; animation-delay: 0.8s; }
+    .load-particles i:nth-child(4) { left: 85%; top: 55%; animation-delay: 1.1s; }
+    .load-particles i:nth-child(5) { left: 15%; top: 70%; animation-delay: 0.4s; }
+    .load-particles i:nth-child(6) { left: 55%; top: 40%; animation-delay: 0.9s; }
+    @keyframes spark {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      40% { opacity: 1; transform: scale(1.8); }
+      70% { opacity: 0.3; transform: scale(1); }
+    }
+    .glitch {
+      position: relative;
+    }
+    .glitch::before, .glitch::after {
+      content: "SELF KiAN";
+      position: absolute; left: 0; right: 0; top: 0;
+      font-family: "Cinzel", serif;
+      font-size: 1.7rem; font-weight: 800;
+      letter-spacing: 0.4em;
+      opacity: 0;
+    }
+    .glitch::before {
+      color: var(--accent);
+      animation: g1 2.5s steps(2) infinite;
+    }
+    .glitch::after {
+      color: var(--gold);
+      animation: g2 2.5s steps(2) infinite;
+    }
+    @keyframes g1 {
+      0%,90%,100% { opacity: 0; transform: none; }
+      92% { opacity: 0.7; transform: translate(-2px, 1px); }
+      94% { opacity: 0; }
+    }
+    @keyframes g2 {
+      0%,91%,100% { opacity: 0; transform: none; }
+      93% { opacity: 0.5; transform: translate(2px, -1px); }
+      95% { opacity: 0; }
+    }
+
+    /* ===== APP ===== */
+    #app {
+      position: relative; z-index: 2;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    #app.on { opacity: 1; transform: none; }
 
     .top {
       display: flex; justify-content: space-between; align-items: center;
@@ -65,509 +361,589 @@
     }
     .themes button, .langs button {
       border: 0; background: transparent; color: var(--dim);
-      padding: 8px 12px; font-size: 0.7rem; font-weight: 800;
-      font-family: inherit; cursor: pointer;
+      padding: 7px 8px; font-size: 0.62rem; font-weight: 800;
+      font-family: inherit; cursor: pointer; letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
     }
-    .themes button.on, .langs button.on { background: var(--chip); color: var(--bone); }
+    .themes button.on, .langs button.on {
+      background: var(--chip);
+      color: var(--bone);
+      box-shadow: inset 0 0 18px var(--glow);
+    }
 
-    .hero { text-align: center; padding: 16px; }
+    .hero { text-align: center; padding: 20px 16px 16px; position: relative; }
+    .hero::before {
+      content: "";
+      position: absolute; left: 12%; right: 12%; top: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--gold), var(--accent), transparent);
+    }
     .hero h1 {
-      font-family: Cinzel, serif; font-size: 1.5rem; letter-spacing: 0.15em;
-      background: var(--grad); -webkit-background-clip: text; background-clip: text;
+      font-family: "Cinzel", serif;
+      font-size: 1.85rem; font-weight: 800;
+      letter-spacing: 0.18em;
+      background: var(--grad);
+      -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 16px var(--glow));
     }
-    .hero p { color: var(--dim); font-size: 0.82rem; margin-top: 8px; }
+    .hero .line {
+      width: 64px; height: 2px; margin: 14px auto;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .hero p {
+      color: var(--dim); font-size: 0.86rem; line-height: 1.75;
+      max-width: 300px; margin: 0 auto;
+    }
 
+
+    /* hanging Guts */
     .gallows {
-      display: flex; justify-content: center; height: 100px; position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4px 0 0;
+      height: 118px;
+      position: relative;
+      overflow: visible;
+      z-index: 3;
     }
     .rope {
-      position: absolute; top: 0; left: 50%; width: 2px; height: 22px; margin-left: -1px;
-      background: #5a4030; transform-origin: top center;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 28px;
+      margin-left: -1px;
+      background: linear-gradient(180deg, #5a4030, #3a2a1a);
+      border-radius: 1px;
+      transform-origin: top center;
       animation: swing 3.2s ease-in-out infinite;
+      z-index: 2;
+    }
+    .rope::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      margin-left: -5px;
+      border: 2px solid #6a5040;
+      border-radius: 50%;
+      background: #2a2018;
     }
     .guts-hang {
-      position: absolute; top: 20px; left: 50%; width: 78px; height: 78px; margin-left: -39px;
-      transform-origin: top center; animation: swing 3.2s ease-in-out infinite;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      width: 88px;
+      height: 88px;
+      margin-left: -44px;
+      transform-origin: top center;
+      animation: swing 3.2s ease-in-out infinite;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.65));
+      z-index: 2;
+      pointer-events: none;
     }
-    .guts-hang img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+    .guts-hang img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
     @keyframes swing {
-      0%,100% { transform: rotate(-8deg); }
-      50% { transform: rotate(8deg); }
+      0% { transform: rotate(-9deg); }
+      50% { transform: rotate(9deg); }
+      100% { transform: rotate(-9deg); }
     }
 
-    .nav {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
-      padding: 8px 12px 16px;
+    .search { padding: 8px 14px 6px; }
+    .search input {
+      width: 100%; padding: 14px 16px; border-radius: 14px;
+      border: 1px solid var(--line); background: var(--panel);
+      color: var(--bone); font-size: 0.92rem; font-family: inherit; outline: none;
     }
-    .nav button {
-      background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-      color: var(--bone); padding: 14px 6px; font-family: inherit; font-size: 0.75rem;
-      font-weight: 700; cursor: pointer;
+    .search input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
     }
-    .nav button .ic { display: block; font-size: 1.3rem; margin-bottom: 4px; }
-    .nav button.on { border-color: var(--accent); box-shadow: 0 0 16px var(--glow); }
+    .search input::placeholder { color: var(--dim); }
 
-    .page { display: none; padding: 0 14px 32px; }
-    .page.on { display: block; animation: in 0.25s ease; }
-    @keyframes in {
+    .grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; padding: 10px 14px 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 16px; padding: 18px 10px;
+      text-align: center; cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .card:active {
+      transform: scale(0.95);
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--glow);
+    }
+    .card .ic {
+      font-size: 1.7rem; margin-bottom: 8px;
+      filter: drop-shadow(0 0 10px var(--glow));
+    }
+    .card .t { font-size: 0.92rem; font-weight: 700; }
+    .card .s { font-size: 0.66rem; color: var(--dim); margin-top: 5px; }
+
+    .detail { display: none; padding: 10px 14px 28px; }
+    .detail.show { display: block; animation: fadein 0.25s ease; }
+    @keyframes fadein {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
+    .dhead { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .back {
+      background: var(--panel); border: 1px solid var(--line); color: var(--bone);
+      border-radius: 12px; padding: 10px 14px; font-size: 0.88rem;
+      font-family: inherit; cursor: pointer;
+    }
+    .dhead h2 { font-size: 1.1rem; font-weight: 800; flex: 1; }
+    .hint {
+      font-size: 0.72rem; color: var(--dim); margin-bottom: 12px;
+    }
 
-    .card {
-      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-      padding: 16px; margin-bottom: 12px;
+    .row {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px 14px;
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
     }
-    .card h3 { font-size: 0.95rem; margin-bottom: 10px; color: var(--gold); }
-    .row { display: flex; justify-content: space-between; gap: 8px; margin: 6px 0; font-size: 0.88rem; }
-    .row span:last-child { color: var(--dim); direction: ltr; text-align: left; }
-    .avatar {
-      width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--line);
-      object-fit: cover; background: var(--panel); display: block; margin: 0 auto 12px;
+    .row::before {
+      content: "";
+      position: absolute; right: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--row-bar);
     }
-    .muted { color: var(--dim); font-size: 0.8rem; line-height: 1.6; }
-    .ok { color: #6d6; } .warn { color: #fc6; }
+    body.en .row::before { right: auto; left: 0; }
+    .row code {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--code-bg);
+      color: var(--code-c);
+      border: 1px solid var(--code-b);
+      padding: 6px 12px; border-radius: 8px;
+      font-size: 0.86rem;
+      direction: ltr; unicode-bidi: embed;
+      cursor: pointer;
+      user-select: all;
+      transition: transform 0.12s, box-shadow 0.15s;
+    }
+    .row code:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 16px var(--glow);
+    }
+    .row code .copy-ico {
+      font-size: 0.7rem; opacity: 0.7;
+    }
+    .row .a { margin-top: 8px; font-size: 0.88rem; color: var(--bone); line-height: 1.5; }
+    .row .b { margin-top: 4px; font-size: 0.74rem; color: var(--dim); line-height: 1.4; }
 
-    input, select {
-      width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line);
-      background: var(--panel); color: var(--bone); font-family: inherit; margin: 6px 0 10px;
-    }
-    .list-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 0.84rem; gap: 8px;
-    }
-    .list-item button {
-      border: 1px solid var(--line); background: var(--chip); color: var(--bone);
-      border-radius: 8px; padding: 6px 10px; font-size: 0.72rem; font-family: inherit;
-    }
-    .guide-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-    }
-    .guide-grid button {
-      background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-      color: var(--bone); padding: 12px; font-family: inherit; font-size: 0.8rem; cursor: pointer;
-    }
-    .cmd {
-      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
-      padding: 10px; margin-bottom: 8px; font-size: 0.84rem;
-    }
-    .cmd code {
-      direction: ltr; display: inline-block; color: var(--accent);
-      background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 6px;
-    }
     .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px);
-      background: var(--panel); border: 1px solid var(--line); padding: 10px 18px;
-      border-radius: 999px; font-size: 0.82rem; opacity: 0; transition: 0.25s; z-index: 99;
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--panel); border: 1px solid var(--line);
+      color: var(--bone); padding: 10px 20px; border-radius: 999px;
+      font-size: 0.82rem; font-weight: 700;
+      opacity: 0; pointer-events: none; z-index: 9999;
+      transition: opacity 0.25s, transform 0.25s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
     }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .foot { text-align: center; color: var(--dim); font-size: 0.72rem; padding: 8px 16px 28px; }
+    .toast.show {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+    }
+
+    .foot {
+      text-align: center; padding: 4px 16px 32px;
+      color: var(--dim); font-size: 0.72rem; line-height: 1.8;
+    }
     .foot b { color: var(--gold); }
-    .err { color: #f66; font-size: 0.85rem; margin-top: 8px; }
+    .hide { display: none !important; }
   </style>
 </head>
 <body data-theme="guts">
-  <!-- ورود -->
-  <div id="gate">
-    <h1>SELF KiAN</h1>
-    <p id="gateText">برای ورود به مینی‌اپ روی دکمه بزن.<br>در صورت نیاز شماره هم ثبت می‌شود.</p>
-    <button class="btn" id="enterBtn">ورود</button>
-    <button class="btn ghost" id="sharePhoneBtn" style="display:none">📱 ارسال شماره</button>
-    <p class="err" id="gateErr"></p>
+  <div id="loader">
+    <div class="load-particles">
+      <i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <div class="slash"></div>
+    <div class="slash2"></div>
+    <div class="seal">
+      <div class="ring"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="ring r4"></div>
+      <div class="k">K</div>
+    </div>
+    <div class="ltitle glitch">SELF KiAN</div>
+    <div class="lsub" id="lsub">...</div>
+    <div class="lbar"><span></span></div>
+    <div class="lfoot" id="lfoot"></div>
   </div>
 
-  <div id="app" style="display:none">
+  <div id="app">
     <div class="top">
       <div class="themes">
         <button type="button" id="thGuts" class="on">GUTS</button>
         <button type="button" id="thGriff">GRIFFITH</button>
+        <button type="button" id="thEclipse">ECLIPSE</button>
+        <button type="button" id="thBehelit">BEHELIT</button>
       </div>
       <div class="langs">
-        <button type="button" id="btnFa" class="on">FA</button>
-        <button type="button" id="btnEn">EN</button>
+        <button type="button" id="fa" class="on">FA</button>
+        <button type="button" id="en">EN</button>
       </div>
     </div>
 
     <div class="hero">
       <h1>SELF KiAN</h1>
-      <p id="heroSub"></p>
+      <div class="line"></div>
+      <p id="heroP"></p>
     </div>
 
-    <div class="gallows">
+    
+    <div class="gallows" id="gallows" aria-hidden="true">
       <div class="rope"></div>
       <div class="guts-hang"><img src="guts.png" alt="" /></div>
     </div>
 
-    <div class="nav">
-      <button type="button" data-page="self" class="on"><span class="ic">⚔</span><span class="nl">سلف</span></button>
-      <button type="button" data-page="profile"><span class="ic">👤</span><span class="nl">پروفایل</span></button>
-      <button type="button" data-page="wallet"><span class="ic">💎</span><span class="nl">کیف</span></button>
-      <button type="button" data-page="guide"><span class="ic">📖</span><span class="nl">راهنما</span></button>
-    </div>
-    <div class="nav" id="adminNav" style="display:none;grid-template-columns:1fr">
-      <button type="button" data-page="admin"><span class="ic">🛡</span><span class="nl">ادمین</span></button>
+    <div class="search" id="searchBox">
+
+      <input type="search" id="q" autocomplete="off" />
     </div>
 
-    <!-- SELF -->
-    <div class="page on" id="page-self">
-      <div class="card">
-        <h3 id="selfTitle">سلف‌بات</h3>
-        <p class="muted" id="selfDesc">فعال‌سازی سلف برای همه از اینجاست.</p>
-        <button class="btn" id="selfActivate" style="width:100%;margin-top:12px" disabled>در حال بروزرسانی</button>
+    <div class="grid" id="grid"></div>
+
+    <div class="detail" id="detail">
+      <div class="dhead">
+        <button class="back" id="back"></button>
+        <h2 id="dtitle"></h2>
       </div>
+      <div class="hint" id="hint"></div>
+      <div id="dbody"></div>
     </div>
 
-    <!-- PROFILE -->
-    <div class="page" id="page-profile">
-      <div class="card" style="text-align:center">
-        <img class="avatar" id="pfPhoto" alt="" />
-        <div class="row"><span id="lbName">نام</span><span id="pfName">—</span></div>
-        <div class="row"><span id="lbUser">یوزرنیم</span><span id="pfUser">—</span></div>
-        <div class="row"><span id="lbId">آیدی</span><span id="pfId">—</span></div>
-        <div class="row"><span id="lbPhone">شماره</span><span id="pfPhone">—</span></div>
-        <div class="row"><span id="lbDia">الماس</span><span id="pfDia">0</span></div>
-        <div class="row"><span id="lbTom">تومان</span><span id="pfTom">0</span></div>
-      </div>
-    </div>
-
-    <!-- WALLET -->
-    <div class="page" id="page-wallet">
-      <div class="card">
-        <h3 id="walTitle">کیف پول</h3>
-        <div class="row"><span id="walDiaL">موجودی الماس</span><span id="walDia">0 💎</span></div>
-        <div class="row"><span id="walTomL">ارزش</span><span id="walTom">0 تومان</span></div>
-        <div class="row"><span id="walRateL">نرخ هر الماس</span><span id="walRate">20 تومان</span></div>
-        <p class="muted" id="walNote" style="margin-top:10px">واریز فقط توسط ادمین انجام می‌شود.</p>
-      </div>
-    </div>
-
-    <!-- GUIDE -->
-    <div class="page" id="page-guide">
-      <div class="guide-grid" id="guideGrid"></div>
-      <div id="guideDetail" style="display:none;margin-top:12px"></div>
-    </div>
-
-    <!-- ADMIN -->
-    <div class="page" id="page-admin">
-      <div class="card">
-        <h3>نرخ الماس (تومان)</h3>
-        <input type="number" id="admRate" min="1" placeholder="20" />
-        <button class="btn" id="admRateBtn" style="width:100%">ذخیره نرخ</button>
-      </div>
-      <div class="card">
-        <h3>واریز به کاربر</h3>
-        <input type="number" id="admUid" placeholder="آیدی عددی کاربر" />
-        <input type="number" id="admAmt" placeholder="مقدار الماس (+ یا -)" />
-        <button class="btn" id="admDepBtn" style="width:100%">واریز</button>
-      </div>
-      <div class="card">
-        <h3>واریز همگانی</h3>
-        <input type="number" id="admAllAmt" placeholder="مقدار برای همه" />
-        <button class="btn" id="admAllBtn" style="width:100%">واریز به همه</button>
-      </div>
-      <div class="card">
-        <h3>کاربران</h3>
-        <div id="admUsers" class="muted">—</div>
-      </div>
-    </div>
-
-    <div class="foot"><b>KiAN</b><br>شروع کدنویسی از ۲۰۱۹</div>
+    <div class="foot" id="foot"></div>
   </div>
 
   <div class="toast" id="toast"></div>
 
   <script>
-    // ★ آدرس API بات روی Railway را اینجا بگذار
-    const API_BASE = localStorage.getItem("sk_api") || "https://worker-production-aa76.up.railway.app";
-
     const tg = window.Telegram && window.Telegram.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
-      try { tg.setHeaderColor("#030304"); tg.setBackgroundColor("#030304"); } catch (e) {}
+      try { tg.setHeaderColor("#050506"); } catch (e) {}
+      try { tg.setBackgroundColor("#050506"); } catch (e) {}
     }
 
     let lang = localStorage.getItem("sk_lang") || "fa";
     let theme = localStorage.getItem("sk_theme") || "guts";
-    let me = null;
-    const initData = (tg && tg.initData) || "";
 
-    const L = {
+    const T = {
       fa: {
-        gate: "برای ورود به مینی‌اپ روی دکمه بزن.<br>در صورت نیاز شماره هم ثبت می‌شود.",
-        enter: "ورود",
-        phone: "📱 ارسال شماره",
-        hero: "سلف · پروفایل · کیف پول · راهنما",
-        selfT: "سلف‌بات", selfD: "فعال‌سازی سلف فعلاً در دسترس نیست.",
-        selfBtn: "در حال بروزرسانی",
-        nSelf: "سلف", nProf: "پروفایل", nWal: "کیف", nGuide: "راهنما", nAdm: "ادمین",
-        lbName: "نام", lbUser: "یوزرنیم", lbId: "آیدی", lbPhone: "شماره", lbDia: "الماس", lbTom: "تومان",
-        walT: "کیف پول", walDia: "موجودی الماس", walTom: "ارزش", walRate: "نرخ هر الماس",
-        walNote: "واریز فقط توسط ادمین انجام می‌شود.",
-        toastOk: "انجام شد", toastErr: "خطا",
+        lsub: "صبر کن...",
+        lfoot: "<b>KiAN</b><br>شروع کدنویسی از ۲۰۱۹",
+        hero: "دستورات سلف‌بات<br>تم و زبان رو از بالا عوض کن",
+        search: "دنبال چی می‌گردی؟",
+        back: "← برگشت",
+        foot: "<b>KiAN</b><br>شروع کدنویسی از ۲۰۱۹",
+        hint: "روی دستور بزن تا کپی بشه",
+        copied: "کپی شد"
       },
       en: {
-        gate: "Tap enter to open the mini app.<br>Phone may be requested.",
-        enter: "Enter",
-        phone: "📱 Share phone",
-        hero: "Self · Profile · Wallet · Guide",
-        selfT: "Selfbot", selfD: "Activation is not available yet.",
-        selfBtn: "Updating...",
-        nSelf: "Self", nProf: "Profile", nWal: "Wallet", nGuide: "Guide", nAdm: "Admin",
-        lbName: "Name", lbUser: "Username", lbId: "ID", lbPhone: "Phone", lbDia: "Diamonds", lbTom: "Toman",
-        walT: "Wallet", walDia: "Diamonds", walTom: "Value", walRate: "Rate / diamond",
-        walNote: "Only admin can deposit.",
-        toastOk: "Done", toastErr: "Error",
+        lsub: "Hold on...",
+        lfoot: "<b>KiAN</b><br>Coding since 2019",
+        hero: "Selfbot commands<br>Switch theme & language up top",
+        search: "What do you need?",
+        back: "← Back",
+        foot: "<b>KiAN</b><br>Coding since 2019",
+        hint: "Tap a command to copy",
+        copied: "Copied"
       }
     };
 
-    const GUIDE = [
-      { t: { fa: "پنل", en: "Panel" }, cmds: ["/panel", "/ping", "/id", "/info", "/stats", "/uptime"] },
-      { t: { fa: "الماس", en: "Diamonds" }, cmds: ["/واریز 5000", "/panel"] },
-      { t: { fa: "ساعت", en: "Time" }, cmds: ["/timelast on", "/timefirst on", "/biodate on", "/Timeon", "/transfer random"] },
-      { t: { fa: "فونت پیام", en: "Fonts" }, cmds: ["/Textmodon", "/Textlist", "/Texttransfer 5"] },
-      { t: { fa: "ابزار", en: "Tools" }, cmds: ["/weather", "/calc", "/wiki", "/online on", "/screen", "/tts"] },
-      { t: { fa: "ویووانس", en: "VO" }, cmds: ["/vo on", "/vo off", "/vo"] },
-      { t: { fa: "دشمن", en: "Enemy" }, cmds: ["/setenemy", "/delenemy", "/fosh"] },
-      { t: { fa: "سکوت", en: "Silent" }, cmds: ["/silent", "/delsilent"] },
-      { t: { fa: "اسپم", en: "Spam" }, cmds: ["/spam 20", "/spamstop"] },
-      { t: { fa: "انیمیشن", en: "Anim" }, cmds: ["/love", "/fire", "/matrix"] },
+    const S = [
+      {i:"📊", t:{fa:"پنل",en:"Panel"}, x:[
+        {c:"/panel",fa:"وضعیت + پینگ + آیدی + الماس",en:"Status + ping + ID + diamonds"},
+        {c:"/ping",fa:"پینگ",en:"Ping"},
+        {c:"/id",fa:"آیدی عددی",en:"User ID"},
+        {c:"/info",fa:"پروفایل",en:"Profile"},
+        {c:"/stats",fa:"آمار سلف",en:"Stats"},
+        {c:"/uptime",fa:"مدت روشن بودن",en:"Uptime"},
+      ]},
+      {i:"💎", t:{fa:"الماس",en:"Diamonds"}, x:[
+        {c:"/واریز 5000",fa:"واریز (ادمین)",en:"Deposit (admin)"},
+        {c:"/panel",fa:"موجودی و باقی‌مانده",en:"Balance"},
+      ]},
+      {i:"⏰", t:{fa:"ساعت و بیو",en:"Time & Bio"}, x:[
+        {c:"/timelast on",fa:"فامیلی روشن",en:"Last name on"},
+        {c:"/timelast off",fa:"فامیلی خاموش",en:"Last name off"},
+        {c:"/timefirst on",fa:"اسم روشن",en:"First name on"},
+        {c:"/timefirst off",fa:"اسم خاموش",en:"First name off"},
+        {c:"/biodate on",fa:"تاریخ بیو روشن",en:"Bio date on"},
+        {c:"/biodate off",fa:"تاریخ بیو خاموش",en:"Bio date off"},
+        {c:"/Timeon",fa:"ساعت کلی روشن",en:"Clock on"},
+        {c:"/Timeoff",fa:"ساعت کلی خاموش",en:"Clock off"},
+        {c:"/Timelist",fa:"فونت‌ها",en:"Fonts"},
+        {c:"/transfer 8",fa:"فونت ثابت",en:"Fixed font"},
+        {c:"/transfer random",fa:"فونت رندوم",en:"Random font"},
+      ]},
+      {i:"✍️", t:{fa:"فونت پیام",en:"Msg fonts"}, x:[
+        {c:"/Textmodon",fa:"روشن",en:"On"},
+        {c:"/Textmodoff",fa:"خاموش",en:"Off"},
+        {c:"/Textlist",fa:"لیست",en:"List"},
+        {c:"/Texttransfer 5",fa:"انتخاب",en:"Select"},
+      ]},
+      {i:"🛠", t:{fa:"ابزار",en:"Tools"}, x:[
+        {c:"/weather تهران",fa:"هوا",en:"Weather"},
+        {c:"/calc 25*4+10",fa:"حساب",en:"Calculator"},
+        {c:"/short لینک",fa:"کوتاه‌کننده",en:"Short link"},
+        {c:"/remind 10m متن",fa:"یادآوری",en:"Remind"},
+        {c:"/timer 5m",fa:"تایمر",en:"Timer"},
+        {c:"/tagall متن",fa:"منشن گروه",en:"Tag all"},
+        {c:"/whois",fa:"اطلاعات کاربر",en:"Whois"},
+        {c:"/purge 20",fa:"پاک کردن پیام خودت",en:"Purge own msgs"},
+        {c:"/copy",fa:"کپی با فونت",en:"Copy styled"},
+        {c:"/tr fa Hello",fa:"ترجمه",en:"Translate"},
+        {c:"/pm متن",fa:"پیام خصوصی",en:"PM"},
+        {c:"/block",fa:"بلاک",en:"Block"},
+        {c:"/unblock",fa:"آنبلاک",en:"Unblock"},
+        {c:"/lastseen",fa:"آخرین آنلاین",en:"Last seen"},
+        {c:"/clearchat",fa:"پاک پیوی خودت",en:"Clear PV"},
+        {c:"/idall",fa:"آیدی‌های گروه",en:"Group IDs"},
+        {c:"/mute 10m",fa:"میوت",en:"Mute"},
+        {c:"/wiki متن",fa:"ویکی",en:"Wiki"},
+        {c:"/online on",fa:"همیشه آنلاین",en:"Keep online"},
+        {c:"/online off",fa:"قطع آنلاین",en:"Online off"},
+        {c:"/screen",fa:"استیکر پیام",en:"Screen sticker"},
+        {c:"/silentword add کلمه",fa:"فیلتر کلمه",en:"Word filter"},
+      ]},
+      {i:"👁", t:{fa:"یک‌بارمشاهده",en:"View once"}, x:[
+        {c:"/vo on",fa:"روشن",en:"On"},
+        {c:"/vo off",fa:"خاموش",en:"Off"},
+        {c:"/vo",fa:"وضعیت + خطا",en:"Status + error"},
+      ]},
+      {i:"📝", t:{fa:"یادداشت",en:"Notes"}, x:[
+        {c:"/note متن",fa:"ذخیره",en:"Save"},
+        {c:"/notes",fa:"لیست",en:"List"},
+        {c:"/delnote 1",fa:"حذف",en:"Delete"},
+      ]},
+      {i:"🤖", t:{fa:"AI",en:"AI"}, x:[
+        {c:"/aibot",fa:"تنظیم ربات",en:"Set bot"},
+        {c:"/ai سوال",fa:"سوال",en:"Ask"},
+        {c:"/fact",fa:"فکت",en:"Fact"},
+        {c:"/8ball سوال",fa:"هشت‌بال",en:"8-ball"},
+      ]},
+      {i:"🎤", t:{fa:"ویس",en:"Voice"}, x:[
+        {c:"/tts متن",fa:"متن به ویس",en:"TTS"},
+      ]},
+      {i:"👿", t:{fa:"دشمن",en:"Enemy"}, x:[
+        {c:"/setenemy",fa:"ثبت",en:"Set"},
+        {c:"/delenemy",fa:"حذف",en:"Remove"},
+        {c:"/enemylist",fa:"لیست",en:"List"},
+        {c:"/fosh متن",fa:"فحش اضافه",en:"Add insult"},
+        {c:"/foshlist",fa:"لیست فحش",en:"Insult list"},
+        {c:"/foshdel",fa:"حذف فحش",en:"Del insult"},
+        {c:"/foshclear",fa:"پاک همه فحش",en:"Clear insults"},
+      ]},
+      {i:"🔇", t:{fa:"سکوت",en:"Silent"}, x:[
+        {c:"/silent",fa:"سکوت",en:"Silent"},
+        {c:"/delsilent",fa:"لغو",en:"Undo"},
+        {c:"/silentlist",fa:"لیست",en:"List"},
+      ]},
+      {i:"📡", t:{fa:"زنده",en:"Live"}, x:[
+        {c:"/Live typing",fa:"تایپ",en:"Typing"},
+        {c:"/Live voice",fa:"ویس",en:"Voice"},
+        {c:"/Live file",fa:"فایل",en:"File"},
+        {c:"/Live photo",fa:"عکس",en:"Photo"},
+        {c:"/Live off",fa:"خاموش",en:"Off"},
+      ]},
+      {i:"❤️", t:{fa:"ری‌اکشن",en:"React"}, x:[
+        {c:"/react ❤️",fa:"ری‌اکشن",en:"React"},
+        {c:"/react off",fa:"قطع",en:"Off"},
+        {c:"/reactlist",fa:"لیست",en:"List"},
+      ]},
+      {i:"👁", t:{fa:"اتو",en:"Auto"}, x:[
+        {c:"/seen on",fa:"سین",en:"Seen on"},
+        {c:"/seen off",fa:"قطع سین",en:"Seen off"},
+        {c:"/reply متن",fa:"جواب خودکار",en:"Auto reply"},
+        {c:"/reply off",fa:"قطع جواب",en:"Reply off"},
+      ]},
+      {i:"👤", t:{fa:"پروفایل",en:"Profile"}, x:[
+        {c:"/name نام",fa:"اسم",en:"Name"},
+        {c:"/bio متن",fa:"بیو",en:"Bio"},
+        {c:"/username",fa:"یوزرنیم",en:"Username"},
+        {c:"/sign متن",fa:"امضا",en:"Sign"},
+        {c:"/photo",fa:"عکس",en:"Photo"},
+        {c:"/delphoto",fa:"حذف عکس",en:"Del photo"},
+      ]},
+      {i:"💾", t:{fa:"ذخیره",en:"Save"}, x:[
+        {c:"/save",fa:"Saved Messages",en:"Saved Messages"},
+        {c:"/savemedia on",fa:"مدیا روشن",en:"Media on"},
+        {c:"/savemedia off",fa:"مدیا خاموش",en:"Media off"},
+      ]},
+      {i:"⏱", t:{fa:"حذف خودکار",en:"Auto del"}, x:[
+        {c:"/autodel 30",fa:"۳۰ ثانیه",en:"30s"},
+        {c:"/autodel off",fa:"خاموش",en:"Off"},
+      ]},
+      {i:"✨", t:{fa:"انیمیشن",en:"Anim"}, x:[
+        {c:"/love",fa:"عشق",en:"Love"},
+        {c:"/money",fa:"پول",en:"Money"},
+        {c:"/star",fa:"ستاره",en:"Star"},
+        {c:"/bear",fa:"خرس",en:"Bear"},
+        {c:"/fire",fa:"آتش",en:"Fire"},
+        {c:"/hearts",fa:"قلب",en:"Hearts"},
+        {c:"/boom",fa:"انفجار",en:"Boom"},
+        {c:"/rain",fa:"باران",en:"Rain"},
+        {c:"/party",fa:"پارتی",en:"Party"},
+        {c:"/snake",fa:"مار",en:"Snake"},
+        {c:"/loading",fa:"لودینگ",en:"Loading"},
+        {c:"/matrix",fa:"ماتریکس",en:"Matrix"},
+      ]},
+      {i:"📨", t:{fa:"اسپم",en:"Spam"}, x:[
+        {c:"/spam 20 متن",fa:"اسپم متن",en:"Spam text"},
+        {c:"/spamreply 15",fa:"اسپم ریپلای",en:"Spam reply"},
+        {c:"/spamstop",fa:"ایست",en:"Stop"},
+      ]},
     ];
 
-    function toast(m) {
-      const el = document.getElementById("toast");
-      el.textContent = m;
-      el.classList.add("show");
-      setTimeout(() => el.classList.remove("show"), 1600);
-    }
+    const grid = document.getElementById("grid");
+    const detail = document.getElementById("detail");
+    const dtitle = document.getElementById("dtitle");
+    const dbody = document.getElementById("dbody");
+    const searchBox = document.getElementById("searchBox");
+    const q = document.getElementById("q");
+    const toast = document.getElementById("toast");
 
-    async function api(path, opts = {}) {
-      const headers = Object.assign({ "Content-Type": "application/json", "X-Telegram-Init-Data": initData }, opts.headers || {});
-      const r = await fetch(API_BASE + path, Object.assign({}, opts, { headers }));
-      const j = await r.json().catch(() => ({ ok: false }));
-      if (!r.ok || j.ok === false) throw new Error(j.error || "err");
-      return j;
-    }
-
-    function setTheme(th) {
-      theme = th;
-      document.body.setAttribute("data-theme", th);
-      localStorage.setItem("sk_theme", th);
-      document.getElementById("thGuts").classList.toggle("on", th === "guts");
-      document.getElementById("thGriff").classList.toggle("on", th === "griffith");
+    function setTheme(t) {
+      theme = t;
+      document.body.setAttribute("data-theme", t);
+      localStorage.setItem("sk_theme", t);
+      document.getElementById("thGuts").classList.toggle("on", t === "guts");
+      document.getElementById("thGriff").classList.toggle("on", t === "griffith");
+      document.getElementById("thEclipse").classList.toggle("on", t === "eclipse");
+      document.getElementById("thBehelit").classList.toggle("on", t === "behelit");
+      const colors = { guts: "#030304", griffith: "#08090f", eclipse: "#06040a", behelit: "#040806" };
       if (tg) {
         try {
-          const c = th === "guts" ? "#030304" : "#08090f";
-          tg.setHeaderColor(c); tg.setBackgroundColor(c);
+          tg.setHeaderColor(colors[t] || "#030304");
+          tg.setBackgroundColor(colors[t] || "#030304");
         } catch (e) {}
       }
     }
 
-    function applyLang() {
-      const x = L[lang];
-      document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+    function toastMsg(m) {
+      toast.textContent = m;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1400);
+    }
+
+    function copyCmd(text) {
+      const t = text.replace(/^—$/, "").trim();
+      if (!t) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(() => toastMsg(T[lang].copied)).catch(fallback);
+      } else fallback();
+      function fallback() {
+        const a = document.createElement("textarea");
+        a.value = t;
+        document.body.appendChild(a);
+        a.select();
+        try { document.execCommand("copy"); toastMsg(T[lang].copied); } catch (e) {}
+        document.body.removeChild(a);
+      }
+    }
+
+    function paint() {
+      const u = T[lang];
       document.body.classList.toggle("en", lang === "en");
-      document.getElementById("gateText").innerHTML = x.gate;
-      document.getElementById("enterBtn").textContent = x.enter;
-      document.getElementById("sharePhoneBtn").textContent = x.phone;
-      document.getElementById("heroSub").textContent = x.hero;
-      document.getElementById("selfTitle").textContent = x.selfT;
-      document.getElementById("selfDesc").textContent = x.selfD;
-      document.getElementById("selfActivate").textContent = x.selfBtn;
-      const labels = document.querySelectorAll(".nav .nl");
-      const keys = ["nSelf", "nProf", "nWal", "nGuide"];
-      labels.forEach((el, i) => { if (keys[i]) el.textContent = x[keys[i]]; });
-      const admNl = document.querySelector("#adminNav .nl");
-      if (admNl) admNl.textContent = x.nAdm;
-      document.getElementById("lbName").textContent = x.lbName;
-      document.getElementById("lbUser").textContent = x.lbUser;
-      document.getElementById("lbId").textContent = x.lbId;
-      document.getElementById("lbPhone").textContent = x.lbPhone;
-      document.getElementById("lbDia").textContent = x.lbDia;
-      document.getElementById("lbTom").textContent = x.lbTom;
-      document.getElementById("walTitle").textContent = x.walT;
-      document.getElementById("walDiaL").textContent = x.walDia;
-      document.getElementById("walTomL").textContent = x.walTom;
-      document.getElementById("walRateL").textContent = x.walRate;
-      document.getElementById("walNote").textContent = x.walNote;
-      document.getElementById("btnFa").classList.toggle("on", lang === "fa");
-      document.getElementById("btnEn").classList.toggle("on", lang === "en");
-      renderGuide();
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+      document.getElementById("lsub").textContent = u.lsub;
+      document.getElementById("lfoot").innerHTML = u.lfoot;
+      document.getElementById("heroP").innerHTML = u.hero;
+      q.placeholder = u.search;
+      document.getElementById("back").textContent = u.back;
+      document.getElementById("foot").innerHTML = u.foot;
+      document.getElementById("hint").textContent = u.hint;
+      document.getElementById("fa").classList.toggle("on", lang === "fa");
+      document.getElementById("en").classList.toggle("on", lang === "en");
+      draw(q.value);
+      if (detail.classList.contains("show") && detail.dataset.i) {
+        const sec = S[+detail.dataset.i];
+        if (sec) open(sec, detail.dataset.i, true);
+      }
     }
 
-    function fillProfile() {
-      if (!me) return;
-      const u = me.user;
-      document.getElementById("pfName").textContent = [u.first_name, u.last_name].filter(Boolean).join(" ") || "—";
-      document.getElementById("pfUser").textContent = u.username ? "@" + u.username : "—";
-      document.getElementById("pfId").textContent = u.id;
-      document.getElementById("pfPhone").textContent = u.phone || "—";
-      document.getElementById("pfDia").textContent = u.diamonds;
-      document.getElementById("pfTom").textContent = u.toman.toLocaleString("fa-IR");
-      const img = document.getElementById("pfPhoto");
-      if (u.photo_url) img.src = u.photo_url;
-      else img.removeAttribute("src");
-
-      document.getElementById("walDia").textContent = u.diamonds + " 💎";
-      document.getElementById("walTom").textContent = u.toman.toLocaleString("fa-IR") + " تومان";
-      document.getElementById("walRate").textContent = me.rate + " تومان";
-      document.getElementById("adminNav").style.display = u.is_admin ? "grid" : "none";
-      if (u.is_admin) document.getElementById("admRate").value = me.rate;
-    }
-
-    function renderGuide() {
-      const g = document.getElementById("guideGrid");
-      g.innerHTML = "";
-      GUIDE.forEach((s, i) => {
-        const b = document.createElement("button");
-        b.textContent = s.t[lang];
-        b.onclick = () => {
-          const d = document.getElementById("guideDetail");
-          d.style.display = "block";
-          d.innerHTML = s.cmds.map(c => `<div class="cmd"><code>${c}</code></div>`).join("");
-        };
-        g.appendChild(b);
+    function draw(f) {
+      grid.innerHTML = "";
+      f = (f || "").trim().toLowerCase();
+      S.forEach((s, idx) => {
+        const name = s.t[lang];
+        const other = lang === "fa" ? s.t.en : s.t.fa;
+        const ok = !f || name.toLowerCase().includes(f) || other.toLowerCase().includes(f) ||
+          s.x.some(z => z.c.toLowerCase().includes(f) || z.fa.includes(f) || z.en.toLowerCase().includes(f));
+        if (!ok) return;
+        const el = document.createElement("div");
+        el.className = "card";
+        el.innerHTML = `<div class="ic">${s.i}</div><div class="t">${name}</div><div class="s">${other}</div>`;
+        el.onclick = () => open(s, idx);
+        grid.appendChild(el);
       });
     }
 
-    function showPage(id) {
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("on"));
-      document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("on", b.dataset.page === id));
-      document.getElementById("page-" + id).classList.add("on");
-      if (id === "admin" && me && me.user.is_admin) loadAdminUsers();
+    function open(s, idx, keep) {
+      if (!keep) {
+        grid.classList.add("hide");
+        searchBox.classList.add("hide");
+        detail.classList.add("show");
+      }
+      detail.dataset.i = idx;
+      dtitle.textContent = s.i + " " + s.t[lang];
+      dbody.innerHTML = s.x.map(z => {
+        const a = lang === "fa" ? z.fa : z.en;
+        const b = lang === "fa" ? z.en : z.fa;
+        return `<div class="row"><code data-cmd="${z.c.replace(/"/g,"&quot;")}">${z.c}<span class="copy-ico">⧉</span></code><div class="a">${a}</div><div class="b">${b}</div></div>`;
+      }).join("");
+      dbody.querySelectorAll("code").forEach(el => {
+        el.onclick = () => copyCmd(el.getAttribute("data-cmd") || el.textContent);
+      });
+      if (tg) try { tg.BackButton.show(); } catch (e) {}
     }
 
-    async function loadAdminUsers() {
-      try {
-        const j = await api("/api/admin/users");
-        const box = document.getElementById("admUsers");
-        if (!j.users.length) { box.textContent = "—"; return; }
-        box.innerHTML = j.users.map(u => `
-          <div class="list-item">
-            <div>
-              <b>${u.first_name || u.id}</b> ${u.username ? "@" + u.username : ""}<br>
-              <span class="muted">${u.phone || "no phone"} · ${u.diamonds}💎</span>
-            </div>
-            <button type="button" data-uid="${u.id}">+10</button>
-          </div>`).join("");
-        box.querySelectorAll("button").forEach(b => {
-          b.onclick = async () => {
-            try {
-              await api("/api/admin/deposit", { method: "POST", body: JSON.stringify({ user_id: b.dataset.uid, amount: 10 }) });
-              toast(L[lang].toastOk);
-              loadAdminUsers();
-              const me2 = await api("/api/me"); me = me2; fillProfile();
-            } catch (e) { toast(L[lang].toastErr); }
-          };
-        });
-      } catch (e) {
-        document.getElementById("admUsers").textContent = L[lang].toastErr;
-      }
+    function home() {
+      detail.classList.remove("show");
+      detail.dataset.i = "";
+      grid.classList.remove("hide");
+      searchBox.classList.remove("hide");
+      if (tg) try { tg.BackButton.hide(); } catch (e) {}
     }
 
-    async function doEnter() {
-      const err = document.getElementById("gateErr");
-      err.textContent = "";
-      if (!initData && !(tg && tg.initDataUnsafe && tg.initDataUnsafe.user)) {
-        err.textContent = lang === "fa"
-          ? "مینی‌اپ را از داخل تلگرام باز کن."
-          : "Open from Telegram.";
-        return;
-      }
-      try {
-        me = await api("/api/me");
-        document.getElementById("gate").classList.add("hide");
-        document.getElementById("app").style.display = "block";
-        fillProfile();
-        if (!me.user.phone) {
-          document.getElementById("sharePhoneBtn").style.display = "inline-block";
-        }
-      } catch (e) {
-        // اگر API ست نشده، حالت نمایشی با داده تلگرام
-        if (String(API_BASE).includes("YOUR-RAILWAY")) {
-          const u = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || {};
-          me = {
-            ok: true,
-            rate: 20,
-            user: {
-              id: u.id || 0,
-              username: u.username || "",
-              first_name: u.first_name || "",
-              last_name: u.last_name || "",
-              phone: "",
-              photo_url: u.photo_url || "",
-              diamonds: 0,
-              toman: 0,
-              is_admin: u.id === 6403894841,
-            }
-          };
-          document.getElementById("gate").classList.add("hide");
-          document.getElementById("app").style.display = "block";
-          fillProfile();
-          err.textContent = "";
-          toast(lang === "fa" ? "حالت نمایشی — API را وصل کن" : "Demo — set API");
-          return;
-        }
-        err.textContent = (lang === "fa" ? "خطا در اتصال به سرور" : "Server error") + " (" + e.message + ")";
-      }
-    }
-
-    // events
-    document.getElementById("enterBtn").onclick = doEnter;
-    document.getElementById("sharePhoneBtn").onclick = () => {
-      if (tg && tg.requestContact) {
-        tg.requestContact((ok) => {
-          if (!ok) return;
-          // در نسخه‌های جدید contact از event می‌آید؛ fallback پیام
-          toast(lang === "fa" ? "از بات /start شماره بفرست" : "Send phone via bot /start");
-        });
-      } else {
-        toast(lang === "fa" ? "در بات /start بزن و شماره بفرست" : "Use /start in bot for phone");
-      }
-    };
-
-    document.querySelectorAll(".nav button").forEach(b => {
-      b.onclick = () => showPage(b.dataset.page);
-    });
-
+    document.getElementById("back").onclick = home;
+    if (tg) try { tg.BackButton.onClick(home); } catch (e) {}
+    q.oninput = () => draw(q.value);
+    document.getElementById("fa").onclick = () => { lang = "fa"; localStorage.setItem("sk_lang", lang); paint(); };
+    document.getElementById("en").onclick = () => { lang = "en"; localStorage.setItem("sk_lang", lang); paint(); };
     document.getElementById("thGuts").onclick = () => setTheme("guts");
     document.getElementById("thGriff").onclick = () => setTheme("griffith");
-    document.getElementById("btnFa").onclick = () => { lang = "fa"; localStorage.setItem("sk_lang", lang); applyLang(); };
-    document.getElementById("btnEn").onclick = () => { lang = "en"; localStorage.setItem("sk_lang", lang); applyLang(); };
-
-    document.getElementById("admRateBtn").onclick = async () => {
-      try {
-        const rate = parseInt(document.getElementById("admRate").value, 10);
-        await api("/api/admin/rate", { method: "POST", body: JSON.stringify({ rate }) });
-        me = await api("/api/me"); fillProfile(); toast(L[lang].toastOk);
-      } catch (e) { toast(L[lang].toastErr); }
-    };
-    document.getElementById("admDepBtn").onclick = async () => {
-      try {
-        await api("/api/admin/deposit", {
-          method: "POST",
-          body: JSON.stringify({
-            user_id: document.getElementById("admUid").value,
-            amount: parseInt(document.getElementById("admAmt").value, 10),
-          }),
-        });
-        toast(L[lang].toastOk); loadAdminUsers();
-      } catch (e) { toast(L[lang].toastErr); }
-    };
-    document.getElementById("admAllBtn").onclick = async () => {
-      try {
-        await api("/api/admin/deposit_all", {
-          method: "POST",
-          body: JSON.stringify({ amount: parseInt(document.getElementById("admAllAmt").value, 10) }),
-        });
-        toast(L[lang].toastOk); loadAdminUsers();
-      } catch (e) { toast(L[lang].toastErr); }
-    };
+    document.getElementById("thEclipse").onclick = () => setTheme("eclipse");
+    document.getElementById("thBehelit").onclick = () => setTheme("behelit");
 
     setTheme(theme);
-    applyLang();
+    paint();
+    setTimeout(() => {
+      document.getElementById("loader").classList.add("out");
+      document.getElementById("app").classList.add("on");
+    }, 3200);
   </script>
 </body>
 </html>
