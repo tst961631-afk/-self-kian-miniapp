@@ -72,6 +72,90 @@
                  radial-gradient(ellipse at 70% 0%, rgba(100,40,140,0.25) 0%, transparent 45%);
       --noise: rgba(255,80,120,0.03);
     }
+    [data-theme="behelit"] {
+      --bg: #040806;
+      --red: #1a8a4a;
+      --red2: #3dff8a;
+      --gold: #c8ff6a;
+      --bone: #e8ffe8;
+      --dim: #6a8a70;
+      --panel: #080f0c;
+      --line: rgba(40,200,100,0.35);
+      --accent: #5fff9a;
+      --glow: rgba(40,220,100,0.5);
+      --grad: linear-gradient(180deg, #e8ffe0 0%, #6aff9a 30%, #1a8a4a 60%, #0a3a28 85%, #020806 100%);
+      --chip: linear-gradient(135deg, #0a4a28, #042018);
+      --row-bar: linear-gradient(180deg, #c8ff6a, #3dff8a, #0a5a30);
+      --code-bg: rgba(40,180,80,0.15);
+      --code-c: #7fffb0;
+      --code-b: rgba(60,220,100,0.4);
+      --card-bg: linear-gradient(165deg, #0c1812 0%, #060e0a 50%, #040806 100%);
+      --hero-bg: radial-gradient(ellipse at 50% 0%, rgba(40,200,100,0.3) 0%, transparent 50%),
+                 radial-gradient(ellipse at 20% 80%, rgba(200,255,80,0.08) 0%, transparent 40%);
+      --noise: rgba(80,255,140,0.04);
+    }
+    /* live theme motion */
+    [data-theme="behelit"] .card {
+      animation: breath 4s ease-in-out infinite;
+    }
+    [data-theme="behelit"] .card:nth-child(2n) { animation-delay: 0.4s; }
+    [data-theme="behelit"] .card:nth-child(3n) { animation-delay: 0.8s; }
+    [data-theme="behelit"] .hero h1 {
+      animation: hueShift 6s linear infinite, beat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px var(--glow));
+    }
+    [data-theme="behelit"] .seal .k {
+      color: var(--accent);
+      animation: beat 1.1s ease-in-out infinite;
+    }
+    [data-theme="behelit"] body::before,
+    body[data-theme="behelit"]::before {
+      animation: pulseBg 5s ease-in-out infinite;
+    }
+    @keyframes breath {
+      0%,100% { box-shadow: 0 0 0 transparent; border-color: var(--line); }
+      50% { box-shadow: 0 0 18px var(--glow); border-color: var(--accent); }
+    }
+    @keyframes hueShift {
+      0% { filter: drop-shadow(0 0 16px var(--glow)) hue-rotate(0deg); }
+      50% { filter: drop-shadow(0 0 28px var(--glow)) hue-rotate(25deg); }
+      100% { filter: drop-shadow(0 0 16px var(--glow)) hue-rotate(0deg); }
+    }
+    @keyframes pulseBg {
+      0%,100% { opacity: 0.9; }
+      50% { opacity: 1; }
+    }
+    [data-theme="behelit"] .row::before {
+      animation: barFlow 2.5s linear infinite;
+      background-size: 100% 200%;
+    }
+    @keyframes barFlow {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(1.5); }
+      100% { filter: brightness(1); }
+    }
+    [data-theme="guts"] .hero h1 { animation: gutsFlicker 3s ease-in-out infinite; }
+    @keyframes gutsFlicker {
+      0%,100% { filter: drop-shadow(0 0 12px var(--glow)); }
+      40% { filter: drop-shadow(0 0 22px var(--glow)); }
+      42% { filter: drop-shadow(0 0 4px var(--glow)) brightness(1.2); }
+      44% { filter: drop-shadow(0 0 20px var(--glow)); }
+    }
+    [data-theme="griffith"] .hero h1 {
+      animation: softGlow 4s ease-in-out infinite;
+    }
+    @keyframes softGlow {
+      0%,100% { filter: drop-shadow(0 0 10px var(--glow)); opacity: 1; }
+      50% { filter: drop-shadow(0 0 26px var(--glow)); opacity: 0.95; }
+    }
+    [data-theme="eclipse"] .card {
+      animation: eclipsePulse 5s ease-in-out infinite;
+    }
+    [data-theme="eclipse"] .card:nth-child(odd) { animation-delay: 0.6s; }
+    @keyframes eclipsePulse {
+      0%,100% { box-shadow: inset 0 0 0 transparent; }
+      50% { box-shadow: inset 0 0 20px rgba(160,30,80,0.15); }
+    }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -277,7 +361,7 @@
     }
     .themes button, .langs button {
       border: 0; background: transparent; color: var(--dim);
-      padding: 8px 10px; font-size: 0.68rem; font-weight: 800;
+      padding: 7px 8px; font-size: 0.62rem; font-weight: 800;
       font-family: inherit; cursor: pointer; letter-spacing: 0.04em;
       transition: background 0.2s, color 0.2s;
     }
@@ -511,6 +595,7 @@
         <button type="button" id="thGuts" class="on">GUTS</button>
         <button type="button" id="thGriff">GRIFFITH</button>
         <button type="button" id="thEclipse">ECLIPSE</button>
+        <button type="button" id="thBehelit">BEHELIT</button>
       </div>
       <div class="langs">
         <button type="button" id="fa" class="on">FA</button>
@@ -746,7 +831,8 @@
       document.getElementById("thGuts").classList.toggle("on", t === "guts");
       document.getElementById("thGriff").classList.toggle("on", t === "griffith");
       document.getElementById("thEclipse").classList.toggle("on", t === "eclipse");
-      const colors = { guts: "#030304", griffith: "#08090f", eclipse: "#06040a" };
+      document.getElementById("thBehelit").classList.toggle("on", t === "behelit");
+      const colors = { guts: "#030304", griffith: "#08090f", eclipse: "#06040a", behelit: "#040806" };
       if (tg) {
         try {
           tg.setHeaderColor(colors[t] || "#030304");
@@ -850,6 +936,7 @@
     document.getElementById("thGuts").onclick = () => setTheme("guts");
     document.getElementById("thGriff").onclick = () => setTheme("griffith");
     document.getElementById("thEclipse").onclick = () => setTheme("eclipse");
+    document.getElementById("thBehelit").onclick = () => setTheme("behelit");
 
     setTheme(theme);
     paint();
