@@ -274,6 +274,69 @@
       max-width: 300px; margin: 0 auto;
     }
 
+
+    /* hanging Guts */
+    .gallows {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4px 0 0;
+      height: 118px;
+      position: relative;
+      overflow: visible;
+      z-index: 3;
+    }
+    .rope {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 28px;
+      margin-left: -1px;
+      background: linear-gradient(180deg, #5a4030, #3a2a1a);
+      border-radius: 1px;
+      transform-origin: top center;
+      animation: swing 3.2s ease-in-out infinite;
+      z-index: 2;
+    }
+    .rope::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      margin-left: -5px;
+      border: 2px solid #6a5040;
+      border-radius: 50%;
+      background: #2a2018;
+    }
+    .guts-hang {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      width: 88px;
+      height: 88px;
+      margin-left: -44px;
+      transform-origin: top center;
+      animation: swing 3.2s ease-in-out infinite;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.65));
+      z-index: 2;
+      pointer-events: none;
+    }
+    .guts-hang img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    @keyframes swing {
+      0% { transform: rotate(-9deg); }
+      50% { transform: rotate(9deg); }
+      100% { transform: rotate(-9deg); }
+    }
+
     .search { padding: 8px 14px 6px; }
     .search input {
       width: 100%; padding: 14px 16px; border-radius: 14px;
@@ -426,7 +489,14 @@
       <p id="heroP"></p>
     </div>
 
+    
+    <div class="gallows" id="gallows" aria-hidden="true">
+      <div class="rope"></div>
+      <div class="guts-hang"><img src="guts.png" alt="" /></div>
+    </div>
+
     <div class="search" id="searchBox">
+
       <input type="search" id="q" autocomplete="off" />
     </div>
 
