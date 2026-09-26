@@ -8,7 +8,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Vazirmatn:wght@400;600;700;800&display=swap');
 
-    :root {
+    :root, [data-theme="guts"] {
       --bg: #050506;
       --red: #c01020;
       --red2: #ff2a3a;
@@ -16,7 +16,33 @@
       --bone: #efe6d8;
       --dim: #6e6874;
       --panel: #0c0c10;
-      --line: rgba(192,16,32,0.35);
+      --line: rgba(192,16,32,0.4);
+      --accent: #ff2a3a;
+      --glow: rgba(192,16,32,0.55);
+      --grad: linear-gradient(180deg, #fff8ea 0%, #c9a84c 40%, #c01020 100%);
+      --chip: linear-gradient(135deg, #6a0008, #3a0004);
+      --row-bar: linear-gradient(180deg, #ff2a3a, #c9a84c);
+      --code-bg: rgba(192,16,32,0.18);
+      --code-c: #ff5c6a;
+      --code-b: rgba(192,16,32,0.4);
+    }
+    [data-theme="griffith"] {
+      --bg: #0a0b10;
+      --red: #6b7cff;
+      --red2: #a8b0ff;
+      --gold: #e8d5a3;
+      --bone: #f4f0ea;
+      --dim: #8a8fa3;
+      --panel: #10121a;
+      --line: rgba(168,176,255,0.28);
+      --accent: #c4b5fd;
+      --glow: rgba(107,124,255,0.4);
+      --grad: linear-gradient(180deg, #ffffff 0%, #e8d5a3 45%, #a8b0ff 100%);
+      --chip: linear-gradient(135deg, #2a2d4a, #1a1c2e);
+      --row-bar: linear-gradient(180deg, #e8d5a3, #a8b0ff);
+      --code-bg: rgba(168,176,255,0.12);
+      --code-c: #c4b5fd;
+      --code-b: rgba(168,176,255,0.35);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,41 +52,49 @@
       color: var(--bone);
       font-family: "Vazirmatn", system-ui, sans-serif;
       overflow-x: hidden;
+      transition: background 0.4s ease, color 0.3s ease;
     }
     body.en { direction: ltr; }
 
-    /* blood grain */
     body::before {
       content: "";
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image:
-        radial-gradient(circle at 15% 20%, rgba(192,16,32,0.12) 0%, transparent 40%),
-        radial-gradient(circle at 85% 70%, rgba(201,168,76,0.06) 0%, transparent 35%),
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 3px);
-      opacity: 0.9;
+        radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--red) 18%, transparent) 0%, transparent 42%),
+        radial-gradient(circle at 80% 75%, color-mix(in srgb, var(--gold) 10%, transparent) 0%, transparent 38%);
+      opacity: 0.95;
+      transition: opacity 0.4s;
     }
 
     /* ===== LOADER ===== */
     #loader {
       position: fixed; inset: 0; z-index: 10000;
-      background: #050506;
+      background: var(--bg);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 1s ease, visibility 1s;
+      transition: opacity 0.9s ease, visibility 0.9s;
+      overflow: hidden;
     }
     #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
     .slash {
-      position: absolute; width: 140%; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--red2), transparent);
-      transform: rotate(-18deg); opacity: 0;
-      animation: slash 0.7s ease 0.3s forwards;
+      position: absolute; width: 160%; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      transform: rotate(-20deg) scaleX(0);
+      animation: slash 0.85s cubic-bezier(.2,.8,.2,1) 0.25s forwards;
+    }
+    .slash2 {
+      position: absolute; width: 160%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: rotate(12deg) scaleX(0);
+      animation: slash 0.7s cubic-bezier(.2,.8,.2,1) 0.55s forwards;
+      opacity: 0.7;
     }
     @keyframes slash {
-      0% { opacity: 0; transform: rotate(-18deg) scaleX(0); }
-      40% { opacity: 1; transform: rotate(-18deg) scaleX(1); }
-      100% { opacity: 0.15; transform: rotate(-18deg) scaleX(1); }
+      0% { transform: rotate(-20deg) scaleX(0); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: rotate(-20deg) scaleX(1); opacity: 0.2; }
     }
     .seal {
-      width: 120px; height: 120px;
+      width: 130px; height: 130px;
       position: relative;
       display: flex; align-items: center; justify-content: center;
     }
@@ -68,121 +102,119 @@
       position: absolute; inset: 0;
       border: 2px solid var(--red);
       border-radius: 50%;
-      box-shadow: 0 0 40px rgba(192,16,32,0.5), inset 0 0 24px rgba(192,16,32,0.25);
+      box-shadow: 0 0 50px var(--glow), inset 0 0 28px color-mix(in srgb, var(--red) 30%, transparent);
     }
     .seal .ring.r2 {
-      inset: -14px;
-      border-color: rgba(192,16,32,0.4);
+      inset: -16px;
+      border-color: color-mix(in srgb, var(--red) 45%, transparent);
       border-style: dashed;
-      animation: rot 8s linear infinite;
+      animation: rot 7s linear infinite;
     }
     .seal .ring.r3 {
-      inset: -28px;
-      border-color: rgba(201,168,76,0.2);
-      animation: rot 14s linear reverse infinite;
+      inset: -32px;
+      border-color: color-mix(in srgb, var(--gold) 25%, transparent);
+      animation: rot 12s linear reverse infinite;
+    }
+    .seal .ring.r4 {
+      inset: -48px;
+      border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+      animation: rot 18s linear infinite;
     }
     @keyframes rot { to { transform: rotate(360deg); } }
     .seal .k {
       font-family: "Cinzel", serif;
-      font-size: 2.8rem; font-weight: 800;
-      color: var(--red2);
-      text-shadow: 0 0 30px rgba(255,42,58,0.7);
-      animation: beat 1.4s ease-in-out infinite;
+      font-size: 3rem; font-weight: 800;
+      color: var(--accent);
+      text-shadow: 0 0 36px var(--glow);
+      animation: beat 1.3s ease-in-out infinite;
+      z-index: 2;
     }
     @keyframes beat {
-      0%,100% { transform: scale(1); filter: brightness(1); }
-      50% { transform: scale(1.08); filter: brightness(1.25); }
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
     .ltitle {
-      margin-top: 36px;
+      margin-top: 40px;
       font-family: "Cinzel", serif;
-      font-size: 1.6rem; font-weight: 800;
-      letter-spacing: 0.35em;
-      color: var(--bone);
-      opacity: 0;
-      animation: up 0.6s ease 0.5s forwards;
+      font-size: 1.7rem; font-weight: 800;
+      letter-spacing: 0.4em;
+      background: var(--grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0; animation: up 0.55s ease 0.45s forwards;
     }
     .lsub {
-      margin-top: 12px; color: var(--dim); font-size: 0.85rem;
-      opacity: 0; animation: up 0.6s ease 0.75s forwards;
+      margin-top: 14px; color: var(--dim); font-size: 0.88rem;
+      opacity: 0; animation: up 0.55s ease 0.7s forwards;
     }
     .lbar {
-      width: 210px; height: 2px; margin-top: 28px;
-      background: #1a1a20; overflow: hidden; border-radius: 1px;
-      opacity: 0; animation: up 0.4s ease 0.9s forwards;
+      width: 220px; height: 2px; margin-top: 30px;
+      background: #1a1a22; overflow: hidden;
+      opacity: 0; animation: up 0.4s ease 0.85s forwards;
     }
     .lbar span {
       display: block; height: 100%; width: 0;
-      background: linear-gradient(90deg, #5a0000, var(--red2), var(--gold));
-      animation: bar 2.1s ease 1s forwards;
+      background: linear-gradient(90deg, var(--red), var(--accent), var(--gold));
+      animation: bar 2.2s ease 1s forwards;
     }
     @keyframes bar { to { width: 100%; } }
     @keyframes up {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
     }
     .lfoot {
-      position: absolute; bottom: 42px; text-align: center;
-      font-size: 0.78rem; color: var(--dim); line-height: 1.8;
-      opacity: 0; animation: up 0.6s ease 1.1s forwards;
+      position: absolute; bottom: 40px; text-align: center;
+      font-size: 0.78rem; color: var(--dim); line-height: 1.85;
+      opacity: 0; animation: up 0.55s ease 1.15s forwards;
     }
     .lfoot b { color: var(--gold); }
 
     /* ===== APP ===== */
     #app {
       position: relative; z-index: 2;
-      opacity: 0; transform: translateY(8px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
     }
     #app.on { opacity: 1; transform: none; }
 
     .top {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 14px 0;
+      padding: 12px 12px 0; gap: 8px; flex-wrap: wrap;
     }
-    .badge {
-      font-size: 0.68rem; letter-spacing: 0.12em;
-      color: var(--gold); border: 1px solid rgba(201,168,76,0.35);
-      padding: 5px 10px; border-radius: 999px;
-      background: rgba(201,168,76,0.06);
+    .themes, .langs {
+      display: flex; border: 1px solid var(--line); border-radius: 999px;
+      overflow: hidden; background: var(--panel);
     }
-    .langs {
-      display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
-      background: var(--panel);
-    }
-    .langs button {
+    .themes button, .langs button {
       border: 0; background: transparent; color: var(--dim);
-      padding: 8px 14px; font-size: 0.75rem; font-weight: 800;
-      font-family: inherit; cursor: pointer; letter-spacing: 0.08em;
+      padding: 8px 12px; font-size: 0.72rem; font-weight: 800;
+      font-family: inherit; cursor: pointer; letter-spacing: 0.04em;
+      transition: background 0.2s, color 0.2s;
     }
-    .langs button.on {
-      background: linear-gradient(135deg, #6a0008, #3a0004);
+    .themes button.on, .langs button.on {
+      background: var(--chip);
       color: var(--bone);
-      box-shadow: inset 0 0 20px rgba(192,16,32,0.4);
+      box-shadow: inset 0 0 18px var(--glow);
     }
 
-    .hero {
-      text-align: center; padding: 22px 16px 18px;
-      position: relative;
-    }
+    .hero { text-align: center; padding: 20px 16px 16px; position: relative; }
     .hero::before {
       content: "";
-      position: absolute; left: 10%; right: 10%; top: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--red), var(--gold), var(--red), transparent);
-      opacity: 0.7;
+      position: absolute; left: 12%; right: 12%; top: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--gold), var(--accent), transparent);
     }
     .hero h1 {
       font-family: "Cinzel", serif;
       font-size: 1.85rem; font-weight: 800;
       letter-spacing: 0.18em;
-      background: linear-gradient(180deg, #fff8ea 0%, var(--gold) 45%, var(--red) 100%);
+      background: var(--grad);
       -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 18px rgba(192,16,32,0.35));
+      filter: drop-shadow(0 0 16px var(--glow));
     }
     .hero .line {
-      width: 60px; height: 2px; margin: 14px auto;
-      background: linear-gradient(90deg, transparent, var(--red2), transparent);
+      width: 64px; height: 2px; margin: 14px auto;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
     }
     .hero p {
       color: var(--dim); font-size: 0.86rem; line-height: 1.75;
@@ -194,11 +226,10 @@
       width: 100%; padding: 14px 16px; border-radius: 14px;
       border: 1px solid var(--line); background: var(--panel);
       color: var(--bone); font-size: 0.92rem; font-family: inherit; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
     .search input:focus {
-      border-color: var(--red2);
-      box-shadow: 0 0 0 3px rgba(192,16,32,0.2), 0 0 24px rgba(192,16,32,0.15);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
     }
     .search input::placeholder { color: var(--dim); }
 
@@ -207,38 +238,27 @@
       gap: 10px; padding: 10px 14px 20px;
     }
     .card {
-      background: linear-gradient(160deg, #121218 0%, #08080c 100%);
+      background: linear-gradient(160deg, #14141c 0%, #08080c 100%);
       border: 1px solid var(--line);
       border-radius: 16px; padding: 18px 10px;
       text-align: center; cursor: pointer;
       position: relative; overflow: hidden;
       transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
     }
-    .card::after {
-      content: "";
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(192,16,32,0.18), transparent 55%);
-      opacity: 0; transition: opacity 0.25s;
+    [data-theme="griffith"] .card {
+      background: linear-gradient(160deg, #161822 0%, #0a0c14 100%);
     }
     .card:active {
       transform: scale(0.95);
-      border-color: var(--red2);
-      box-shadow: 0 0 32px rgba(192,16,32,0.35);
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--glow);
     }
-    .card:active::after { opacity: 1; }
     .card .ic {
       font-size: 1.7rem; margin-bottom: 8px;
-      filter: drop-shadow(0 0 10px rgba(192,16,32,0.55));
-      position: relative; z-index: 1;
+      filter: drop-shadow(0 0 10px var(--glow));
     }
-    .card .t {
-      font-size: 0.92rem; font-weight: 700;
-      position: relative; z-index: 1;
-    }
-    .card .s {
-      font-size: 0.66rem; color: var(--dim); margin-top: 5px;
-      position: relative; z-index: 1;
-    }
+    .card .t { font-size: 0.92rem; font-weight: 700; }
+    .card .s { font-size: 0.66rem; color: var(--dim); margin-top: 5px; }
 
     .detail { display: none; padding: 10px 14px 28px; }
     .detail.show { display: block; animation: fadein 0.25s ease; }
@@ -253,6 +273,9 @@
       font-family: inherit; cursor: pointer;
     }
     .dhead h2 { font-size: 1.1rem; font-weight: 800; flex: 1; }
+    .hint {
+      font-size: 0.72rem; color: var(--dim); margin-bottom: 12px;
+    }
 
     .row {
       background: var(--panel);
@@ -266,37 +289,61 @@
     .row::before {
       content: "";
       position: absolute; right: 0; top: 0; bottom: 0; width: 3px;
-      background: linear-gradient(180deg, var(--red2), var(--gold));
-      opacity: 0.85;
+      background: var(--row-bar);
     }
     body.en .row::before { right: auto; left: 0; }
     .row code {
-      display: inline-block;
-      background: rgba(192,16,32,0.15);
-      color: #ff5c6a;
-      border: 1px solid rgba(192,16,32,0.35);
-      padding: 4px 10px; border-radius: 8px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--code-bg);
+      color: var(--code-c);
+      border: 1px solid var(--code-b);
+      padding: 6px 12px; border-radius: 8px;
       font-size: 0.86rem;
       direction: ltr; unicode-bidi: embed;
+      cursor: pointer;
+      user-select: all;
+      transition: transform 0.12s, box-shadow 0.15s;
+    }
+    .row code:active {
+      transform: scale(0.97);
+      box-shadow: 0 0 16px var(--glow);
+    }
+    .row code .copy-ico {
+      font-size: 0.7rem; opacity: 0.7;
     }
     .row .a { margin-top: 8px; font-size: 0.88rem; color: var(--bone); line-height: 1.5; }
     .row .b { margin-top: 4px; font-size: 0.74rem; color: var(--dim); line-height: 1.4; }
+
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--panel); border: 1px solid var(--line);
+      color: var(--bone); padding: 10px 20px; border-radius: 999px;
+      font-size: 0.82rem; font-weight: 700;
+      opacity: 0; pointer-events: none; z-index: 9999;
+      transition: opacity 0.25s, transform 0.25s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    }
+    .toast.show {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+    }
 
     .foot {
       text-align: center; padding: 4px 16px 32px;
       color: var(--dim); font-size: 0.72rem; line-height: 1.8;
     }
-    .foot b { color: var(--gold); font-weight: 700; }
+    .foot b { color: var(--gold); }
     .hide { display: none !important; }
   </style>
 </head>
-<body>
+<body data-theme="guts">
   <div id="loader">
     <div class="slash"></div>
+    <div class="slash2"></div>
     <div class="seal">
       <div class="ring"></div>
       <div class="ring r2"></div>
       <div class="ring r3"></div>
+      <div class="ring r4"></div>
       <div class="k">K</div>
     </div>
     <div class="ltitle">SELF KiAN</div>
@@ -307,7 +354,10 @@
 
   <div id="app">
     <div class="top">
-      <div class="badge" id="badge">2019</div>
+      <div class="themes">
+        <button type="button" id="thGuts" class="on">GUTS</button>
+        <button type="button" id="thGriff">GRIFFITH</button>
+      </div>
       <div class="langs">
         <button type="button" id="fa" class="on">FA</button>
         <button type="button" id="en">EN</button>
@@ -331,11 +381,14 @@
         <button class="back" id="back"></button>
         <h2 id="dtitle"></h2>
       </div>
+      <div class="hint" id="hint"></div>
       <div id="dbody"></div>
     </div>
 
     <div class="foot" id="foot"></div>
   </div>
+
+  <div class="toast" id="toast"></div>
 
   <script>
     const tg = window.Telegram && window.Telegram.WebApp;
@@ -347,25 +400,28 @@
     }
 
     let lang = localStorage.getItem("sk_lang") || "fa";
+    let theme = localStorage.getItem("sk_theme") || "guts";
 
     const T = {
       fa: {
         lsub: "صبر کن...",
-        lfoot: "<b>KiAN</b> از ۲۰۱۹ کد می‌زنه<br>این سلف هم مال خودشه",
-        hero: "لیست دستورات سلف‌بات<br>هر بخش جدا باز می‌شه",
+        lfoot: "<b>KiAN</b> از ۲۰۱۹ کد می‌زنه<br>این سلف مال خودشه",
+        hero: "دستورات سلف‌بات<br>تم و زبان رو از بالا عوض کن",
         search: "دنبال چی می‌گردی؟",
         back: "← برگشت",
         foot: "<b>KiAN</b> · از ۲۰۱۹<br>SELF KiAN",
-        badge: "از ۲۰۱۹"
+        hint: "روی دستور بزن تا کپی بشه",
+        copied: "کپی شد"
       },
       en: {
         lsub: "Hold on...",
-        lfoot: "<b>KiAN</b> has been coding since 2019<br>This selfbot is his",
-        hero: "Selfbot command list<br>Pick a section",
+        lfoot: "<b>KiAN</b> coding since 2019<br>This selfbot is his",
+        hero: "Selfbot commands<br>Switch theme & language up top",
         search: "What do you need?",
         back: "← Back",
         foot: "<b>KiAN</b> · since 2019<br>SELF KiAN",
-        badge: "SINCE 2019"
+        hint: "Tap a command to copy",
+        copied: "Copied"
       }
     };
 
@@ -374,93 +430,103 @@
         {c:"/panel",fa:"وضعیت، پینگ، آیدی، الماس",en:"Status, ping, ID, diamonds"},
         {c:"/ping",fa:"پینگ",en:"Ping"},
         {c:"/id",fa:"آیدی عددی",en:"User ID"},
-        {c:"/info",fa:"پروفایل خودت",en:"Your profile"},
-        {c:"/stats",fa:"آمار سلف",en:"Stats"},
+        {c:"/info",fa:"پروفایل",en:"Profile"},
+        {c:"/stats",fa:"آمار",en:"Stats"},
       ]},
       {i:"💎", t:{fa:"الماس",en:"Diamonds"}, x:[
-        {c:"—",fa:"هر ساعت روشن: ۲ الماس",en:"2 diamonds / hour while running"},
-        {c:"/واریز 5000",fa:"واریز (فقط ادمین)",en:"Deposit (admin only)"},
-        {c:"/panel",fa:"موجودی و باقی‌مانده",en:"Balance & remaining"},
+        {c:"/واریز 5000",fa:"واریز (ادمین)",en:"Deposit (admin)"},
+        {c:"/panel",fa:"موجودی",en:"Balance"},
       ]},
       {i:"⏰", t:{fa:"ساعت و بیو",en:"Time & Bio"}, x:[
-        {c:"/timelast on|off",fa:"ساعت روی فامیلی",en:"Clock on last name"},
-        {c:"/timefirst on|off",fa:"ساعت روی اسم",en:"Clock on first name"},
-        {c:"/biodate on|off",fa:"تاریخ شمسی روی بیو",en:"Jalali date on bio"},
-        {c:"/Timeon",fa:"روشن کلی",en:"Turn clock on"},
-        {c:"/Timeoff",fa:"خاموش کلی",en:"Turn clock off"},
-        {c:"/Timelist",fa:"فونت‌ها",en:"Font list"},
-        {c:"/transfer 8",fa:"انتخاب فونت",en:"Pick font"},
-        {c:"/transfer random",fa:"فونت رندوم هر دقیقه",en:"Random font each minute"},
+        {c:"/timelast on",fa:"ساعت فامیلی روشن",en:"Last name clock on"},
+        {c:"/timelast off",fa:"ساعت فامیلی خاموش",en:"Last name clock off"},
+        {c:"/timefirst on",fa:"ساعت اسم روشن",en:"First name clock on"},
+        {c:"/timefirst off",fa:"ساعت اسم خاموش",en:"First name clock off"},
+        {c:"/biodate on",fa:"تاریخ بیو روشن",en:"Bio date on"},
+        {c:"/biodate off",fa:"تاریخ بیو خاموش",en:"Bio date off"},
+        {c:"/Timeon",fa:"ساعت کلی روشن",en:"Clock on"},
+        {c:"/Timeoff",fa:"ساعت کلی خاموش",en:"Clock off"},
+        {c:"/Timelist",fa:"فونت‌ها",en:"Fonts"},
+        {c:"/transfer 8",fa:"فونت شماره",en:"Font number"},
+        {c:"/transfer random",fa:"فونت رندوم",en:"Random font"},
       ]},
       {i:"✍️", t:{fa:"فونت پیام",en:"Msg fonts"}, x:[
         {c:"/Textmodon",fa:"روشن",en:"On"},
         {c:"/Textmodoff",fa:"خاموش",en:"Off"},
-        {c:"/Textlist",fa:"لیست فونت",en:"Font list"},
+        {c:"/Textlist",fa:"لیست",en:"List"},
         {c:"/Texttransfer 5",fa:"انتخاب فونت",en:"Select font"},
       ]},
       {i:"👁", t:{fa:"یک‌بارمشاهده",en:"View once"}, x:[
-        {c:"/vo on",fa:"سیو خودکار روشن",en:"Auto save on"},
+        {c:"/vo on",fa:"روشن",en:"On"},
         {c:"/vo off",fa:"خاموش",en:"Off"},
-        {c:"/vo",fa:"وضعیت و آخرین خطا",en:"Status & last error"},
+        {c:"/vo",fa:"وضعیت",en:"Status"},
       ]},
       {i:"🛠", t:{fa:"ابزار",en:"Tools"}, x:[
-        {c:"/weather شهر",fa:"هوا",en:"Weather"},
-        {c:"/calc 25*4",fa:"حساب",en:"Calculator"},
-        {c:"/wiki متن",fa:"ویکی",en:"Wikipedia"},
-        {c:"/online on|off",fa:"آنلاین بمون",en:"Stay online"},
-        {c:"/screen",fa:"استیکر از پیام",en:"Sticker from msg"},
-        {c:"/uptime",fa:"چقدر روشنه",en:"Uptime"},
-        {c:"/silentword add",fa:"پاک کردن کلمه تو پیوی",en:"Delete PV by word"},
-        {c:"/tr fa Hello",fa:"ترجمه",en:"Translate"},
+        {c:"/weather تهران",fa:"هوا",en:"Weather"},
+        {c:"/calc 25*4",fa:"حساب",en:"Calc"},
+        {c:"/wiki متن",fa:"ویکی",en:"Wiki"},
+        {c:"/online on",fa:"آنلاین",en:"Online"},
+        {c:"/online off",fa:"قطع آنلاین",en:"Online off"},
+        {c:"/screen",fa:"استیکر",en:"Sticker"},
+        {c:"/uptime",fa:"آپتایم",en:"Uptime"},
+        {c:"/silentword add کلمه",fa:"فیلتر کلمه",en:"Word filter"},
       ]},
       {i:"🤖", t:{fa:"ای‌آی",en:"AI"}, x:[
-        {c:"/aibot",fa:"تنظیم ربات",en:"Set bot"},
+        {c:"/aibot",fa:"تنظیم",en:"Set bot"},
         {c:"/ai سوال",fa:"سوال",en:"Ask"},
         {c:"/fact",fa:"فکت",en:"Fact"},
         {c:"/8ball سوال",fa:"هشت‌بال",en:"8-ball"},
       ]},
       {i:"🎤", t:{fa:"ویس",en:"Voice"}, x:[
-        {c:"/tts متن",fa:"متن به ویس",en:"Text to voice"},
+        {c:"/tts متن",fa:"متن به ویس",en:"TTS"},
       ]},
       {i:"👿", t:{fa:"دشمن",en:"Enemy"}, x:[
-        {c:"/setenemy",fa:"دشمن کن",en:"Set enemy"},
-        {c:"/delenemy",fa:"بردار",en:"Remove"},
-        {c:"/fosh متن",fa:"فحش اضافه",en:"Add line"},
+        {c:"/setenemy",fa:"دشمن",en:"Set"},
+        {c:"/delenemy",fa:"حذف",en:"Remove"},
+        {c:"/fosh متن",fa:"فحش",en:"Add line"},
         {c:"/enemylist",fa:"لیست",en:"List"},
       ]},
       {i:"🔇", t:{fa:"سکوت",en:"Silent"}, x:[
-        {c:"/silent",fa:"پیاماش پاک بشه",en:"Delete their msgs"},
+        {c:"/silent",fa:"سکوت",en:"Silent"},
         {c:"/delsilent",fa:"لغو",en:"Undo"},
         {c:"/silentlist",fa:"لیست",en:"List"},
       ]},
       {i:"📡", t:{fa:"زنده",en:"Live"}, x:[
-        {c:"/Live typing",fa:"در حال نوشتن",en:"Typing"},
+        {c:"/Live typing",fa:"تایپ",en:"Typing"},
         {c:"/Live voice",fa:"ویس",en:"Voice"},
         {c:"/Live off",fa:"خاموش",en:"Off"},
       ]},
       {i:"❤️", t:{fa:"ری‌اکشن",en:"React"}, x:[
-        {c:"/react ❤️",fa:"ری‌اکشن بزن",en:"Auto react"},
+        {c:"/react ❤️",fa:"ری‌اکشن",en:"React"},
         {c:"/react off",fa:"قطع",en:"Off"},
       ]},
       {i:"👁", t:{fa:"اتو",en:"Auto"}, x:[
-        {c:"/seen on|off",fa:"سین خودکار",en:"Auto seen"},
-        {c:"/reply متن|off",fa:"جواب خودکار پیوی",en:"Auto reply PV"},
+        {c:"/seen on",fa:"سین",en:"Seen on"},
+        {c:"/seen off",fa:"قطع سین",en:"Seen off"},
+        {c:"/reply متن",fa:"جواب خودکار",en:"Auto reply"},
+        {c:"/reply off",fa:"قطع جواب",en:"Reply off"},
       ]},
       {i:"👤", t:{fa:"پروفایل",en:"Profile"}, x:[
-        {c:"/name /bio /username",fa:"اسم بیو یوزر",en:"Name bio username"},
-        {c:"/photo /delphoto",fa:"عکس پروفایل",en:"Profile photo"},
+        {c:"/name نام",fa:"اسم",en:"Name"},
+        {c:"/bio متن",fa:"بیو",en:"Bio"},
+        {c:"/photo",fa:"عکس",en:"Photo"},
+        {c:"/delphoto",fa:"حذف عکس",en:"Del photo"},
       ]},
       {i:"💾", t:{fa:"سیو",en:"Save"}, x:[
-        {c:"/save",fa:"بفرست Saved",en:"Send to Saved"},
-        {c:"/savemedia on|off",fa:"مدیا خودکار",en:"Auto media"},
+        {c:"/save",fa:"Saved",en:"Saved"},
+        {c:"/savemedia on",fa:"مدیا روشن",en:"Media on"},
+        {c:"/savemedia off",fa:"مدیا خاموش",en:"Media off"},
       ]},
       {i:"⏱", t:{fa:"حذف خودکار",en:"Auto del"}, x:[
-        {c:"/autodel 30",fa:"پاک بعد از ۳۰ ثانیه",en:"Delete after 30s"},
+        {c:"/autodel 30",fa:"۳۰ ثانیه",en:"30 sec"},
         {c:"/autodel off",fa:"خاموش",en:"Off"},
       ]},
       {i:"✨", t:{fa:"انیمیشن",en:"Anim"}, x:[
-        {c:"/love /money /star",fa:"انیمیشن",en:"Animations"},
-        {c:"/fire /party /matrix",fa:"بیشتر",en:"More"},
+        {c:"/love",fa:"عشق",en:"Love"},
+        {c:"/money",fa:"پول",en:"Money"},
+        {c:"/star",fa:"ستاره",en:"Star"},
+        {c:"/fire",fa:"آتش",en:"Fire"},
+        {c:"/matrix",fa:"ماتریکس",en:"Matrix"},
       ]},
       {i:"📨", t:{fa:"اسپم",en:"Spam"}, x:[
         {c:"/spam 20 متن",fa:"اسپم",en:"Spam"},
@@ -479,6 +545,43 @@
     const dbody = document.getElementById("dbody");
     const searchBox = document.getElementById("searchBox");
     const q = document.getElementById("q");
+    const toast = document.getElementById("toast");
+
+    function setTheme(t) {
+      theme = t;
+      document.body.setAttribute("data-theme", t);
+      localStorage.setItem("sk_theme", t);
+      document.getElementById("thGuts").classList.toggle("on", t === "guts");
+      document.getElementById("thGriff").classList.toggle("on", t === "griffith");
+      if (tg) {
+        try {
+          tg.setHeaderColor(t === "guts" ? "#050506" : "#0a0b10");
+          tg.setBackgroundColor(t === "guts" ? "#050506" : "#0a0b10");
+        } catch (e) {}
+      }
+    }
+
+    function toastMsg(m) {
+      toast.textContent = m;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1400);
+    }
+
+    function copyCmd(text) {
+      const t = text.replace(/^—$/, "").trim();
+      if (!t) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(() => toastMsg(T[lang].copied)).catch(fallback);
+      } else fallback();
+      function fallback() {
+        const a = document.createElement("textarea");
+        a.value = t;
+        document.body.appendChild(a);
+        a.select();
+        try { document.execCommand("copy"); toastMsg(T[lang].copied); } catch (e) {}
+        document.body.removeChild(a);
+      }
+    }
 
     function paint() {
       const u = T[lang];
@@ -488,10 +591,10 @@
       document.getElementById("lsub").textContent = u.lsub;
       document.getElementById("lfoot").innerHTML = u.lfoot;
       document.getElementById("heroP").innerHTML = u.hero;
-      document.getElementById("badge").textContent = u.badge;
       q.placeholder = u.search;
       document.getElementById("back").textContent = u.back;
       document.getElementById("foot").innerHTML = u.foot;
+      document.getElementById("hint").textContent = u.hint;
       document.getElementById("fa").classList.toggle("on", lang === "fa");
       document.getElementById("en").classList.toggle("on", lang === "en");
       draw(q.value);
@@ -529,8 +632,11 @@
       dbody.innerHTML = s.x.map(z => {
         const a = lang === "fa" ? z.fa : z.en;
         const b = lang === "fa" ? z.en : z.fa;
-        return `<div class="row"><code>${z.c}</code><div class="a">${a}</div><div class="b">${b}</div></div>`;
+        return `<div class="row"><code data-cmd="${z.c.replace(/"/g,"&quot;")}">${z.c}<span class="copy-ico">⧉</span></code><div class="a">${a}</div><div class="b">${b}</div></div>`;
       }).join("");
+      dbody.querySelectorAll("code").forEach(el => {
+        el.onclick = () => copyCmd(el.getAttribute("data-cmd") || el.textContent);
+      });
       if (tg) try { tg.BackButton.show(); } catch (e) {}
     }
 
@@ -547,12 +653,15 @@
     q.oninput = () => draw(q.value);
     document.getElementById("fa").onclick = () => { lang = "fa"; localStorage.setItem("sk_lang", lang); paint(); };
     document.getElementById("en").onclick = () => { lang = "en"; localStorage.setItem("sk_lang", lang); paint(); };
+    document.getElementById("thGuts").onclick = () => setTheme("guts");
+    document.getElementById("thGriff").onclick = () => setTheme("griffith");
 
+    setTheme(theme);
     paint();
     setTimeout(() => {
       document.getElementById("loader").classList.add("out");
       document.getElementById("app").classList.add("on");
-    }, 2600);
+    }, 2800);
   </script>
 </body>
 </html>
