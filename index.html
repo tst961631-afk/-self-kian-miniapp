@@ -9,40 +9,68 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Vazirmatn:wght@400;600;700;800&display=swap');
 
     :root, [data-theme="guts"] {
-      --bg: #050506;
-      --red: #c01020;
-      --red2: #ff2a3a;
-      --gold: #c9a84c;
-      --bone: #efe6d8;
-      --dim: #6e6874;
-      --panel: #0c0c10;
-      --line: rgba(192,16,32,0.4);
-      --accent: #ff2a3a;
-      --glow: rgba(192,16,32,0.55);
-      --grad: linear-gradient(180deg, #fff8ea 0%, #c9a84c 40%, #c01020 100%);
-      --chip: linear-gradient(135deg, #6a0008, #3a0004);
-      --row-bar: linear-gradient(180deg, #ff2a3a, #c9a84c);
-      --code-bg: rgba(192,16,32,0.18);
-      --code-c: #ff5c6a;
-      --code-b: rgba(192,16,32,0.4);
+      --bg: #030304;
+      --red: #8a0000;
+      --red2: #e01828;
+      --gold: #b8860b;
+      --bone: #e8dcc8;
+      --dim: #6a645c;
+      --panel: #0e0a0a;
+      --line: rgba(180,20,20,0.45);
+      --accent: #ff1a2a;
+      --glow: rgba(180,0,0,0.65);
+      --grad: linear-gradient(180deg, #ffe8c8 0%, #c45c20 35%, #8a0000 70%, #2a0000 100%);
+      --chip: linear-gradient(135deg, #5a0000, #1a0000);
+      --row-bar: linear-gradient(180deg, #ff1a2a, #8a0000, #3a1510);
+      --code-bg: rgba(140,0,0,0.22);
+      --code-c: #ff6a6a;
+      --code-b: rgba(200,30,30,0.45);
+      --card-bg: linear-gradient(165deg, #1a1010 0%, #0a0606 55%, #050303 100%);
+      --hero-bg: radial-gradient(ellipse at 50% 0%, rgba(140,0,0,0.4) 0%, transparent 55%);
+      --noise: rgba(255,40,40,0.03);
     }
     [data-theme="griffith"] {
-      --bg: #0a0b10;
-      --red: #6b7cff;
-      --red2: #a8b0ff;
-      --gold: #e8d5a3;
-      --bone: #f4f0ea;
-      --dim: #8a8fa3;
-      --panel: #10121a;
-      --line: rgba(168,176,255,0.28);
-      --accent: #c4b5fd;
-      --glow: rgba(107,124,255,0.4);
-      --grad: linear-gradient(180deg, #ffffff 0%, #e8d5a3 45%, #a8b0ff 100%);
-      --chip: linear-gradient(135deg, #2a2d4a, #1a1c2e);
-      --row-bar: linear-gradient(180deg, #e8d5a3, #a8b0ff);
-      --code-bg: rgba(168,176,255,0.12);
-      --code-c: #c4b5fd;
-      --code-b: rgba(168,176,255,0.35);
+      --bg: #08090f;
+      --red: #7b8cff;
+      --red2: #d4daf8;
+      --gold: #f0e0b0;
+      --bone: #f7f4ef;
+      --dim: #9aa0b4;
+      --panel: #0e1018;
+      --line: rgba(200,210,255,0.22);
+      --accent: #e8eefc;
+      --glow: rgba(140,150,220,0.35);
+      --grad: linear-gradient(180deg, #ffffff 0%, #f0e0b0 40%, #c8d0f0 75%, #8890c0 100%);
+      --chip: linear-gradient(135deg, #2a3048, #141820);
+      --row-bar: linear-gradient(180deg, #f0e0b0, #c8d0f8, #8890c0);
+      --code-bg: rgba(200,210,255,0.1);
+      --code-c: #d0d8ff;
+      --code-b: rgba(200,210,255,0.28);
+      --card-bg: linear-gradient(165deg, #141822 0%, #0a0c14 55%, #060810 100%);
+      --hero-bg: radial-gradient(ellipse at 50% 0%, rgba(200,210,255,0.18) 0%, transparent 50%);
+      --noise: rgba(220,230,255,0.025);
+    }
+    [data-theme="eclipse"] {
+      --bg: #06040a;
+      --red: #9b1040;
+      --red2: #ff4a6a;
+      --gold: #e8c878;
+      --bone: #f0e8dc;
+      --dim: #7a7080;
+      --panel: #0c0a12;
+      --line: rgba(180,40,80,0.35);
+      --accent: #ff6a8a;
+      --glow: rgba(160,30,80,0.5);
+      --grad: linear-gradient(180deg, #fff0d8 0%, #e8c878 25%, #c04060 55%, #4a1870 85%, #1a0a28 100%);
+      --chip: linear-gradient(135deg, #4a1030, #1a0a28);
+      --row-bar: linear-gradient(180deg, #e8c878, #ff4a6a, #6a2080);
+      --code-bg: rgba(160,30,80,0.16);
+      --code-c: #ff8aaa;
+      --code-b: rgba(200,60,100,0.4);
+      --card-bg: linear-gradient(165deg, #161018 0%, #0a0810 50%, #080612 100%);
+      --hero-bg: radial-gradient(ellipse at 30% 0%, rgba(160,30,80,0.35) 0%, transparent 45%),
+                 radial-gradient(ellipse at 70% 0%, rgba(100,40,140,0.25) 0%, transparent 45%);
+      --noise: rgba(255,80,120,0.03);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -60,10 +88,19 @@
       content: "";
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background-image:
-        radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--red) 18%, transparent) 0%, transparent 42%),
-        radial-gradient(circle at 80% 75%, color-mix(in srgb, var(--gold) 10%, transparent) 0%, transparent 38%);
-      opacity: 0.95;
-      transition: opacity 0.4s;
+        var(--hero-bg),
+        radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--red) 20%, transparent) 0%, transparent 42%),
+        radial-gradient(circle at 80% 75%, color-mix(in srgb, var(--gold) 12%, transparent) 0%, transparent 38%),
+        radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 40%);
+      opacity: 1;
+      transition: opacity 0.45s ease;
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, var(--noise) 3px, var(--noise) 4px);
+      opacity: 0.8;
     }
 
     /* ===== LOADER ===== */
@@ -240,7 +277,7 @@
     }
     .themes button, .langs button {
       border: 0; background: transparent; color: var(--dim);
-      padding: 8px 12px; font-size: 0.72rem; font-weight: 800;
+      padding: 8px 10px; font-size: 0.68rem; font-weight: 800;
       font-family: inherit; cursor: pointer; letter-spacing: 0.04em;
       transition: background 0.2s, color 0.2s;
     }
@@ -354,15 +391,12 @@
       gap: 10px; padding: 10px 14px 20px;
     }
     .card {
-      background: linear-gradient(160deg, #14141c 0%, #08080c 100%);
+      background: var(--card-bg);
       border: 1px solid var(--line);
       border-radius: 16px; padding: 18px 10px;
       text-align: center; cursor: pointer;
       position: relative; overflow: hidden;
       transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
-    }
-    [data-theme="griffith"] .card {
-      background: linear-gradient(160deg, #161822 0%, #0a0c14 100%);
     }
     .card:active {
       transform: scale(0.95);
@@ -476,6 +510,7 @@
       <div class="themes">
         <button type="button" id="thGuts" class="on">GUTS</button>
         <button type="button" id="thGriff">GRIFFITH</button>
+        <button type="button" id="thEclipse">ECLIPSE</button>
       </div>
       <div class="langs">
         <button type="button" id="fa" class="on">FA</button>
@@ -710,10 +745,12 @@
       localStorage.setItem("sk_theme", t);
       document.getElementById("thGuts").classList.toggle("on", t === "guts");
       document.getElementById("thGriff").classList.toggle("on", t === "griffith");
+      document.getElementById("thEclipse").classList.toggle("on", t === "eclipse");
+      const colors = { guts: "#030304", griffith: "#08090f", eclipse: "#06040a" };
       if (tg) {
         try {
-          tg.setHeaderColor(t === "guts" ? "#050506" : "#0a0b10");
-          tg.setBackgroundColor(t === "guts" ? "#050506" : "#0a0b10");
+          tg.setHeaderColor(colors[t] || "#030304");
+          tg.setBackgroundColor(colors[t] || "#030304");
         } catch (e) {}
       }
     }
@@ -812,6 +849,7 @@
     document.getElementById("en").onclick = () => { lang = "en"; localStorage.setItem("sk_lang", lang); paint(); };
     document.getElementById("thGuts").onclick = () => setTheme("guts");
     document.getElementById("thGriff").onclick = () => setTheme("griffith");
+    document.getElementById("thEclipse").onclick = () => setTheme("eclipse");
 
     setTheme(theme);
     paint();
