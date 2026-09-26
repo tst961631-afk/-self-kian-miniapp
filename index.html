@@ -6,19 +6,19 @@
   <title>SELF KiAN</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Vazirmatn:wght@400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Vazirmatn:wght@400;600;700&family=Orbitron:wght@600;700&display=swap');
 
     :root {
-      --bg: #0a0a0c;
-      --blood: #8b0000;
-      --blood-bright: #c41e1e;
-      --ash: #1a1a1f;
-      --bone: #e8e0d4;
-      --muted: #8a8490;
-      --gold: #c9a227;
-      --card: #121218;
-      --border: rgba(196, 30, 30, 0.25);
-      --glow: rgba(139, 0, 0, 0.45);
+      --bg: #070709;
+      --blood: #9b0000;
+      --crimson: #e11d2e;
+      --ash: #12121a;
+      --bone: #f0e6d8;
+      --muted: #7a7482;
+      --gold: #d4af37;
+      --card: #0e0e14;
+      --border: rgba(225, 29, 46, 0.28);
+      --glow: rgba(155, 0, 0, 0.55);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,287 +29,255 @@
       font-family: "Vazirmatn", system-ui, sans-serif;
       overflow-x: hidden;
     }
+    body.ltr { direction: ltr; font-family: "Orbitron", "Vazirmatn", system-ui, sans-serif; }
+    body.ltr .hero h1 { letter-spacing: 0.28em; }
+    body.ltr .cmd code { direction: ltr; }
 
+    /* particles */
+    #fx {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1;
+      background:
+        radial-gradient(1px 1px at 20% 30%, rgba(225,29,46,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 60%, rgba(212,175,55,0.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 80%, rgba(225,29,46,0.2) 0%, transparent 100%);
+      animation: drift 12s linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes drift {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-40px); }
+    }
+
+    /* LOADER */
     #loader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: radial-gradient(ellipse at center, #1a0505 0%, #0a0a0c 70%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.8s ease, visibility 0.8s;
+      position: fixed; inset: 0; z-index: 9999;
+      background: radial-gradient(ellipse at 50% 40%, #1c0608 0%, #070709 65%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.9s ease, visibility 0.9s;
     }
-    #loader.hide {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .brand-mark {
-      width: 90px;
-      height: 90px;
-      border: 2px solid var(--blood-bright);
+    #loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .rune {
+      width: 110px; height: 110px;
+      border: 2px solid var(--crimson);
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-family: "Cinzel", serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--blood-bright);
-      text-shadow: 0 0 20px var(--glow);
-      box-shadow: 0 0 40px var(--glow), inset 0 0 20px rgba(139,0,0,0.3);
-      animation: pulse 1.6s ease-in-out infinite;
+      font-size: 2.4rem; font-weight: 800;
+      color: var(--crimson);
+      text-shadow: 0 0 28px var(--glow);
+      box-shadow: 0 0 50px var(--glow), inset 0 0 30px rgba(155,0,0,0.35);
+      animation: pulse 1.5s ease-in-out infinite;
       position: relative;
     }
-    .brand-mark::after {
-      content: "";
-      position: absolute;
-      inset: -8px;
-      border: 1px solid rgba(196,30,30,0.3);
-      border-radius: 50%;
-      animation: spin 4s linear infinite;
+    .rune::before, .rune::after {
+      content: ""; position: absolute; border-radius: 50%;
+      border: 1px solid rgba(225,29,46,0.35);
     }
+    .rune::before { inset: -12px; animation: spin 5s linear infinite; }
+    .rune::after { inset: -22px; border-style: dashed; animation: spin 9s linear reverse infinite; opacity: 0.5; }
     @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 30px var(--glow); }
-      50% { transform: scale(1.06); box-shadow: 0 0 55px var(--glow); }
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .load-title {
-      margin-top: 28px;
+      margin-top: 30px;
       font-family: "Cinzel", serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.2em;
+      font-size: 1.55rem;
+      letter-spacing: 0.28em;
       color: var(--bone);
+      text-shadow: 0 0 20px var(--glow);
     }
-    .load-sub {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
+    .load-sub { margin-top: 10px; color: var(--muted); font-size: 0.88rem; letter-spacing: 0.04em; }
     .load-bar {
-      width: 180px;
-      height: 3px;
-      background: #222;
-      border-radius: 2px;
-      margin-top: 22px;
-      overflow: hidden;
+      width: 200px; height: 3px; background: #1a1a22; border-radius: 2px;
+      margin-top: 24px; overflow: hidden;
     }
-    .load-bar span {
-      display: block;
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--blood), var(--gold));
-      animation: loadfill 2.2s ease forwards;
+    .load-bar i {
+      display: block; height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--blood), var(--gold), var(--crimson));
+      animation: fill 2.3s cubic-bezier(.2,.8,.2,1) forwards;
     }
-    @keyframes loadfill { to { width: 100%; } }
+    @keyframes fill { to { width: 100%; } }
     .load-credit {
-      position: absolute;
-      bottom: 40px;
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.7;
-      padding: 0 24px;
+      position: absolute; bottom: 36px; text-align: center;
+      font-size: 0.8rem; color: var(--muted); line-height: 1.75; padding: 0 28px;
     }
-    .load-credit strong {
-      color: var(--gold);
-      font-weight: 600;
-    }
+    .load-credit b { color: var(--gold); font-weight: 700; }
 
-    #app { opacity: 0; transition: opacity 0.6s ease 0.1s; }
+    #app { position: relative; z-index: 2; opacity: 0; transition: opacity 0.7s ease; }
     #app.show { opacity: 1; }
 
-    .hero {
-      text-align: center;
-      padding: 28px 16px 12px;
-      background:
-        radial-gradient(ellipse at top, rgba(139,0,0,0.25) 0%, transparent 55%),
-        linear-gradient(180deg, #120808 0%, var(--bg) 100%);
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
+    /* top bar lang */
+    .topbar {
+      display: flex; justify-content: flex-end; align-items: center;
+      padding: 10px 14px 0; gap: 8px;
     }
-    .hero::before {
+    .lang-btn {
+      display: flex; background: var(--ash); border: 1px solid var(--border);
+      border-radius: 999px; overflow: hidden;
+    }
+    .lang-btn button {
+      border: none; background: transparent; color: var(--muted);
+      padding: 7px 14px; font-size: 0.78rem; font-weight: 700;
+      font-family: inherit; cursor: pointer; letter-spacing: 0.06em;
+    }
+    .lang-btn button.active {
+      background: linear-gradient(135deg, var(--blood), #5c0000);
+      color: var(--bone);
+      box-shadow: 0 0 16px var(--glow);
+    }
+
+    .hero {
+      text-align: center; padding: 18px 16px 16px;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(155,0,0,0.35) 0%, transparent 55%),
+        linear-gradient(180deg, #140808 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
       content: "⚔";
-      position: absolute;
-      font-size: 8rem;
-      opacity: 0.04;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      position: absolute; font-size: 9rem; opacity: 0.035;
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
       pointer-events: none;
     }
     .hero h1 {
       font-family: "Cinzel", serif;
-      font-size: 1.55rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--bone);
-      text-shadow: 0 0 24px var(--glow);
+      font-size: 1.65rem; font-weight: 800;
+      letter-spacing: 0.14em;
+      background: linear-gradient(180deg, #fff5e6, #c9a227 50%, #8b0000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .hero .tag {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 4px 14px;
+      display: inline-block; margin-top: 12px;
+      padding: 5px 16px;
       border: 1px solid var(--border);
       border-radius: 999px;
-      font-size: 0.75rem;
-      color: var(--gold);
-      letter-spacing: 0.08em;
+      font-size: 0.72rem; color: var(--gold);
+      letter-spacing: 0.14em; font-weight: 700;
     }
     .hero p {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.65;
-      max-width: 320px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-top: 12px; color: var(--muted);
+      font-size: 0.84rem; line-height: 1.7; max-width: 340px;
+      margin-left: auto; margin-right: auto;
     }
 
     .search-wrap { padding: 14px 14px 6px; }
     .search-wrap input {
-      width: 100%;
-      padding: 13px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--ash);
-      color: var(--bone);
-      font-size: 0.92rem;
-      font-family: inherit;
-      outline: none;
+      width: 100%; padding: 13px 16px; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--ash);
+      color: var(--bone); font-size: 0.92rem; font-family: inherit; outline: none;
     }
     .search-wrap input:focus {
-      border-color: var(--blood-bright);
-      box-shadow: 0 0 0 3px rgba(196,30,30,0.15);
+      border-color: var(--crimson);
+      box-shadow: 0 0 0 3px rgba(225,29,46,0.18);
     }
     .search-wrap input::placeholder { color: var(--muted); }
 
     .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      padding: 10px 14px 24px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 11px; padding: 10px 14px 24px;
     }
     .card {
-      background: linear-gradient(160deg, #16161c 0%, #0e0e12 100%);
+      background: linear-gradient(165deg, #16161f 0%, #0a0a10 100%);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 10px;
-      text-align: center;
-      cursor: pointer;
+      border-radius: 16px; padding: 18px 10px;
+      text-align: center; cursor: pointer;
       transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--blood-bright), transparent);
-      opacity: 0.6;
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--crimson), var(--gold), transparent);
     }
     .card:active {
       transform: scale(0.96);
-      border-color: var(--blood-bright);
-      box-shadow: 0 0 20px var(--glow);
+      border-color: var(--crimson);
+      box-shadow: 0 0 28px var(--glow);
     }
-    .card .icon { font-size: 1.55rem; margin-bottom: 8px; filter: drop-shadow(0 0 6px var(--glow)); }
-    .card .title { font-size: 0.88rem; font-weight: 600; color: var(--bone); }
+    .card .icon { font-size: 1.65rem; margin-bottom: 8px; filter: drop-shadow(0 0 8px var(--glow)); }
+    .card .title { font-size: 0.9rem; font-weight: 700; }
+    .card .sub { font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
 
     .detail { display: none; padding: 12px 14px 28px; }
     .detail.active { display: block; }
-    .detail-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
+    .detail-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .back {
-      background: var(--ash);
-      border: 1px solid var(--border);
-      color: var(--bone);
-      border-radius: 10px;
-      padding: 9px 14px;
-      font-size: 0.88rem;
-      font-family: inherit;
-      cursor: pointer;
+      background: var(--ash); border: 1px solid var(--border); color: var(--bone);
+      border-radius: 11px; padding: 9px 14px; font-size: 0.88rem;
+      font-family: inherit; cursor: pointer;
     }
-    .detail h2 { font-size: 1.05rem; flex: 1; font-weight: 700; }
+    .detail h2 { font-size: 1.08rem; flex: 1; font-weight: 700; }
     .cmd {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 13px 14px; margin-bottom: 10px;
     }
     .cmd code {
       display: inline-block;
-      background: rgba(196, 30, 30, 0.18);
-      color: #ff6b6b;
-      padding: 3px 9px;
-      border-radius: 6px;
-      font-size: 0.86rem;
-      direction: ltr;
-      unicode-bidi: embed;
-      margin: 2px 0;
-      border: 1px solid rgba(196,30,30,0.25);
+      background: rgba(225,29,46,0.16);
+      color: #ff6b7a;
+      padding: 4px 10px; border-radius: 7px;
+      font-size: 0.86rem; margin: 2px 0;
+      border: 1px solid rgba(225,29,46,0.3);
+      direction: ltr; unicode-bidi: embed;
     }
-    .cmd .desc {
-      color: var(--muted);
-      font-size: 0.84rem;
-      margin-top: 7px;
-      line-height: 1.5;
-    }
+    .cmd .desc { color: var(--muted); font-size: 0.84rem; margin-top: 8px; line-height: 1.55; }
+    .cmd .desc-en { color: #5a5560; font-size: 0.75rem; margin-top: 4px; line-height: 1.4; }
 
     .footer {
-      text-align: center;
-      padding: 8px 16px 28px;
-      color: var(--muted);
-      font-size: 0.72rem;
-      line-height: 1.7;
+      text-align: center; padding: 6px 16px 30px;
+      color: var(--muted); font-size: 0.72rem; line-height: 1.75;
     }
     .footer span { color: var(--gold); }
     .hidden { display: none !important; }
   </style>
 </head>
-<body>
+<body class="rtl">
+  <div id="fx"></div>
+
   <div id="loader">
-    <div class="brand-mark">K</div>
+    <div class="rune">K</div>
     <div class="load-title">SELF KiAN</div>
-    <div class="load-sub">Loading the struggle...</div>
-    <div class="load-bar"><span></span></div>
-    <div class="load-credit">
-      <strong>KiAN</strong> — برنامه‌نویسی از سال <strong>۲۰۱۹</strong><br>
-      تا امروز در حال ساخت ابزارهای خفن
+    <div class="load-sub" id="loadSub">Loading the struggle...</div>
+    <div class="load-bar"><i></i></div>
+    <div class="load-credit" id="loadCredit">
+      <b>KiAN</b> — Programming since <b>2019</b><br>
+      Building elite tools with blood &amp; code
     </div>
   </div>
 
   <div id="app">
+    <div class="topbar">
+      <div class="lang-btn">
+        <button type="button" id="btnFa" class="active">FA</button>
+        <button type="button" id="btnEn">EN</button>
+      </div>
+    </div>
+
     <div class="hero">
       <h1>SELF KiAN</h1>
-      <div class="tag">BERSERK MODE</div>
-      <p>راهنمای کامل سلف‌بات · ساخته‌شده با خون و کد<br>از ۲۰۱۹ تا الان</p>
+      <div class="tag" id="heroTag">BERSERK MODE</div>
+      <p id="heroText">Complete selfbot guide · Forged since 2019</p>
     </div>
 
     <div class="search-wrap" id="searchBox">
-      <input type="search" id="q" placeholder="جستجو در دستورات..." autocomplete="off" />
+      <input type="search" id="q" placeholder="Search commands..." autocomplete="off" />
     </div>
 
     <div class="grid" id="grid"></div>
 
     <div class="detail" id="detail">
       <div class="detail-head">
-        <button class="back" id="backBtn">← بازگشت</button>
+        <button class="back" id="backBtn">← Back</button>
         <h2 id="detailTitle"></h2>
       </div>
       <div id="detailBody"></div>
     </div>
 
-    <div class="footer">
+    <div class="footer" id="footer">
       <span>KiAN</span> · Coding since 2019<br>
       ⚡ SELF KiAN Mini App
     </div>
@@ -320,114 +288,170 @@
     if (tg) {
       tg.ready();
       tg.expand();
-      try { tg.setHeaderColor("#0a0a0c"); } catch(e) {}
-      try { tg.setBackgroundColor("#0a0a0c"); } catch(e) {}
+      try { tg.setHeaderColor("#070709"); } catch(e) {}
+      try { tg.setBackgroundColor("#070709"); } catch(e) {}
     }
 
-    setTimeout(() => {
-      document.getElementById("loader").classList.add("hide");
-      document.getElementById("app").classList.add("show");
-    }, 2400);
+    let lang = localStorage.getItem("sk_lang") || "fa";
+
+    const UI = {
+      fa: {
+        loadSub: "در حال بیدار کردن هیولا...",
+        loadCredit: "<b>KiAN</b> — برنامه‌نویسی از سال <b>۲۰۱۹</b><br>تا امروز با خون و کد می‌سازد",
+        heroTag: "حالت برزرک",
+        heroText: "راهنمای کامل سلف‌بات · ساخته‌شده از ۲۰۱۹ تا امروز",
+        search: "جستجو در دستورات...",
+        back: "← بازگشت",
+        footer: "<span>KiAN</span> · برنامه‌نویسی از ۲۰۱۹<br>⚡ SELF KiAN Mini App",
+      },
+      en: {
+        loadSub: "Loading the struggle...",
+        loadCredit: "<b>KiAN</b> — Programming since <b>2019</b><br>Building elite tools with blood &amp; code",
+        heroTag: "BERSERK MODE",
+        heroText: "Complete selfbot guide · Forged since 2019",
+        search: "Search commands...",
+        back: "← Back",
+        footer: "<span>KiAN</span> · Coding since 2019<br>⚡ SELF KiAN Mini App",
+      }
+    };
 
     const SECTIONS = [
-      { id:"panel", icon:"📊", title:"پنل", items:[
-        {c:"/panel",d:"وضعیت اکانت + پینگ + آیدی + الماس"},
-        {c:"/ping",d:"تأخیر میلی‌ثانیه"},
-        {c:"/id",d:"آیدی عددی"},
-        {c:"/info",d:"اطلاعات پروفایل"},
-        {c:"/stats",d:"آمار سلف"},
-      ]},
-      { id:"diamond", icon:"💎", title:"الماس", items:[
-        {c:"مصرف",d:"هر ساعت روشن = ۲ الماس"},
-        {c:"/واریز 5000",d:"واریز (ادمین)"},
-        {c:"/panel",d:"موجودی و روز باقی‌مانده"},
-      ]},
-      { id:"time", icon:"⏰", title:"ساعت و بیو", items:[
-        {c:"/timelast on|off",d:"ساعت فامیلی (جدا)"},
-        {c:"/timefirst on|off",d:"ساعت اسم (جدا)"},
-        {c:"/biodate on|off",d:"تاریخ شمسی بیو"},
-        {c:"/Timeon /Timeoff",d:"روشن/خاموش کلی"},
-        {c:"/Timelist",d:"فونت‌ها + وضعیت"},
-        {c:"/transfer 8",d:"فونت ثابت"},
-        {c:"/transfer random",d:"فونت تصادفی"},
-      ]},
-      { id:"text", icon:"✍️", title:"فونت پیام", items:[
-        {c:"/Textmodon",d:"روشن"},
-        {c:"/Textmodoff",d:"خاموش"},
-        {c:"/Textlist",d:"لیست با نمونه"},
-        {c:"/Texttransfer 5",d:"انتخاب فونت"},
-      ]},
-      { id:"vo", icon:"👁", title:"یک‌بارمشاهده", items:[
-        {c:"/vo on",d:"ذخیره خودکار روشن"},
-        {c:"/vo off",d:"خاموش"},
-        {c:"/vo",d:"وضعیت + آخرین خطا"},
-      ]},
-      { id:"tools", icon:"🛠", title:"ابزارها", items:[
-        {c:"/weather تهران",d:"آب‌وهوا"},
-        {c:"/calc 25*4",d:"ماشین‌حساب"},
-        {c:"/wiki متن",d:"ویکی‌پدیا"},
-        {c:"/online on|off",d:"همیشه آنلاین"},
-        {c:"/screen",d:"استیکر پیام"},
-        {c:"/uptime",d:"آپتایم سلف"},
-        {c:"/silentword add کلمه",d:"فیلتر کلمه پیوی"},
-        {c:"/tr fa Hello",d:"ترجمه"},
-      ]},
-      { id:"ai", icon:"🤖", title:"هوش مصنوعی", items:[
-        {c:"/aibot",d:"تنظیم ربات AI"},
-        {c:"/ai سوال",d:"سوال از AI"},
-        {c:"/fact",d:"فکت"},
-        {c:"/8ball سوال",d:"گوی جادویی"},
-      ]},
-      { id:"tts", icon:"🎤", title:"ویس", items:[
-        {c:"/tts متن",d:"متن به ویس فارسی"},
-      ]},
-      { id:"enemy", icon:"👿", title:"دشمن", items:[
-        {c:"/setenemy",d:"ثبت دشمن"},
-        {c:"/delenemy",d:"حذف"},
-        {c:"/fosh متن",d:"افزودن فحش"},
-        {c:"/enemylist",d:"لیست"},
-      ]},
-      { id:"silent", icon:"🔇", title:"سکوت", items:[
-        {c:"/silent",d:"سکوت کاربر"},
-        {c:"/delsilent",d:"لغو"},
-        {c:"/silentlist",d:"لیست"},
-      ]},
-      { id:"live", icon:"📡", title:"زنده", items:[
-        {c:"/Live typing|voice|file|photo|off",d:"حالت زنده"},
-      ]},
-      { id:"react", icon:"❤️", title:"ری‌اکشن", items:[
-        {c:"/react ❤️",d:"ری‌اکشن برای فرد"},
-        {c:"/react off",d:"حذف"},
-      ]},
-      { id:"auto", icon:"👁", title:"اتو", items:[
-        {c:"/seen on|off",d:"خواندن خودکار"},
-        {c:"/reply متن|off",d:"پاسخ خودکار"},
-      ]},
-      { id:"profile", icon:"👤", title:"پروفایل", items:[
-        {c:"/name /bio /username",d:"تنظیم پروفایل"},
-        {c:"/sign /photo /delphoto",d:"امضا و عکس"},
-      ]},
-      { id:"save", icon:"💾", title:"ذخیره", items:[
-        {c:"/save",d:"فوروارد Saved"},
-        {c:"/savemedia on|off",d:"ذخیره خودکار مدیا"},
-      ]},
-      { id:"autodel", icon:"⏱", title:"حذف خودکار", items:[
-        {c:"/autodel 30",d:"حذف بعد از ثانیه"},
-        {c:"/autodel off",d:"خاموش"},
-      ]},
-      { id:"anim", icon:"✨", title:"انیمیشن", items:[
-        {c:"/love /money /star /bear",d:"انیمیشن‌ها"},
-        {c:"/fire /party /matrix",d:"بیشتر"},
-      ]},
-      { id:"spam", icon:"📨", title:"اسپم", items:[
-        {c:"/spam 20 متن",d:"اسپم"},
-        {c:"/spamstop",d:"توقف"},
-      ]},
-      { id:"notes", icon:"📝", title:"یادداشت", items:[
-        {c:"/note متن",d:"ذخیره"},
-        {c:"/notes",d:"لیست"},
-        {c:"/delnote 1",d:"حذف"},
-      ]},
+      { id:"panel", icon:"📊",
+        title:{fa:"پنل",en:"Panel"},
+        items:[
+          {c:"/panel", fa:"وضعیت اکانت + پینگ + آیدی + الماس", en:"Account status + ping + ID + diamonds"},
+          {c:"/ping", fa:"تأخیر میلی‌ثانیه", en:"Latency in ms"},
+          {c:"/id", fa:"آیدی عددی", en:"Numeric user ID"},
+          {c:"/info", fa:"اطلاعات پروفایل", en:"Profile info"},
+          {c:"/stats", fa:"آمار سلف", en:"Selfbot stats"},
+        ]},
+      { id:"diamond", icon:"💎",
+        title:{fa:"الماس",en:"Diamonds"},
+        items:[
+          {c:"cost", fa:"هر ساعت روشن = ۲ الماس", en:"2 diamonds per hour while online"},
+          {c:"/واریز 5000", fa:"واریز الماس (ادمین)", en:"Deposit diamonds (admin)"},
+          {c:"/panel", fa:"موجودی و روز باقی‌مانده", en:"Balance & days left"},
+        ]},
+      { id:"time", icon:"⏰",
+        title:{fa:"ساعت و بیو",en:"Time & Bio"},
+        items:[
+          {c:"/timelast on|off", fa:"ساعت روی فامیلی", en:"Clock on last name"},
+          {c:"/timefirst on|off", fa:"ساعت روی اسم", en:"Clock on first name"},
+          {c:"/biodate on|off", fa:"تاریخ شمسی روی بیو", en:"Jalali date on bio"},
+          {c:"/Timeon /Timeoff", fa:"روشن/خاموش کلی", en:"Master clock toggle"},
+          {c:"/Timelist", fa:"فونت‌ها + وضعیت", en:"Fonts + status"},
+          {c:"/transfer 8", fa:"فونت ثابت", en:"Fixed font"},
+          {c:"/transfer random", fa:"فونت تصادفی", en:"Random font each minute"},
+        ]},
+      { id:"text", icon:"✍️",
+        title:{fa:"فونت پیام",en:"Text Fonts"},
+        items:[
+          {c:"/Textmodon", fa:"روشن", en:"Enable"},
+          {c:"/Textmodoff", fa:"خاموش", en:"Disable"},
+          {c:"/Textlist", fa:"لیست با نمونه", en:"List with samples"},
+          {c:"/Texttransfer 5", fa:"انتخاب فونت", en:"Select font"},
+        ]},
+      { id:"vo", icon:"👁",
+        title:{fa:"یک‌بارمشاهده",en:"View Once"},
+        items:[
+          {c:"/vo on", fa:"ذخیره خودکار روشن", en:"Auto-save on"},
+          {c:"/vo off", fa:"خاموش", en:"Off"},
+          {c:"/vo", fa:"وضعیت + آخرین خطا", en:"Status + last error"},
+        ]},
+      { id:"tools", icon:"🛠",
+        title:{fa:"ابزارها",en:"Tools"},
+        items:[
+          {c:"/weather city", fa:"آب‌وهوا", en:"Weather"},
+          {c:"/calc 25*4", fa:"ماشین‌حساب", en:"Calculator"},
+          {c:"/wiki text", fa:"ویکی‌پدیا", en:"Wikipedia"},
+          {c:"/online on|off", fa:"همیشه آنلاین", en:"Keep online"},
+          {c:"/screen", fa:"استیکر از پیام", en:"Sticker from message"},
+          {c:"/uptime", fa:"آپتایم سلف", en:"Uptime"},
+          {c:"/silentword add", fa:"فیلتر کلمه پیوی", en:"PV word filter"},
+          {c:"/tr fa Hello", fa:"ترجمه", en:"Translate"},
+        ]},
+      { id:"ai", icon:"🤖",
+        title:{fa:"هوش مصنوعی",en:"AI"},
+        items:[
+          {c:"/aibot", fa:"تنظیم ربات AI", en:"Set AI bot"},
+          {c:"/ai question", fa:"سوال از AI", en:"Ask AI"},
+          {c:"/fact", fa:"فکت", en:"Random fact"},
+          {c:"/8ball q", fa:"گوی جادویی", en:"Magic 8-ball"},
+        ]},
+      { id:"tts", icon:"🎤",
+        title:{fa:"ویس",en:"Voice"},
+        items:[
+          {c:"/tts text", fa:"متن به ویس فارسی", en:"Text to speech (FA)"},
+        ]},
+      { id:"enemy", icon:"👿",
+        title:{fa:"دشمن",en:"Enemy"},
+        items:[
+          {c:"/setenemy", fa:"ثبت دشمن", en:"Mark enemy"},
+          {c:"/delenemy", fa:"حذف", en:"Remove"},
+          {c:"/fosh text", fa:"افزودن فحش", en:"Add insult"},
+          {c:"/enemylist", fa:"لیست", en:"List"},
+        ]},
+      { id:"silent", icon:"🔇",
+        title:{fa:"سکوت",en:"Silent"},
+        items:[
+          {c:"/silent", fa:"سکوت کاربر", en:"Mute user msgs"},
+          {c:"/delsilent", fa:"لغو", en:"Unmute"},
+          {c:"/silentlist", fa:"لیست", en:"List"},
+        ]},
+      { id:"live", icon:"📡",
+        title:{fa:"زنده",en:"Live"},
+        items:[
+          {c:"/Live typing|voice|file|photo|off", fa:"حالت زنده", en:"Live action status"},
+        ]},
+      { id:"react", icon:"❤️",
+        title:{fa:"ری‌اکشن",en:"Reactions"},
+        items:[
+          {c:"/react ❤️", fa:"ری‌اکشن برای فرد", en:"Auto react to user"},
+          {c:"/react off", fa:"حذف", en:"Remove"},
+        ]},
+      { id:"auto", icon:"👁",
+        title:{fa:"اتو",en:"Auto"},
+        items:[
+          {c:"/seen on|off", fa:"خواندن خودکار", en:"Auto read"},
+          {c:"/reply text|off", fa:"پاسخ خودکار", en:"Auto reply PV"},
+        ]},
+      { id:"profile", icon:"👤",
+        title:{fa:"پروفایل",en:"Profile"},
+        items:[
+          {c:"/name /bio /username", fa:"تنظیم پروفایل", en:"Edit profile"},
+          {c:"/sign /photo /delphoto", fa:"امضا و عکس", en:"Sign & photo"},
+        ]},
+      { id:"save", icon:"💾",
+        title:{fa:"ذخیره",en:"Save"},
+        items:[
+          {c:"/save", fa:"فوروارد Saved", en:"Forward to Saved"},
+          {c:"/savemedia on|off", fa:"ذخیره خودکار مدیا", en:"Auto save media"},
+        ]},
+      { id:"autodel", icon:"⏱",
+        title:{fa:"حذف خودکار",en:"Auto Delete"},
+        items:[
+          {c:"/autodel 30", fa:"حذف بعد از ثانیه", en:"Delete after seconds"},
+          {c:"/autodel off", fa:"خاموش", en:"Off"},
+        ]},
+      { id:"anim", icon:"✨",
+        title:{fa:"انیمیشن",en:"Animations"},
+        items:[
+          {c:"/love /money /star", fa:"انیمیشن‌ها", en:"Animations"},
+          {c:"/fire /party /matrix", fa:"بیشتر", en:"More effects"},
+        ]},
+      { id:"spam", icon:"📨",
+        title:{fa:"اسپم",en:"Spam"},
+        items:[
+          {c:"/spam 20 text", fa:"اسپم", en:"Spam messages"},
+          {c:"/spamstop", fa:"توقف", en:"Stop"},
+        ]},
+      { id:"notes", icon:"📝",
+        title:{fa:"یادداشت",en:"Notes"},
+        items:[
+          {c:"/note text", fa:"ذخیره", en:"Save note"},
+          {c:"/notes", fa:"لیست", en:"List"},
+          {c:"/delnote 1", fa:"حذف", en:"Delete"},
+        ]},
     ];
 
     const grid = document.getElementById("grid");
@@ -437,35 +461,64 @@
     const searchBox = document.getElementById("searchBox");
     const q = document.getElementById("q");
 
+    function applyUI() {
+      const u = UI[lang];
+      document.documentElement.lang = lang === "fa" ? "fa" : "en";
+      document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+      document.body.classList.toggle("ltr", lang === "en");
+      document.getElementById("loadSub").textContent = u.loadSub;
+      document.getElementById("loadCredit").innerHTML = u.loadCredit;
+      document.getElementById("heroTag").textContent = u.heroTag;
+      document.getElementById("heroText").textContent = u.heroText;
+      q.placeholder = u.search;
+      document.getElementById("backBtn").textContent = u.back;
+      document.getElementById("footer").innerHTML = u.footer;
+      document.getElementById("btnFa").classList.toggle("active", lang === "fa");
+      document.getElementById("btnEn").classList.toggle("active", lang === "en");
+      renderGrid(q.value);
+      if (detail.classList.contains("active") && detail.dataset.id) {
+        const s = SECTIONS.find(x => x.id === detail.dataset.id);
+        if (s) openDetail(s, true);
+      }
+    }
+
     function renderGrid(filter = "") {
       grid.innerHTML = "";
       const f = filter.trim().toLowerCase();
       SECTIONS.forEach(s => {
-        const hit = !f || s.title.includes(f) || s.items.some(i =>
-          i.c.toLowerCase().includes(f) || i.d.includes(f)
+        const title = s.title[lang];
+        const hit = !f || title.toLowerCase().includes(f) || s.items.some(i =>
+          i.c.toLowerCase().includes(f) || i.fa.includes(f) || i.en.toLowerCase().includes(f)
         );
         if (!hit) return;
         const el = document.createElement("div");
         el.className = "card";
-        el.innerHTML = `<div class="icon">${s.icon}</div><div class="title">${s.title}</div>`;
+        const other = lang === "fa" ? s.title.en : s.title.fa;
+        el.innerHTML = `<div class="icon">${s.icon}</div><div class="title">${title}</div><div class="sub">${other}</div>`;
         el.onclick = () => openDetail(s);
         grid.appendChild(el);
       });
     }
 
-    function openDetail(s) {
-      grid.classList.add("hidden");
-      searchBox.classList.add("hidden");
-      detail.classList.add("active");
-      detailTitle.textContent = s.icon + " " + s.title;
-      detailBody.innerHTML = s.items.map(i =>
-        `<div class="cmd"><code>${i.c}</code><div class="desc">${i.d}</div></div>`
-      ).join("");
+    function openDetail(s, keep) {
+      if (!keep) {
+        grid.classList.add("hidden");
+        searchBox.classList.add("hidden");
+        detail.classList.add("active");
+      }
+      detail.dataset.id = s.id;
+      detailTitle.textContent = s.icon + " " + s.title[lang];
+      detailBody.innerHTML = s.items.map(i => {
+        const main = lang === "fa" ? i.fa : i.en;
+        const sub = lang === "fa" ? i.en : i.fa;
+        return `<div class="cmd"><code>${i.c}</code><div class="desc">${main}</div><div class="desc-en">${sub}</div></div>`;
+      }).join("");
       if (tg) try { tg.BackButton.show(); } catch(e) {}
     }
 
     function goHome() {
       detail.classList.remove("active");
+      detail.dataset.id = "";
       grid.classList.remove("hidden");
       searchBox.classList.remove("hidden");
       if (tg) try { tg.BackButton.hide(); } catch(e) {}
@@ -474,7 +527,16 @@
     document.getElementById("backBtn").onclick = goHome;
     if (tg) { try { tg.BackButton.onClick(goHome); } catch(e) {} }
     q.addEventListener("input", () => renderGrid(q.value));
-    renderGrid();
+
+    document.getElementById("btnFa").onclick = () => { lang = "fa"; localStorage.setItem("sk_lang", lang); applyUI(); };
+    document.getElementById("btnEn").onclick = () => { lang = "en"; localStorage.setItem("sk_lang", lang); applyUI(); };
+
+    applyUI();
+
+    setTimeout(() => {
+      document.getElementById("loader").classList.add("hide");
+      document.getElementById("app").classList.add("show");
+    }, 2500);
   </script>
 </body>
 </html>
