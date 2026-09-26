@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>SELF KiAN — راهنما</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg: var(--tg-theme-bg-color, #0f1115);
+      --sec: var(--tg-theme-secondary-bg-color, #1a1d24);
+      --text: var(--tg-theme-text-color, #f2f2f2);
+      --hint: var(--tg-theme-hint-color, #8b93a7);
+      --btn: var(--tg-theme-button-color, #2ea6ff);
+      --btn-text: var(--tg-theme-button-text-color, #fff);
+      --link: var(--tg-theme-link-color, #6cb6ff);
+      --card: #1c2029;
+      --border: rgba(255,255,255,0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 12px 12px 28px;
+      line-height: 1.55;
+    }
+    header {
+      text-align: center;
+      padding: 18px 12px 10px;
+    }
+    header h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    header p {
+      color: var(--hint);
+      font-size: 0.85rem;
+      margin-top: 6px;
+    }
+    .search {
+      margin: 10px 0 16px;
+    }
+    .search input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--sec);
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .search input::placeholder { color: var(--hint); }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.12s;
+      text-align: center;
+    }
+    .card:active { transform: scale(0.97); }
+    .card .icon { font-size: 1.5rem; margin-bottom: 6px; }
+    .card .title { font-size: 0.88rem; font-weight: 600; }
+    .detail {
+      display: none;
+      margin-top: 8px;
+    }
+    .detail.active { display: block; }
+    .detail-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .back {
+      background: var(--sec);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .detail h2 {
+      font-size: 1.1rem;
+      flex: 1;
+    }
+    .cmd {
+      background: var(--sec);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+    }
+    .cmd code {
+      display: inline-block;
+      background: rgba(46,166,255,0.15);
+      color: var(--link);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      direction: ltr;
+      unicode-bidi: embed;
+      margin: 2px 0;
+    }
+    .cmd .desc {
+      color: var(--hint);
+      font-size: 0.86rem;
+      margin-top: 6px;
+    }
+    .footer {
+      text-align: center;
+      color: var(--hint);
+      font-size: 0.78rem;
+      margin-top: 22px;
+      padding-bottom: 12px;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚡ SELF KiAN</h1>
+    <p>راهنمای کامل دستورات سلف‌بات</p>
+  </header>
+
+  <div class="search" id="searchBox">
+    <input type="search" id="q" placeholder="جستجو در بخش‌ها..." autocomplete="off" />
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="detail" id="detail">
+    <div class="detail-head">
+      <button class="back" id="backBtn">← برگشت</button>
+      <h2 id="detailTitle"></h2>
+    </div>
+    <div id="detailBody"></div>
+  </div>
+
+  <div class="footer">SELF KiAN Mini App</div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      try { tg.setHeaderColor("secondary_bg_color"); } catch(e) {}
+      try { tg.setBackgroundColor("bg_color"); } catch(e) {}
+    }
+
+    const SECTIONS = [
+      {
+        id: "panel", icon: "📊", title: "پنل",
+        items: [
+          { c: "/panel", d: "وضعیت اکانت + پینگ + آیدی + الماس" },
+          { c: "/ping", d: "تأخیر (میلی‌ثانیه)" },
+          { c: "/id", d: "آیدی عددی خودت یا ریپلای" },
+          { c: "/info", d: "اطلاعات پروفایل" },
+          { c: "/stats", d: "آمار سلف" },
+        ]
+      },
+      {
+        id: "diamond", icon: "💎", title: "الماس",
+        items: [
+          { c: "مصرف", d: "هر ساعت سلف روشن = ۲ الماس" },
+          { c: "/واریز 5000", d: "واریز الماس (فقط ادمین)" },
+          { c: "/panel", d: "موجودی، روز باقی‌مانده، مصرف" },
+        ]
+      },
+      {
+        id: "time", icon: "⏰", title: "ساعت و بیو",
+        items: [
+          { c: "/timelast on|off", d: "ساعت روی فامیلی (جدا)" },
+          { c: "/timefirst on|off", d: "ساعت روی اسم (جدا)" },
+          { c: "/biodate on|off", d: "تاریخ شمسی روی بیو" },
+          { c: "/Timeon", d: "روشن کلی ساعت" },
+          { c: "/Timeoff", d: "خاموش کلی ساعت" },
+          { c: "/Timelist", d: "فونت‌ها + وضعیت بخش‌ها" },
+          { c: "/transfer 8", d: "فونت ثابت" },
+          { c: "/transfer random", d: "فونت تصادفی هر دقیقه" },
+        ]
+      },
+      {
+        id: "text", icon: "✍️", title: "فونت پیام",
+        items: [
+          { c: "/Textmodon", d: "روشن" },
+          { c: "/Textmodoff", d: "خاموش" },
+          { c: "/Textlist", d: "لیست با نمونه" },
+          { c: "/Texttransfer 5", d: "انتخاب فونت" },
+        ]
+      },
+      {
+        id: "vo", icon: "👁", title: "یک‌بارمشاهده",
+        items: [
+          { c: "/vo on", d: "ذخیره خودکار روشن" },
+          { c: "/vo off", d: "خاموش" },
+          { c: "/vo", d: "وضعیت + آخرین خطا" },
+        ]
+      },
+      {
+        id: "tools", icon: "🛠", title: "ابزارها",
+        items: [
+          { c: "/weather تهران", d: "آب‌وهوا" },
+          { c: "/calc 25*4", d: "ماشین‌حساب" },
+          { c: "/short لینک", d: "کوتاه کردن لینک" },
+          { c: "/remind 10m متن", d: "یادآوری" },
+          { c: "/timer 5m", d: "تایمر" },
+          { c: "/wiki متن", d: "ویکی‌پدیا" },
+          { c: "/online on|off", d: "همیشه آنلاین" },
+          { c: "/screen", d: "استیکر از پیام (ریپلای)" },
+          { c: "/uptime", d: "مدت روشن بودن سلف" },
+          { c: "/silentword add کلمه", d: "پاک کردن پیام دارای کلمه" },
+          { c: "/tr fa Hello", d: "ترجمه" },
+          { c: "/whois", d: "اطلاعات کاربر (ریپلای)" },
+        ]
+      },
+      {
+        id: "ai", icon: "🤖", title: "هوش مصنوعی",
+        items: [
+          { c: "/aibot", d: "تنظیم ربات AI" },
+          { c: "/ai سوال", d: "سوال (۱۰ ثانیه صبر)" },
+          { c: "/fact", d: "فکت" },
+          { c: "/8ball سوال", d: "گوی جادویی" },
+        ]
+      },
+      {
+        id: "tts", icon: "🎤", title: "ویس",
+        items: [
+          { c: "/tts متن", d: "متن به ویس فارسی" },
+        ]
+      },
+      {
+        id: "enemy", icon: "👿", title: "دشمن",
+        items: [
+          { c: "/setenemy", d: "ثبت دشمن (ریپلای)" },
+          { c: "/delenemy", d: "حذف دشمن" },
+          { c: "/enemylist", d: "لیست" },
+          { c: "/fosh متن", d: "افزودن فحش" },
+          { c: "/foshlist", d: "لیست فحش" },
+        ]
+      },
+      {
+        id: "silent", icon: "🔇", title: "سکوت",
+        items: [
+          { c: "/silent", d: "سکوت کاربر (ریپلای)" },
+          { c: "/delsilent", d: "لغو" },
+          { c: "/silentlist", d: "لیست" },
+        ]
+      },
+      {
+        id: "live", icon: "📡", title: "زنده",
+        items: [
+          { c: "/Live typing", d: "در حال نوشتن" },
+          { c: "/Live voice", d: "ضبط ویس" },
+          { c: "/Live file", d: "ارسال فایل" },
+          { c: "/Live photo", d: "ارسال عکس" },
+          { c: "/Live off", d: "خاموش" },
+        ]
+      },
+      {
+        id: "react", icon: "❤️", title: "ری‌اکشن",
+        items: [
+          { c: "/react ❤️", d: "ری‌اکشن برای فرد" },
+          { c: "/react off", d: "حذف" },
+          { c: "/reactlist", d: "لیست" },
+        ]
+      },
+      {
+        id: "auto", icon: "👁", title: "اتو",
+        items: [
+          { c: "/seen on|off", d: "خواندن خودکار" },
+          { c: "/reply متن|off", d: "پاسخ خودکار پیوی" },
+        ]
+      },
+      {
+        id: "profile", icon: "👤", title: "پروفایل",
+        items: [
+          { c: "/name /bio /username", d: "تنظیم پروفایل" },
+          { c: "/sign /photo /delphoto", d: "امضا و عکس" },
+        ]
+      },
+      {
+        id: "save", icon: "💾", title: "ذخیره",
+        items: [
+          { c: "/save", d: "فوروارد به Saved (ریپلای)" },
+          { c: "/savemedia on|off", d: "ذخیره خودکار مدیا" },
+        ]
+      },
+      {
+        id: "autodel", icon: "⏱", title: "حذف خودکار",
+        items: [
+          { c: "/autodel 30", d: "حذف بعد از ثانیه" },
+          { c: "/autodel off", d: "خاموش" },
+        ]
+      },
+      {
+        id: "anim", icon: "✨", title: "انیمیشن",
+        items: [
+          { c: "/love /money /star /bear", d: "انیمیشن‌ها" },
+          { c: "/fire /hearts /boom /rain", d: "بیشتر" },
+          { c: "/party /snake /loading /matrix", d: "بیشتر" },
+        ]
+      },
+      {
+        id: "spam", icon: "📨", title: "اسپم",
+        items: [
+          { c: "/spam 20 متن", d: "اسپم متن" },
+          { c: "/spamreply 15", d: "اسپم ریپلای" },
+          { c: "/spamstop", d: "توقف" },
+        ]
+      },
+      {
+        id: "notes", icon: "📝", title: "یادداشت",
+        items: [
+          { c: "/note متن", d: "ذخیره" },
+          { c: "/notes", d: "لیست" },
+          { c: "/delnote 1", d: "حذف" },
+        ]
+      },
+    ];
+
+    const grid = document.getElementById("grid");
+    const detail = document.getElementById("detail");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailBody = document.getElementById("detailBody");
+    const searchBox = document.getElementById("searchBox");
+    const q = document.getElementById("q");
+
+    function renderGrid(filter = "") {
+      grid.innerHTML = "";
+      const f = filter.trim().toLowerCase();
+      SECTIONS.forEach(s => {
+        const hit = !f || s.title.includes(f) || s.items.some(i =>
+          i.c.toLowerCase().includes(f) || i.d.includes(f)
+        );
+        if (!hit) return;
+        const el = document.createElement("div");
+        el.className = "card";
+        el.innerHTML = `<div class="icon">${s.icon}</div><div class="title">${s.title}</div>`;
+        el.onclick = () => openDetail(s);
+        grid.appendChild(el);
+      });
+    }
+
+    function openDetail(s) {
+      grid.classList.add("hidden");
+      searchBox.classList.add("hidden");
+      detail.classList.add("active");
+      detailTitle.textContent = s.icon + " " + s.title;
+      detailBody.innerHTML = s.items.map(i =>
+        `<div class="cmd"><code>${i.c}</code><div class="desc">${i.d}</div></div>`
+      ).join("");
+      if (tg) try { tg.BackButton.show(); } catch(e) {}
+    }
+
+    function goHome() {
+      detail.classList.remove("active");
+      grid.classList.remove("hidden");
+      searchBox.classList.remove("hidden");
+      if (tg) try { tg.BackButton.hide(); } catch(e) {}
+    }
+
+    document.getElementById("backBtn").onclick = goHome;
+    if (tg) {
+      try {
+        tg.BackButton.onClick(goHome);
+      } catch(e) {}
+    }
+    q.addEventListener("input", () => renderGrid(q.value));
+    renderGrid();
+  </script>
+</body>
+</html>
