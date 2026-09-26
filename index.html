@@ -6,19 +6,17 @@
   <title>SELF KiAN</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Vazirmatn:wght@400;600;700&family=Orbitron:wght@600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Vazirmatn:wght@400;600;700;800&display=swap');
 
     :root {
-      --bg: #070709;
-      --blood: #9b0000;
-      --crimson: #e11d2e;
-      --ash: #12121a;
-      --bone: #f0e6d8;
-      --muted: #7a7482;
-      --gold: #d4af37;
-      --card: #0e0e14;
-      --border: rgba(225, 29, 46, 0.28);
-      --glow: rgba(155, 0, 0, 0.55);
+      --bg: #050506;
+      --red: #c01020;
+      --red2: #ff2a3a;
+      --gold: #c9a84c;
+      --bone: #efe6d8;
+      --dim: #6e6874;
+      --panel: #0c0c10;
+      --line: rgba(192,16,32,0.35);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,514 +27,532 @@
       font-family: "Vazirmatn", system-ui, sans-serif;
       overflow-x: hidden;
     }
-    body.ltr { direction: ltr; font-family: "Orbitron", "Vazirmatn", system-ui, sans-serif; }
-    body.ltr .hero h1 { letter-spacing: 0.28em; }
-    body.ltr .cmd code { direction: ltr; }
+    body.en { direction: ltr; }
 
-    /* particles */
-    #fx {
-      position: fixed; inset: 0; pointer-events: none; z-index: 1;
-      background:
-        radial-gradient(1px 1px at 20% 30%, rgba(225,29,46,0.35) 0%, transparent 100%),
-        radial-gradient(1px 1px at 70% 60%, rgba(212,175,55,0.25) 0%, transparent 100%),
-        radial-gradient(1px 1px at 40% 80%, rgba(225,29,46,0.2) 0%, transparent 100%);
-      animation: drift 12s linear infinite;
-      opacity: 0.5;
-    }
-    @keyframes drift {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-40px); }
+    /* blood grain */
+    body::before {
+      content: "";
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(192,16,32,0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 70%, rgba(201,168,76,0.06) 0%, transparent 35%),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 3px);
+      opacity: 0.9;
     }
 
-    /* LOADER */
+    /* ===== LOADER ===== */
     #loader {
-      position: fixed; inset: 0; z-index: 9999;
-      background: radial-gradient(ellipse at 50% 40%, #1c0608 0%, #070709 65%);
+      position: fixed; inset: 0; z-index: 10000;
+      background: #050506;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transition: opacity 0.9s ease, visibility 0.9s;
+      transition: opacity 1s ease, visibility 1s;
     }
-    #loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-    .rune {
-      width: 110px; height: 110px;
-      border: 2px solid var(--crimson);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: "Cinzel", serif;
-      font-size: 2.4rem; font-weight: 800;
-      color: var(--crimson);
-      text-shadow: 0 0 28px var(--glow);
-      box-shadow: 0 0 50px var(--glow), inset 0 0 30px rgba(155,0,0,0.35);
-      animation: pulse 1.5s ease-in-out infinite;
+    #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+    .slash {
+      position: absolute; width: 140%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red2), transparent);
+      transform: rotate(-18deg); opacity: 0;
+      animation: slash 0.7s ease 0.3s forwards;
+    }
+    @keyframes slash {
+      0% { opacity: 0; transform: rotate(-18deg) scaleX(0); }
+      40% { opacity: 1; transform: rotate(-18deg) scaleX(1); }
+      100% { opacity: 0.15; transform: rotate(-18deg) scaleX(1); }
+    }
+    .seal {
+      width: 120px; height: 120px;
       position: relative;
+      display: flex; align-items: center; justify-content: center;
     }
-    .rune::before, .rune::after {
-      content: ""; position: absolute; border-radius: 50%;
-      border: 1px solid rgba(225,29,46,0.35);
+    .seal .ring {
+      position: absolute; inset: 0;
+      border: 2px solid var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(192,16,32,0.5), inset 0 0 24px rgba(192,16,32,0.25);
     }
-    .rune::before { inset: -12px; animation: spin 5s linear infinite; }
-    .rune::after { inset: -22px; border-style: dashed; animation: spin 9s linear reverse infinite; opacity: 0.5; }
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.07); }
+    .seal .ring.r2 {
+      inset: -14px;
+      border-color: rgba(192,16,32,0.4);
+      border-style: dashed;
+      animation: rot 8s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .load-title {
-      margin-top: 30px;
+    .seal .ring.r3 {
+      inset: -28px;
+      border-color: rgba(201,168,76,0.2);
+      animation: rot 14s linear reverse infinite;
+    }
+    @keyframes rot { to { transform: rotate(360deg); } }
+    .seal .k {
       font-family: "Cinzel", serif;
-      font-size: 1.55rem;
-      letter-spacing: 0.28em;
+      font-size: 2.8rem; font-weight: 800;
+      color: var(--red2);
+      text-shadow: 0 0 30px rgba(255,42,58,0.7);
+      animation: beat 1.4s ease-in-out infinite;
+    }
+    @keyframes beat {
+      0%,100% { transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.08); filter: brightness(1.25); }
+    }
+    .ltitle {
+      margin-top: 36px;
+      font-family: "Cinzel", serif;
+      font-size: 1.6rem; font-weight: 800;
+      letter-spacing: 0.35em;
       color: var(--bone);
-      text-shadow: 0 0 20px var(--glow);
+      opacity: 0;
+      animation: up 0.6s ease 0.5s forwards;
     }
-    .load-sub { margin-top: 10px; color: var(--muted); font-size: 0.88rem; letter-spacing: 0.04em; }
-    .load-bar {
-      width: 200px; height: 3px; background: #1a1a22; border-radius: 2px;
-      margin-top: 24px; overflow: hidden;
+    .lsub {
+      margin-top: 12px; color: var(--dim); font-size: 0.85rem;
+      opacity: 0; animation: up 0.6s ease 0.75s forwards;
     }
-    .load-bar i {
+    .lbar {
+      width: 210px; height: 2px; margin-top: 28px;
+      background: #1a1a20; overflow: hidden; border-radius: 1px;
+      opacity: 0; animation: up 0.4s ease 0.9s forwards;
+    }
+    .lbar span {
       display: block; height: 100%; width: 0;
-      background: linear-gradient(90deg, var(--blood), var(--gold), var(--crimson));
-      animation: fill 2.3s cubic-bezier(.2,.8,.2,1) forwards;
+      background: linear-gradient(90deg, #5a0000, var(--red2), var(--gold));
+      animation: bar 2.1s ease 1s forwards;
     }
-    @keyframes fill { to { width: 100%; } }
-    .load-credit {
-      position: absolute; bottom: 36px; text-align: center;
-      font-size: 0.8rem; color: var(--muted); line-height: 1.75; padding: 0 28px;
+    @keyframes bar { to { width: 100%; } }
+    @keyframes up {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .load-credit b { color: var(--gold); font-weight: 700; }
+    .lfoot {
+      position: absolute; bottom: 42px; text-align: center;
+      font-size: 0.78rem; color: var(--dim); line-height: 1.8;
+      opacity: 0; animation: up 0.6s ease 1.1s forwards;
+    }
+    .lfoot b { color: var(--gold); }
 
-    #app { position: relative; z-index: 2; opacity: 0; transition: opacity 0.7s ease; }
-    #app.show { opacity: 1; }
+    /* ===== APP ===== */
+    #app {
+      position: relative; z-index: 2;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #app.on { opacity: 1; transform: none; }
 
-    /* top bar lang */
-    .topbar {
-      display: flex; justify-content: flex-end; align-items: center;
-      padding: 10px 14px 0; gap: 8px;
+    .top {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 14px 0;
     }
-    .lang-btn {
-      display: flex; background: var(--ash); border: 1px solid var(--border);
-      border-radius: 999px; overflow: hidden;
+    .badge {
+      font-size: 0.68rem; letter-spacing: 0.12em;
+      color: var(--gold); border: 1px solid rgba(201,168,76,0.35);
+      padding: 5px 10px; border-radius: 999px;
+      background: rgba(201,168,76,0.06);
     }
-    .lang-btn button {
-      border: none; background: transparent; color: var(--muted);
-      padding: 7px 14px; font-size: 0.78rem; font-weight: 700;
-      font-family: inherit; cursor: pointer; letter-spacing: 0.06em;
+    .langs {
+      display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+      background: var(--panel);
     }
-    .lang-btn button.active {
-      background: linear-gradient(135deg, var(--blood), #5c0000);
+    .langs button {
+      border: 0; background: transparent; color: var(--dim);
+      padding: 8px 14px; font-size: 0.75rem; font-weight: 800;
+      font-family: inherit; cursor: pointer; letter-spacing: 0.08em;
+    }
+    .langs button.on {
+      background: linear-gradient(135deg, #6a0008, #3a0004);
       color: var(--bone);
-      box-shadow: 0 0 16px var(--glow);
+      box-shadow: inset 0 0 20px rgba(192,16,32,0.4);
     }
 
     .hero {
-      text-align: center; padding: 18px 16px 16px;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(155,0,0,0.35) 0%, transparent 55%),
-        linear-gradient(180deg, #140808 0%, var(--bg) 100%);
-      border-bottom: 1px solid var(--border);
-      position: relative; overflow: hidden;
+      text-align: center; padding: 22px 16px 18px;
+      position: relative;
     }
-    .hero::after {
-      content: "⚔";
-      position: absolute; font-size: 9rem; opacity: 0.035;
-      top: 50%; left: 50%; transform: translate(-50%,-50%);
-      pointer-events: none;
+    .hero::before {
+      content: "";
+      position: absolute; left: 10%; right: 10%; top: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--gold), var(--red), transparent);
+      opacity: 0.7;
     }
     .hero h1 {
       font-family: "Cinzel", serif;
-      font-size: 1.65rem; font-weight: 800;
-      letter-spacing: 0.14em;
-      background: linear-gradient(180deg, #fff5e6, #c9a227 50%, #8b0000);
-      -webkit-background-clip: text;
+      font-size: 1.85rem; font-weight: 800;
+      letter-spacing: 0.18em;
+      background: linear-gradient(180deg, #fff8ea 0%, var(--gold) 45%, var(--red) 100%);
+      -webkit-background-clip: text; background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
+      filter: drop-shadow(0 0 18px rgba(192,16,32,0.35));
     }
-    .hero .tag {
-      display: inline-block; margin-top: 12px;
-      padding: 5px 16px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      font-size: 0.72rem; color: var(--gold);
-      letter-spacing: 0.14em; font-weight: 700;
+    .hero .line {
+      width: 60px; height: 2px; margin: 14px auto;
+      background: linear-gradient(90deg, transparent, var(--red2), transparent);
     }
     .hero p {
-      margin-top: 12px; color: var(--muted);
-      font-size: 0.84rem; line-height: 1.7; max-width: 340px;
-      margin-left: auto; margin-right: auto;
+      color: var(--dim); font-size: 0.86rem; line-height: 1.75;
+      max-width: 300px; margin: 0 auto;
     }
 
-    .search-wrap { padding: 14px 14px 6px; }
-    .search-wrap input {
-      width: 100%; padding: 13px 16px; border-radius: 14px;
-      border: 1px solid var(--border); background: var(--ash);
+    .search { padding: 8px 14px 6px; }
+    .search input {
+      width: 100%; padding: 14px 16px; border-radius: 14px;
+      border: 1px solid var(--line); background: var(--panel);
       color: var(--bone); font-size: 0.92rem; font-family: inherit; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .search-wrap input:focus {
-      border-color: var(--crimson);
-      box-shadow: 0 0 0 3px rgba(225,29,46,0.18);
+    .search input:focus {
+      border-color: var(--red2);
+      box-shadow: 0 0 0 3px rgba(192,16,32,0.2), 0 0 24px rgba(192,16,32,0.15);
     }
-    .search-wrap input::placeholder { color: var(--muted); }
+    .search input::placeholder { color: var(--dim); }
 
     .grid {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 11px; padding: 10px 14px 24px;
+      gap: 10px; padding: 10px 14px 20px;
     }
     .card {
-      background: linear-gradient(165deg, #16161f 0%, #0a0a10 100%);
-      border: 1px solid var(--border);
+      background: linear-gradient(160deg, #121218 0%, #08080c 100%);
+      border: 1px solid var(--line);
       border-radius: 16px; padding: 18px 10px;
       text-align: center; cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
       position: relative; overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
     }
-    .card::before {
-      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--crimson), var(--gold), transparent);
+    .card::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(192,16,32,0.18), transparent 55%);
+      opacity: 0; transition: opacity 0.25s;
     }
     .card:active {
-      transform: scale(0.96);
-      border-color: var(--crimson);
-      box-shadow: 0 0 28px var(--glow);
+      transform: scale(0.95);
+      border-color: var(--red2);
+      box-shadow: 0 0 32px rgba(192,16,32,0.35);
     }
-    .card .icon { font-size: 1.65rem; margin-bottom: 8px; filter: drop-shadow(0 0 8px var(--glow)); }
-    .card .title { font-size: 0.9rem; font-weight: 700; }
-    .card .sub { font-size: 0.68rem; color: var(--muted); margin-top: 4px; }
+    .card:active::after { opacity: 1; }
+    .card .ic {
+      font-size: 1.7rem; margin-bottom: 8px;
+      filter: drop-shadow(0 0 10px rgba(192,16,32,0.55));
+      position: relative; z-index: 1;
+    }
+    .card .t {
+      font-size: 0.92rem; font-weight: 700;
+      position: relative; z-index: 1;
+    }
+    .card .s {
+      font-size: 0.66rem; color: var(--dim); margin-top: 5px;
+      position: relative; z-index: 1;
+    }
 
-    .detail { display: none; padding: 12px 14px 28px; }
-    .detail.active { display: block; }
-    .detail-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .detail { display: none; padding: 10px 14px 28px; }
+    .detail.show { display: block; animation: fadein 0.25s ease; }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .dhead { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
     .back {
-      background: var(--ash); border: 1px solid var(--border); color: var(--bone);
-      border-radius: 11px; padding: 9px 14px; font-size: 0.88rem;
+      background: var(--panel); border: 1px solid var(--line); color: var(--bone);
+      border-radius: 12px; padding: 10px 14px; font-size: 0.88rem;
       font-family: inherit; cursor: pointer;
     }
-    .detail h2 { font-size: 1.08rem; flex: 1; font-weight: 700; }
-    .cmd {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 13px 14px; margin-bottom: 10px;
+    .dhead h2 { font-size: 1.1rem; font-weight: 800; flex: 1; }
+
+    .row {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 13px 14px;
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
     }
-    .cmd code {
+    .row::before {
+      content: "";
+      position: absolute; right: 0; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(180deg, var(--red2), var(--gold));
+      opacity: 0.85;
+    }
+    body.en .row::before { right: auto; left: 0; }
+    .row code {
       display: inline-block;
-      background: rgba(225,29,46,0.16);
-      color: #ff6b7a;
-      padding: 4px 10px; border-radius: 7px;
-      font-size: 0.86rem; margin: 2px 0;
-      border: 1px solid rgba(225,29,46,0.3);
+      background: rgba(192,16,32,0.15);
+      color: #ff5c6a;
+      border: 1px solid rgba(192,16,32,0.35);
+      padding: 4px 10px; border-radius: 8px;
+      font-size: 0.86rem;
       direction: ltr; unicode-bidi: embed;
     }
-    .cmd .desc { color: var(--muted); font-size: 0.84rem; margin-top: 8px; line-height: 1.55; }
-    .cmd .desc-en { color: #5a5560; font-size: 0.75rem; margin-top: 4px; line-height: 1.4; }
+    .row .a { margin-top: 8px; font-size: 0.88rem; color: var(--bone); line-height: 1.5; }
+    .row .b { margin-top: 4px; font-size: 0.74rem; color: var(--dim); line-height: 1.4; }
 
-    .footer {
-      text-align: center; padding: 6px 16px 30px;
-      color: var(--muted); font-size: 0.72rem; line-height: 1.75;
+    .foot {
+      text-align: center; padding: 4px 16px 32px;
+      color: var(--dim); font-size: 0.72rem; line-height: 1.8;
     }
-    .footer span { color: var(--gold); }
-    .hidden { display: none !important; }
+    .foot b { color: var(--gold); font-weight: 700; }
+    .hide { display: none !important; }
   </style>
 </head>
-<body class="rtl">
-  <div id="fx"></div>
-
+<body>
   <div id="loader">
-    <div class="rune">K</div>
-    <div class="load-title">SELF KiAN</div>
-    <div class="load-sub" id="loadSub">Loading the struggle...</div>
-    <div class="load-bar"><i></i></div>
-    <div class="load-credit" id="loadCredit">
-      <b>KiAN</b> — Programming since <b>2019</b><br>
-      Building elite tools with blood &amp; code
+    <div class="slash"></div>
+    <div class="seal">
+      <div class="ring"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="k">K</div>
     </div>
+    <div class="ltitle">SELF KiAN</div>
+    <div class="lsub" id="lsub">...</div>
+    <div class="lbar"><span></span></div>
+    <div class="lfoot" id="lfoot"></div>
   </div>
 
   <div id="app">
-    <div class="topbar">
-      <div class="lang-btn">
-        <button type="button" id="btnFa" class="active">FA</button>
-        <button type="button" id="btnEn">EN</button>
+    <div class="top">
+      <div class="badge" id="badge">2019</div>
+      <div class="langs">
+        <button type="button" id="fa" class="on">FA</button>
+        <button type="button" id="en">EN</button>
       </div>
     </div>
 
     <div class="hero">
       <h1>SELF KiAN</h1>
-      <div class="tag" id="heroTag">BERSERK MODE</div>
-      <p id="heroText">Complete selfbot guide · Forged since 2019</p>
+      <div class="line"></div>
+      <p id="heroP"></p>
     </div>
 
-    <div class="search-wrap" id="searchBox">
-      <input type="search" id="q" placeholder="Search commands..." autocomplete="off" />
+    <div class="search" id="searchBox">
+      <input type="search" id="q" autocomplete="off" />
     </div>
 
     <div class="grid" id="grid"></div>
 
     <div class="detail" id="detail">
-      <div class="detail-head">
-        <button class="back" id="backBtn">← Back</button>
-        <h2 id="detailTitle"></h2>
+      <div class="dhead">
+        <button class="back" id="back"></button>
+        <h2 id="dtitle"></h2>
       </div>
-      <div id="detailBody"></div>
+      <div id="dbody"></div>
     </div>
 
-    <div class="footer" id="footer">
-      <span>KiAN</span> · Coding since 2019<br>
-      ⚡ SELF KiAN Mini App
-    </div>
+    <div class="foot" id="foot"></div>
   </div>
 
   <script>
-    const tg = window.Telegram?.WebApp;
+    const tg = window.Telegram && window.Telegram.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
-      try { tg.setHeaderColor("#070709"); } catch(e) {}
-      try { tg.setBackgroundColor("#070709"); } catch(e) {}
+      try { tg.setHeaderColor("#050506"); } catch (e) {}
+      try { tg.setBackgroundColor("#050506"); } catch (e) {}
     }
 
     let lang = localStorage.getItem("sk_lang") || "fa";
 
-    const UI = {
+    const T = {
       fa: {
-        loadSub: "در حال بیدار کردن هیولا...",
-        loadCredit: "<b>KiAN</b> — برنامه‌نویسی از سال <b>۲۰۱۹</b><br>تا امروز با خون و کد می‌سازد",
-        heroTag: "حالت برزرک",
-        heroText: "راهنمای کامل سلف‌بات · ساخته‌شده از ۲۰۱۹ تا امروز",
-        search: "جستجو در دستورات...",
-        back: "← بازگشت",
-        footer: "<span>KiAN</span> · برنامه‌نویسی از ۲۰۱۹<br>⚡ SELF KiAN Mini App",
+        lsub: "صبر کن...",
+        lfoot: "<b>KiAN</b> از ۲۰۱۹ کد می‌زنه<br>این سلف هم مال خودشه",
+        hero: "لیست دستورات سلف‌بات<br>هر بخش جدا باز می‌شه",
+        search: "دنبال چی می‌گردی؟",
+        back: "← برگشت",
+        foot: "<b>KiAN</b> · از ۲۰۱۹<br>SELF KiAN",
+        badge: "از ۲۰۱۹"
       },
       en: {
-        loadSub: "Loading the struggle...",
-        loadCredit: "<b>KiAN</b> — Programming since <b>2019</b><br>Building elite tools with blood &amp; code",
-        heroTag: "BERSERK MODE",
-        heroText: "Complete selfbot guide · Forged since 2019",
-        search: "Search commands...",
+        lsub: "Hold on...",
+        lfoot: "<b>KiAN</b> has been coding since 2019<br>This selfbot is his",
+        hero: "Selfbot command list<br>Pick a section",
+        search: "What do you need?",
         back: "← Back",
-        footer: "<span>KiAN</span> · Coding since 2019<br>⚡ SELF KiAN Mini App",
+        foot: "<b>KiAN</b> · since 2019<br>SELF KiAN",
+        badge: "SINCE 2019"
       }
     };
 
-    const SECTIONS = [
-      { id:"panel", icon:"📊",
-        title:{fa:"پنل",en:"Panel"},
-        items:[
-          {c:"/panel", fa:"وضعیت اکانت + پینگ + آیدی + الماس", en:"Account status + ping + ID + diamonds"},
-          {c:"/ping", fa:"تأخیر میلی‌ثانیه", en:"Latency in ms"},
-          {c:"/id", fa:"آیدی عددی", en:"Numeric user ID"},
-          {c:"/info", fa:"اطلاعات پروفایل", en:"Profile info"},
-          {c:"/stats", fa:"آمار سلف", en:"Selfbot stats"},
-        ]},
-      { id:"diamond", icon:"💎",
-        title:{fa:"الماس",en:"Diamonds"},
-        items:[
-          {c:"cost", fa:"هر ساعت روشن = ۲ الماس", en:"2 diamonds per hour while online"},
-          {c:"/واریز 5000", fa:"واریز الماس (ادمین)", en:"Deposit diamonds (admin)"},
-          {c:"/panel", fa:"موجودی و روز باقی‌مانده", en:"Balance & days left"},
-        ]},
-      { id:"time", icon:"⏰",
-        title:{fa:"ساعت و بیو",en:"Time & Bio"},
-        items:[
-          {c:"/timelast on|off", fa:"ساعت روی فامیلی", en:"Clock on last name"},
-          {c:"/timefirst on|off", fa:"ساعت روی اسم", en:"Clock on first name"},
-          {c:"/biodate on|off", fa:"تاریخ شمسی روی بیو", en:"Jalali date on bio"},
-          {c:"/Timeon /Timeoff", fa:"روشن/خاموش کلی", en:"Master clock toggle"},
-          {c:"/Timelist", fa:"فونت‌ها + وضعیت", en:"Fonts + status"},
-          {c:"/transfer 8", fa:"فونت ثابت", en:"Fixed font"},
-          {c:"/transfer random", fa:"فونت تصادفی", en:"Random font each minute"},
-        ]},
-      { id:"text", icon:"✍️",
-        title:{fa:"فونت پیام",en:"Text Fonts"},
-        items:[
-          {c:"/Textmodon", fa:"روشن", en:"Enable"},
-          {c:"/Textmodoff", fa:"خاموش", en:"Disable"},
-          {c:"/Textlist", fa:"لیست با نمونه", en:"List with samples"},
-          {c:"/Texttransfer 5", fa:"انتخاب فونت", en:"Select font"},
-        ]},
-      { id:"vo", icon:"👁",
-        title:{fa:"یک‌بارمشاهده",en:"View Once"},
-        items:[
-          {c:"/vo on", fa:"ذخیره خودکار روشن", en:"Auto-save on"},
-          {c:"/vo off", fa:"خاموش", en:"Off"},
-          {c:"/vo", fa:"وضعیت + آخرین خطا", en:"Status + last error"},
-        ]},
-      { id:"tools", icon:"🛠",
-        title:{fa:"ابزارها",en:"Tools"},
-        items:[
-          {c:"/weather city", fa:"آب‌وهوا", en:"Weather"},
-          {c:"/calc 25*4", fa:"ماشین‌حساب", en:"Calculator"},
-          {c:"/wiki text", fa:"ویکی‌پدیا", en:"Wikipedia"},
-          {c:"/online on|off", fa:"همیشه آنلاین", en:"Keep online"},
-          {c:"/screen", fa:"استیکر از پیام", en:"Sticker from message"},
-          {c:"/uptime", fa:"آپتایم سلف", en:"Uptime"},
-          {c:"/silentword add", fa:"فیلتر کلمه پیوی", en:"PV word filter"},
-          {c:"/tr fa Hello", fa:"ترجمه", en:"Translate"},
-        ]},
-      { id:"ai", icon:"🤖",
-        title:{fa:"هوش مصنوعی",en:"AI"},
-        items:[
-          {c:"/aibot", fa:"تنظیم ربات AI", en:"Set AI bot"},
-          {c:"/ai question", fa:"سوال از AI", en:"Ask AI"},
-          {c:"/fact", fa:"فکت", en:"Random fact"},
-          {c:"/8ball q", fa:"گوی جادویی", en:"Magic 8-ball"},
-        ]},
-      { id:"tts", icon:"🎤",
-        title:{fa:"ویس",en:"Voice"},
-        items:[
-          {c:"/tts text", fa:"متن به ویس فارسی", en:"Text to speech (FA)"},
-        ]},
-      { id:"enemy", icon:"👿",
-        title:{fa:"دشمن",en:"Enemy"},
-        items:[
-          {c:"/setenemy", fa:"ثبت دشمن", en:"Mark enemy"},
-          {c:"/delenemy", fa:"حذف", en:"Remove"},
-          {c:"/fosh text", fa:"افزودن فحش", en:"Add insult"},
-          {c:"/enemylist", fa:"لیست", en:"List"},
-        ]},
-      { id:"silent", icon:"🔇",
-        title:{fa:"سکوت",en:"Silent"},
-        items:[
-          {c:"/silent", fa:"سکوت کاربر", en:"Mute user msgs"},
-          {c:"/delsilent", fa:"لغو", en:"Unmute"},
-          {c:"/silentlist", fa:"لیست", en:"List"},
-        ]},
-      { id:"live", icon:"📡",
-        title:{fa:"زنده",en:"Live"},
-        items:[
-          {c:"/Live typing|voice|file|photo|off", fa:"حالت زنده", en:"Live action status"},
-        ]},
-      { id:"react", icon:"❤️",
-        title:{fa:"ری‌اکشن",en:"Reactions"},
-        items:[
-          {c:"/react ❤️", fa:"ری‌اکشن برای فرد", en:"Auto react to user"},
-          {c:"/react off", fa:"حذف", en:"Remove"},
-        ]},
-      { id:"auto", icon:"👁",
-        title:{fa:"اتو",en:"Auto"},
-        items:[
-          {c:"/seen on|off", fa:"خواندن خودکار", en:"Auto read"},
-          {c:"/reply text|off", fa:"پاسخ خودکار", en:"Auto reply PV"},
-        ]},
-      { id:"profile", icon:"👤",
-        title:{fa:"پروفایل",en:"Profile"},
-        items:[
-          {c:"/name /bio /username", fa:"تنظیم پروفایل", en:"Edit profile"},
-          {c:"/sign /photo /delphoto", fa:"امضا و عکس", en:"Sign & photo"},
-        ]},
-      { id:"save", icon:"💾",
-        title:{fa:"ذخیره",en:"Save"},
-        items:[
-          {c:"/save", fa:"فوروارد Saved", en:"Forward to Saved"},
-          {c:"/savemedia on|off", fa:"ذخیره خودکار مدیا", en:"Auto save media"},
-        ]},
-      { id:"autodel", icon:"⏱",
-        title:{fa:"حذف خودکار",en:"Auto Delete"},
-        items:[
-          {c:"/autodel 30", fa:"حذف بعد از ثانیه", en:"Delete after seconds"},
-          {c:"/autodel off", fa:"خاموش", en:"Off"},
-        ]},
-      { id:"anim", icon:"✨",
-        title:{fa:"انیمیشن",en:"Animations"},
-        items:[
-          {c:"/love /money /star", fa:"انیمیشن‌ها", en:"Animations"},
-          {c:"/fire /party /matrix", fa:"بیشتر", en:"More effects"},
-        ]},
-      { id:"spam", icon:"📨",
-        title:{fa:"اسپم",en:"Spam"},
-        items:[
-          {c:"/spam 20 text", fa:"اسپم", en:"Spam messages"},
-          {c:"/spamstop", fa:"توقف", en:"Stop"},
-        ]},
-      { id:"notes", icon:"📝",
-        title:{fa:"یادداشت",en:"Notes"},
-        items:[
-          {c:"/note text", fa:"ذخیره", en:"Save note"},
-          {c:"/notes", fa:"لیست", en:"List"},
-          {c:"/delnote 1", fa:"حذف", en:"Delete"},
-        ]},
+    const S = [
+      {i:"📊", t:{fa:"پنل",en:"Panel"}, x:[
+        {c:"/panel",fa:"وضعیت، پینگ، آیدی، الماس",en:"Status, ping, ID, diamonds"},
+        {c:"/ping",fa:"پینگ",en:"Ping"},
+        {c:"/id",fa:"آیدی عددی",en:"User ID"},
+        {c:"/info",fa:"پروفایل خودت",en:"Your profile"},
+        {c:"/stats",fa:"آمار سلف",en:"Stats"},
+      ]},
+      {i:"💎", t:{fa:"الماس",en:"Diamonds"}, x:[
+        {c:"—",fa:"هر ساعت روشن: ۲ الماس",en:"2 diamonds / hour while running"},
+        {c:"/واریز 5000",fa:"واریز (فقط ادمین)",en:"Deposit (admin only)"},
+        {c:"/panel",fa:"موجودی و باقی‌مانده",en:"Balance & remaining"},
+      ]},
+      {i:"⏰", t:{fa:"ساعت و بیو",en:"Time & Bio"}, x:[
+        {c:"/timelast on|off",fa:"ساعت روی فامیلی",en:"Clock on last name"},
+        {c:"/timefirst on|off",fa:"ساعت روی اسم",en:"Clock on first name"},
+        {c:"/biodate on|off",fa:"تاریخ شمسی روی بیو",en:"Jalali date on bio"},
+        {c:"/Timeon",fa:"روشن کلی",en:"Turn clock on"},
+        {c:"/Timeoff",fa:"خاموش کلی",en:"Turn clock off"},
+        {c:"/Timelist",fa:"فونت‌ها",en:"Font list"},
+        {c:"/transfer 8",fa:"انتخاب فونت",en:"Pick font"},
+        {c:"/transfer random",fa:"فونت رندوم هر دقیقه",en:"Random font each minute"},
+      ]},
+      {i:"✍️", t:{fa:"فونت پیام",en:"Msg fonts"}, x:[
+        {c:"/Textmodon",fa:"روشن",en:"On"},
+        {c:"/Textmodoff",fa:"خاموش",en:"Off"},
+        {c:"/Textlist",fa:"لیست فونت",en:"Font list"},
+        {c:"/Texttransfer 5",fa:"انتخاب فونت",en:"Select font"},
+      ]},
+      {i:"👁", t:{fa:"یک‌بارمشاهده",en:"View once"}, x:[
+        {c:"/vo on",fa:"سیو خودکار روشن",en:"Auto save on"},
+        {c:"/vo off",fa:"خاموش",en:"Off"},
+        {c:"/vo",fa:"وضعیت و آخرین خطا",en:"Status & last error"},
+      ]},
+      {i:"🛠", t:{fa:"ابزار",en:"Tools"}, x:[
+        {c:"/weather شهر",fa:"هوا",en:"Weather"},
+        {c:"/calc 25*4",fa:"حساب",en:"Calculator"},
+        {c:"/wiki متن",fa:"ویکی",en:"Wikipedia"},
+        {c:"/online on|off",fa:"آنلاین بمون",en:"Stay online"},
+        {c:"/screen",fa:"استیکر از پیام",en:"Sticker from msg"},
+        {c:"/uptime",fa:"چقدر روشنه",en:"Uptime"},
+        {c:"/silentword add",fa:"پاک کردن کلمه تو پیوی",en:"Delete PV by word"},
+        {c:"/tr fa Hello",fa:"ترجمه",en:"Translate"},
+      ]},
+      {i:"🤖", t:{fa:"ای‌آی",en:"AI"}, x:[
+        {c:"/aibot",fa:"تنظیم ربات",en:"Set bot"},
+        {c:"/ai سوال",fa:"سوال",en:"Ask"},
+        {c:"/fact",fa:"فکت",en:"Fact"},
+        {c:"/8ball سوال",fa:"هشت‌بال",en:"8-ball"},
+      ]},
+      {i:"🎤", t:{fa:"ویس",en:"Voice"}, x:[
+        {c:"/tts متن",fa:"متن به ویس",en:"Text to voice"},
+      ]},
+      {i:"👿", t:{fa:"دشمن",en:"Enemy"}, x:[
+        {c:"/setenemy",fa:"دشمن کن",en:"Set enemy"},
+        {c:"/delenemy",fa:"بردار",en:"Remove"},
+        {c:"/fosh متن",fa:"فحش اضافه",en:"Add line"},
+        {c:"/enemylist",fa:"لیست",en:"List"},
+      ]},
+      {i:"🔇", t:{fa:"سکوت",en:"Silent"}, x:[
+        {c:"/silent",fa:"پیاماش پاک بشه",en:"Delete their msgs"},
+        {c:"/delsilent",fa:"لغو",en:"Undo"},
+        {c:"/silentlist",fa:"لیست",en:"List"},
+      ]},
+      {i:"📡", t:{fa:"زنده",en:"Live"}, x:[
+        {c:"/Live typing",fa:"در حال نوشتن",en:"Typing"},
+        {c:"/Live voice",fa:"ویس",en:"Voice"},
+        {c:"/Live off",fa:"خاموش",en:"Off"},
+      ]},
+      {i:"❤️", t:{fa:"ری‌اکشن",en:"React"}, x:[
+        {c:"/react ❤️",fa:"ری‌اکشن بزن",en:"Auto react"},
+        {c:"/react off",fa:"قطع",en:"Off"},
+      ]},
+      {i:"👁", t:{fa:"اتو",en:"Auto"}, x:[
+        {c:"/seen on|off",fa:"سین خودکار",en:"Auto seen"},
+        {c:"/reply متن|off",fa:"جواب خودکار پیوی",en:"Auto reply PV"},
+      ]},
+      {i:"👤", t:{fa:"پروفایل",en:"Profile"}, x:[
+        {c:"/name /bio /username",fa:"اسم بیو یوزر",en:"Name bio username"},
+        {c:"/photo /delphoto",fa:"عکس پروفایل",en:"Profile photo"},
+      ]},
+      {i:"💾", t:{fa:"سیو",en:"Save"}, x:[
+        {c:"/save",fa:"بفرست Saved",en:"Send to Saved"},
+        {c:"/savemedia on|off",fa:"مدیا خودکار",en:"Auto media"},
+      ]},
+      {i:"⏱", t:{fa:"حذف خودکار",en:"Auto del"}, x:[
+        {c:"/autodel 30",fa:"پاک بعد از ۳۰ ثانیه",en:"Delete after 30s"},
+        {c:"/autodel off",fa:"خاموش",en:"Off"},
+      ]},
+      {i:"✨", t:{fa:"انیمیشن",en:"Anim"}, x:[
+        {c:"/love /money /star",fa:"انیمیشن",en:"Animations"},
+        {c:"/fire /party /matrix",fa:"بیشتر",en:"More"},
+      ]},
+      {i:"📨", t:{fa:"اسپم",en:"Spam"}, x:[
+        {c:"/spam 20 متن",fa:"اسپم",en:"Spam"},
+        {c:"/spamstop",fa:"ایست",en:"Stop"},
+      ]},
+      {i:"📝", t:{fa:"نوت",en:"Notes"}, x:[
+        {c:"/note متن",fa:"ذخیره",en:"Save"},
+        {c:"/notes",fa:"لیست",en:"List"},
+        {c:"/delnote 1",fa:"حذف",en:"Delete"},
+      ]},
     ];
 
     const grid = document.getElementById("grid");
     const detail = document.getElementById("detail");
-    const detailTitle = document.getElementById("detailTitle");
-    const detailBody = document.getElementById("detailBody");
+    const dtitle = document.getElementById("dtitle");
+    const dbody = document.getElementById("dbody");
     const searchBox = document.getElementById("searchBox");
     const q = document.getElementById("q");
 
-    function applyUI() {
-      const u = UI[lang];
-      document.documentElement.lang = lang === "fa" ? "fa" : "en";
+    function paint() {
+      const u = T[lang];
+      document.body.classList.toggle("en", lang === "en");
+      document.documentElement.lang = lang;
       document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
-      document.body.classList.toggle("ltr", lang === "en");
-      document.getElementById("loadSub").textContent = u.loadSub;
-      document.getElementById("loadCredit").innerHTML = u.loadCredit;
-      document.getElementById("heroTag").textContent = u.heroTag;
-      document.getElementById("heroText").textContent = u.heroText;
+      document.getElementById("lsub").textContent = u.lsub;
+      document.getElementById("lfoot").innerHTML = u.lfoot;
+      document.getElementById("heroP").innerHTML = u.hero;
+      document.getElementById("badge").textContent = u.badge;
       q.placeholder = u.search;
-      document.getElementById("backBtn").textContent = u.back;
-      document.getElementById("footer").innerHTML = u.footer;
-      document.getElementById("btnFa").classList.toggle("active", lang === "fa");
-      document.getElementById("btnEn").classList.toggle("active", lang === "en");
-      renderGrid(q.value);
-      if (detail.classList.contains("active") && detail.dataset.id) {
-        const s = SECTIONS.find(x => x.id === detail.dataset.id);
-        if (s) openDetail(s, true);
+      document.getElementById("back").textContent = u.back;
+      document.getElementById("foot").innerHTML = u.foot;
+      document.getElementById("fa").classList.toggle("on", lang === "fa");
+      document.getElementById("en").classList.toggle("on", lang === "en");
+      draw(q.value);
+      if (detail.classList.contains("show") && detail.dataset.i) {
+        const sec = S[+detail.dataset.i];
+        if (sec) open(sec, detail.dataset.i, true);
       }
     }
 
-    function renderGrid(filter = "") {
+    function draw(f) {
       grid.innerHTML = "";
-      const f = filter.trim().toLowerCase();
-      SECTIONS.forEach(s => {
-        const title = s.title[lang];
-        const hit = !f || title.toLowerCase().includes(f) || s.items.some(i =>
-          i.c.toLowerCase().includes(f) || i.fa.includes(f) || i.en.toLowerCase().includes(f)
-        );
-        if (!hit) return;
+      f = (f || "").trim().toLowerCase();
+      S.forEach((s, idx) => {
+        const name = s.t[lang];
+        const other = lang === "fa" ? s.t.en : s.t.fa;
+        const ok = !f || name.toLowerCase().includes(f) || other.toLowerCase().includes(f) ||
+          s.x.some(z => z.c.toLowerCase().includes(f) || z.fa.includes(f) || z.en.toLowerCase().includes(f));
+        if (!ok) return;
         const el = document.createElement("div");
         el.className = "card";
-        const other = lang === "fa" ? s.title.en : s.title.fa;
-        el.innerHTML = `<div class="icon">${s.icon}</div><div class="title">${title}</div><div class="sub">${other}</div>`;
-        el.onclick = () => openDetail(s);
+        el.innerHTML = `<div class="ic">${s.i}</div><div class="t">${name}</div><div class="s">${other}</div>`;
+        el.onclick = () => open(s, idx);
         grid.appendChild(el);
       });
     }
 
-    function openDetail(s, keep) {
+    function open(s, idx, keep) {
       if (!keep) {
-        grid.classList.add("hidden");
-        searchBox.classList.add("hidden");
-        detail.classList.add("active");
+        grid.classList.add("hide");
+        searchBox.classList.add("hide");
+        detail.classList.add("show");
       }
-      detail.dataset.id = s.id;
-      detailTitle.textContent = s.icon + " " + s.title[lang];
-      detailBody.innerHTML = s.items.map(i => {
-        const main = lang === "fa" ? i.fa : i.en;
-        const sub = lang === "fa" ? i.en : i.fa;
-        return `<div class="cmd"><code>${i.c}</code><div class="desc">${main}</div><div class="desc-en">${sub}</div></div>`;
+      detail.dataset.i = idx;
+      dtitle.textContent = s.i + " " + s.t[lang];
+      dbody.innerHTML = s.x.map(z => {
+        const a = lang === "fa" ? z.fa : z.en;
+        const b = lang === "fa" ? z.en : z.fa;
+        return `<div class="row"><code>${z.c}</code><div class="a">${a}</div><div class="b">${b}</div></div>`;
       }).join("");
-      if (tg) try { tg.BackButton.show(); } catch(e) {}
+      if (tg) try { tg.BackButton.show(); } catch (e) {}
     }
 
-    function goHome() {
-      detail.classList.remove("active");
-      detail.dataset.id = "";
-      grid.classList.remove("hidden");
-      searchBox.classList.remove("hidden");
-      if (tg) try { tg.BackButton.hide(); } catch(e) {}
+    function home() {
+      detail.classList.remove("show");
+      detail.dataset.i = "";
+      grid.classList.remove("hide");
+      searchBox.classList.remove("hide");
+      if (tg) try { tg.BackButton.hide(); } catch (e) {}
     }
 
-    document.getElementById("backBtn").onclick = goHome;
-    if (tg) { try { tg.BackButton.onClick(goHome); } catch(e) {} }
-    q.addEventListener("input", () => renderGrid(q.value));
+    document.getElementById("back").onclick = home;
+    if (tg) try { tg.BackButton.onClick(home); } catch (e) {}
+    q.oninput = () => draw(q.value);
+    document.getElementById("fa").onclick = () => { lang = "fa"; localStorage.setItem("sk_lang", lang); paint(); };
+    document.getElementById("en").onclick = () => { lang = "en"; localStorage.setItem("sk_lang", lang); paint(); };
 
-    document.getElementById("btnFa").onclick = () => { lang = "fa"; localStorage.setItem("sk_lang", lang); applyUI(); };
-    document.getElementById("btnEn").onclick = () => { lang = "en"; localStorage.setItem("sk_lang", lang); applyUI(); };
-
-    applyUI();
-
+    paint();
     setTimeout(() => {
-      document.getElementById("loader").classList.add("hide");
-      document.getElementById("app").classList.add("show");
-    }, 2500);
+      document.getElementById("loader").classList.add("out");
+      document.getElementById("app").classList.add("on");
+    }, 2600);
   </script>
 </body>
 </html>
