@@ -6,30 +6,90 @@
   <title>Discipline — بدنسازی خانگی</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
     :root {
-      --bg:#0f1115; --card:#171a21; --line:#2a2f3a; --text:#eef1f6; --muted:#8b93a7;
-      --ok:#3ecf8e; --accent:#6c8cff; --warn:#ffb020;
+      --bg:#0c0e12; --card:#151922; --line:#2a3140; --text:#eef1f6; --muted:#8b93a7;
+      --ok:#3ecf8e; --accent:#6c8cff; --warn:#ffb020; --bad:#ff5c6a;
     }
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Vazirmatn,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:28px}
-    header{position:sticky;top:0;z-index:20;background:rgba(15,17,21,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 16px}
-    header h1{font-size:1.12rem;font-weight:800}
-    header h1 span{color:var(--ok);font-size:.9rem}
-    .subh{color:var(--muted);font-size:.8rem;margin-top:4px}
-    .today-banner{
-      margin:12px 16px 0;background:linear-gradient(135deg,#1a2332,#171a21);
-      border:1px solid var(--line);border-radius:14px;padding:12px 14px;
-      display:flex;justify-content:space-between;align-items:center;gap:10px;
+    body{font-family:Vazirmatn,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:32px}
+    header{position:sticky;top:0;z-index:30;background:rgba(12,14,18,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px 16px}
+    header h1{font-size:1.05rem;font-weight:800}
+    header h1 span{color:var(--ok)}
+    .subh{color:var(--muted);font-size:.75rem;margin-top:2px}
+
+    /* کرنومتر */
+    .chrono{
+      margin:12px 16px 0;background:linear-gradient(145deg,#1a2030,#12151c);
+      border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center;
     }
-    .today-banner b{font-size:1rem}
-    .today-banner span{color:var(--muted);font-size:.78rem}
-    .ring-row{display:grid;grid-template-columns:1fr 96px;gap:12px;padding:14px 16px 0}
-    .stat-card,.ring-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
-    .stat-card .lbl{color:var(--muted);font-size:.75rem}
-    .stat-card .val{font-size:1.35rem;font-weight:800;margin-top:4px}
-    .ring{width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--ok) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;margin:0 auto}
-    .ring i{width:48px;height:48px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:.75rem;font-weight:800}
+    .chrono .lbl{font-size:.72rem;color:var(--muted);letter-spacing:.08em}
+    .chrono .time{
+      font-family:"JetBrains Mono",ui-monospace,monospace;
+      font-size:2.4rem;font-weight:700;margin:8px 0 12px;
+      color:var(--ok);text-shadow:0 0 24px rgba(62,207,142,.25);
+      direction:ltr;unicode-bidi:embed;
+    }
+    .chrono .btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .chrono button{
+      border:1px solid var(--line);background:var(--card);color:var(--text);
+      border-radius:12px;padding:10px 16px;font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;
+    }
+    .chrono button.go{background:var(--ok);border-color:var(--ok);color:#062016}
+    .chrono button.danger{background:rgba(255,92,106,.15);border-color:var(--bad);color:#ff8a94}
+
+    /* امروز / دیروز */
+    .day-switch{display:flex;gap:8px;padding:12px 16px 0}
+    .day-switch button{
+      flex:1;border:1px solid var(--line);background:var(--card);color:var(--muted);
+      border-radius:12px;padding:12px;font-family:inherit;font-weight:800;font-size:.88rem;cursor:pointer;
+    }
+    .day-switch button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+    .day-switch button.lock-on{background:#2a2430;border-color:#5a4060;color:#e0c8ff}
+    .lock-banner{
+      margin:8px 16px 0;background:rgba(255,176,32,.1);border:1px solid rgba(255,176,32,.35);
+      color:var(--warn);border-radius:12px;padding:10px 12px;font-size:.8rem;display:none;
+    }
+    .lock-banner.on{display:block}
+
+    .ring-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px 0}
+    .stat-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+    .stat-card .lbl{color:var(--muted);font-size:.72rem}
+    .stat-card .val{font-size:1.25rem;font-weight:800;margin-top:4px}
+
+    /* نمودار دایره‌ای آمار */
+    .charts{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px 0}
+    .chart-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+    .chart-card h4{font-size:.78rem;color:var(--muted);margin-bottom:10px;font-weight:700}
+    .donut{
+      width:88px;height:88px;border-radius:50%;margin:0 auto 8px;
+      background:conic-gradient(var(--ok) 0% var(--p), var(--line) var(--p) 100%);
+      display:grid;place-items:center;position:relative;
+    }
+    .donut::after{
+      content:"";position:absolute;inset:12px;background:var(--card);border-radius:50%;
+    }
+    .donut span{position:relative;z-index:1;font-weight:800;font-size:.85rem}
+    .chart-sub{font-size:.72rem;color:var(--muted);line-height:1.5}
+
+    /* نوار روزهای هفته */
+    .week-dots{padding:12px 16px 0}
+    .week-dots h4{font-size:.78rem;color:var(--muted);margin-bottom:8px}
+    .dots{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+    .dot{
+      aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:#12151c;
+      display:grid;place-items:center;font-size:.65rem;font-weight:700;color:var(--muted);
+    }
+    .dot.full{background:var(--ok);border-color:var(--ok);color:#062016}
+    .dot.half{background:rgba(62,207,142,.35);border-color:var(--ok);color:var(--text)}
+    .dot.empty{background:#1a1520;border-color:#3a3040}
+    .dot.today-mark{outline:2px solid var(--accent)}
+
+    .streaks{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 16px 0}
+    .streak{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+    .streak .n{font-size:1.2rem;font-weight:800;color:var(--ok)}
+    .streak .t{font-size:.68rem;color:var(--muted);margin-top:2px}
+
     .profile{margin:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
     .profile .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
     .profile label{display:block;font-size:.72rem;color:var(--muted);margin-bottom:4px}
@@ -38,27 +98,31 @@
     .btn{border:0;border-radius:12px;padding:11px 14px;font-family:inherit;font-weight:700;font-size:.84rem;cursor:pointer}
     .btn.ok{background:var(--ok);color:#062016}
     .btn.ghost{background:#222733;color:var(--text);border:1px solid var(--line)}
-    .bmi{margin-top:10px;font-size:.82rem;color:var(--muted);line-height:1.7}
+    .bmi{margin-top:10px;font-size:.8rem;color:var(--muted);line-height:1.7}
     .bmi b{color:var(--text)}
+
     .tabs{display:flex;gap:8px;padding:12px 16px;overflow-x:auto}
     .tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:8px 14px;font-family:inherit;font-size:.8rem;font-weight:700}
     .tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
-    .list{padding:0 12px 20px}
+
+    .list{padding:0 12px 24px}
     .habit{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+    .habit.locked{opacity:.85}
     .habit .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:6px}
     .habit .name{font-weight:800;font-size:.92rem}
     .habit .meta{color:var(--muted);font-size:.75rem;margin-top:3px;line-height:1.5}
-    .tag{font-size:.68rem;font-weight:800;padding:4px 8px;border-radius:999px;background:rgba(108,140,255,.15);color:var(--accent);white-space:nowrap}
+    .tag{font-size:.68rem;font-weight:800;padding:4px 8px;border-radius:999px;background:rgba(108,140,255,.15);color:var(--accent)}
     .sets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
     .set{
       width:44px;height:44px;border-radius:12px;border:1px solid var(--line);
       background:#12151c;display:grid;place-items:center;font-size:.78rem;font-weight:800;
-      color:var(--muted);cursor:pointer;user-select:none;transition:.12s;
+      color:var(--muted);cursor:pointer;user-select:none;
     }
     .set.done{background:var(--ok);border-color:var(--ok);color:#062016}
+    .set.disabled{pointer-events:none;opacity:.55}
     .set-label{font-size:.72rem;color:var(--muted);margin-top:8px}
     .detail-btn{border:0;background:#222733;color:var(--text);border-radius:8px;padding:6px 10px;font-size:.72rem;font-family:inherit;margin-top:10px}
-    .hint{padding:0 16px 8px;color:var(--muted);font-size:.78rem;line-height:1.6}
+    .hint{padding:0 16px 8px;color:var(--muted);font-size:.78rem}
     .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center}
     .modal.on{display:flex}
     .sheet{width:100%;max-width:480px;max-height:85vh;overflow:auto;background:var(--card);border-radius:20px 20px 0 0;padding:18px 16px 28px;border:1px solid var(--line)}
@@ -67,46 +131,79 @@
     .sheet .close{margin-top:14px;width:100%;background:#222733;color:var(--text);border:0;border-radius:12px;padding:12px;font-family:inherit;font-weight:700}
     .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222733;border:1px solid var(--line);padding:10px 16px;border-radius:999px;font-size:.82rem;opacity:0;transition:.25s;z-index:60}
     .toast.on{opacity:1}
-    .lock{font-size:.72rem;color:var(--warn);margin-top:6px}
   </style>
 </head>
 <body>
   <header>
     <h1>Discipline <span>↗</span> بدنسازی خانگی</h1>
-    <div class="subh">هر تیک = یک ست · فقط امروز · دیروز قفل</div>
+    <div class="subh">کرنومتر · ست‌ها · آمار هفتگی/ماهانه</div>
   </header>
 
-  <div class="today-banner">
-    <div>
-      <b id="todayTitle">امروز</b>
-      <div><span id="todayDate">—</span></div>
+  <!-- کرنومتر زنده -->
+  <div class="chrono">
+    <div class="lbl">⏱ کرنومتر تمرین</div>
+    <div class="time" id="chronoTime">00:00:00</div>
+    <div class="btns">
+      <button type="button" class="go" id="chStart">شروع</button>
+      <button type="button" id="chPause">توقف</button>
+      <button type="button" class="danger" id="chReset">ریست</button>
     </div>
-    <div style="text-align:left;font-size:.78rem;color:var(--muted)">ویرایش روز دیگر ممکن نیست</div>
   </div>
 
-  <div class="profile" id="profileBox">
-    <div class="grid">
-      <div><label>سن (سال)</label><input id="age" type="number" min="12" max="80" placeholder="25" /></div>
-      <div><label>قد (سانتی‌متر)</label><input id="height" type="number" min="120" max="220" placeholder="175" /></div>
-      <div><label>وزن (کیلو)</label><input id="weight" type="number" min="35" max="200" placeholder="70" /></div>
-    </div>
-    <div class="row">
-      <button class="btn ok" type="button" id="btnGen">ساخت / به‌روز برنامه</button>
-      <button class="btn ghost" type="button" id="btnResetToday">پاک کردن ست‌های امروز</button>
-    </div>
-    <div class="bmi" id="bmiInfo">سن، قد و وزن را وارد کن تا برنامه بسازد.</div>
+  <!-- امروز / دیروز -->
+  <div class="day-switch">
+    <button type="button" id="btnToday" class="on">امروز (فعال)</button>
+    <button type="button" id="btnYesterday">دیروز (قفل)</button>
   </div>
+  <div class="lock-banner" id="lockBanner">🔒 پنل دیروز — فقط مشاهده؛ تیک و ست قابل تغییر نیست.</div>
 
   <div class="ring-row">
     <div class="stat-card">
-      <div class="lbl">ست‌های امروز</div>
-      <div class="val" id="todaySets">0 / 0</div>
-      <div class="lbl" id="monthCount" style="margin-top:6px">تاریخچه ماه ذخیره می‌شود</div>
+      <div class="lbl">ست‌های این روز</div>
+      <div class="val" id="daySets">0 / 0</div>
     </div>
-    <div class="ring-card">
-      <div class="ring" id="todayRing" style="--p:0"><i id="todayPct">0%</i></div>
-      <div class="lbl" style="margin-top:6px;font-size:.72rem;text-align:center">امروز</div>
+    <div class="stat-card">
+      <div class="lbl">تاریخ پنل</div>
+      <div class="val" id="panelDate" style="font-size:.95rem">—</div>
     </div>
+  </div>
+
+  <!-- نمودارها -->
+  <div class="charts">
+    <div class="chart-card">
+      <h4>هفته جاری</h4>
+      <div class="donut" id="weekDonut" style="--p:0%"><span id="weekPct">0%</span></div>
+      <div class="chart-sub" id="weekSub">۰ از ۷ روز کامل</div>
+    </div>
+    <div class="chart-card">
+      <h4>این ماه</h4>
+      <div class="donut" id="monthDonut" style="--p:0%"><span id="monthPct">0%</span></div>
+      <div class="chart-sub" id="monthSub">۰ روز کامل</div>
+    </div>
+  </div>
+
+  <div class="week-dots">
+    <h4>وضعیت ۷ روز اخیر (سبز=کامل · کم‌رنگ=ناقص · تیره=نزده)</h4>
+    <div class="dots" id="weekDots"></div>
+  </div>
+
+  <div class="streaks">
+    <div class="streak"><div class="n" id="streakN">0</div><div class="t">استریک روز کامل</div></div>
+    <div class="streak"><div class="n" id="totalDaysN">0</div><div class="t">روزهای ثبت‌شده</div></div>
+    <div class="streak"><div class="n" id="completeDaysN">0</div><div class="t">روز کامل ماه</div></div>
+  </div>
+
+  <div class="profile">
+    <div class="grid">
+      <div><label>سن</label><input id="age" type="number" min="12" max="80" placeholder="25" /></div>
+      <div><label>قد (سم)</label><input id="height" type="number" min="120" max="220" placeholder="175" /></div>
+      <div><label>وزن (کیلو)</label><input id="weight" type="number" min="35" max="200" placeholder="70" /></div>
+    </div>
+    <div class="row">
+      <button class="btn ok" type="button" id="btnGen">ساخت برنامه</button>
+      <button class="btn ghost" type="button" id="btnResetDay">پاک ست‌های این روز</button>
+    </div>
+    <div class="bmi" id="bmiInfo">سن، قد و وزن → ساخت برنامه</div>
   </div>
 
   <div class="tabs" id="tabs">
@@ -132,272 +229,319 @@
 
 <script>
 const tg = window.Telegram && window.Telegram.WebApp;
-if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#0f1115"); tg.setBackgroundColor("#0f1115"); } catch(e){} }
+if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#0c0e12"); tg.setBackgroundColor("#0c0e12"); } catch(e){} }
 
-const STORE = "home_gym_sets_v3";
-
+const STORE = "home_gym_v4_chrono";
 const LIB = {
-  chest: [
-    { id:"c1", name:"شنا سوئدی (پوش‌آپ)",
-      how:"دست‌ها کمی بازتر از شانه، بدن صاف. سینه نزدیک زمین، آرنج حدود ۴۵ درجه.",
-      tip:"سخت بود → زانو روی زمین. آسان → پا روی صندلی." },
-    { id:"c2", name:"شنا الماسی",
-      how:"دست‌ها زیر سینه نزدیک هم. تمرکز سه‌سر و وسط سینه.", tip:"دامنه کامل، آهسته." },
-    { id:"c3", name:"شنا عریض",
-      how:"دست‌ها پهن‌تر از شانه. کمر نینداز.", tip:"برای عرض سینه." },
-    { id:"c4", name:"پوش‌آپ روی میز / دیوار",
-      how:"دست روی لبه میز، بدن مورب.", tip:"مناسب مبتدی." },
+  chest:[
+    {id:"c1",name:"شنا سوئدی",how:"دست‌ها کمی بازتر از شانه، بدن صاف.",tip:"سخت→زانو زمین"},
+    {id:"c2",name:"شنا الماسی",how:"دست‌ها زیر سینه نزدیک هم.",tip:"دامنه کامل"},
+    {id:"c3",name:"شنا عریض",how:"دست‌ها پهن‌تر از شانه.",tip:"عرض سینه"},
+    {id:"c4",name:"پوش‌آپ میز",how:"دست روی لبه میز، بدن مورب.",tip:"مبتدی"},
   ],
-  back: [
-    { id:"k1", name:"سوپرمن", how:"روی شکم؛ دست و پا هم‌زمان بالا، ۲ ثانیه مکث.", tip:"گردن زیاد بالا نرود." },
-    { id:"k2", name:"کشش با حوله روی در", how:"حوله دور دستگیره؛ بدن را بکش به سمت در.", tip:"در قفل باشد." },
-    { id:"k3", name:"پرنده‌سگ", how:"چهار دست‌وپا؛ دست راست + پای چپ صاف، بعد عوض.", tip:"لگن نچرخد." },
-    { id:"k4", name:"اسکاپولا پوش‌آپ", how:"پلانک روی دست؛ فقط شانه پایین/بالا بدون خم آرنج.", tip:"سلامت کتف." },
+  back:[
+    {id:"k1",name:"سوپرمن",how:"روی شکم؛ دست و پا بالا.",tip:"گردن آرام"},
+    {id:"k2",name:"کشش حوله",how:"حوله دور دستگیره در؛ بکش.",tip:"در قفل"},
+    {id:"k3",name:"پرنده‌سگ",how:"چهار دست‌وپا؛ مخالف دراز.",tip:"لگن ثابت"},
+    {id:"k4",name:"اسکاپولا پوش",how:"پلانک؛ فقط شانه بالا/پایین.",tip:"سلامت کتف"},
   ],
-  leg: [
-    { id:"l1", name:"اسکوات", how:"پا عرض شانه؛ مثل نشستن روی صندلی، پاشنه زمین.", tip:"زانو زیاد جلو نرود." },
-    { id:"l2", name:"لانج", how:"یک پا جلو؛ زانوی عقب به زمین، بعد عوض.", tip:"تنه صاف." },
-    { id:"l3", name:"پل باسن", how:"به پشت زانو خم؛ باسن بالا تا بدن صاف.", tip:"مکث بالا." },
-    { id:"l4", name:"اسکوات به صندلی", how:"آرام بنشین روی صندلی و بلند شو.", tip:"مبتدی / زانو حساس." },
-    { id:"l5", name:"کالف‌ریز", how:"روی پنجه بلند شو و پایین.", tip:"کنار دیوار." },
+  leg:[
+    {id:"l1",name:"اسکوات",how:"نشستن خیالی؛ پاشنه زمین.",tip:"زانو کنترل"},
+    {id:"l2",name:"لانج",how:"یک پا جلو؛ زانوی عقب پایین.",tip:"تنه صاف"},
+    {id:"l3",name:"پل باسن",how:"باسن بالا تا بدن صاف.",tip:"مکث بالا"},
+    {id:"l4",name:"اسکوات صندلی",how:"بنشین و بلند شو.",tip:"مبتدی"},
+    {id:"l5",name:"کالف‌ریز",how:"روی پنجه بلند شو.",tip:"تعادل"},
   ],
-  shoulder: [
-    { id:"s1", name:"پایک پوش‌آپ", how:"باسن بالا (V)؛ سر به سمت زمین پایین و بالا.", tip:"سخت بود زاویه کمتر." },
-    { id:"s2", name:"نشر جانب با بطری", how:"بطری از بغل تا ارتفاع شانه.", tip:"تاب نده." },
-    { id:"s3", name:"نشر جلو با بطری", how:"از جلو تا ارتفاع شانه.", tip:"کمر قوس برندارد." },
-    { id:"s4", name:"چرخش خارجی شانه", how:"آرنج به پهلو؛ ساعد را از بدن دور کن.", tip:"پیشگیری آسیب." },
+  shoulder:[
+    {id:"s1",name:"پایک پوش‌آپ",how:"باسن بالا؛ سر به زمین.",tip:"زاویه کمتر اگر سخت"},
+    {id:"s2",name:"نشر جانب بطری",how:"از بغل تا شانه.",tip:"تاب نده"},
+    {id:"s3",name:"نشر جلو بطری",how:"از جلو تا شانه.",tip:"کمر صاف"},
+    {id:"s4",name:"چرخش شانه",how:"آرنج به پهلو؛ ساعد باز.",tip:"پیشگیری"},
   ],
-  core: [
-    { id:"o1", name:"پلانک", how:"روی ساعد؛ بدن صاف، شکم سفت.", tip:"باسن نیاید بالا/پایین." },
-    { id:"o2", name:"کرانچ", how:"شانه از زمین جدا؛ گردن نکش.", tip:"حرکت کنترل‌شده." },
-    { id:"o3", name:"حشره مرده", how:"کمر به زمین بچسبد؛ دست و پای مخالف نزدیک زمین.", tip:"قوس کمر ممنوع." },
-    { id:"o4", name:"کوهنورد", how:"پلانک؛ زانو یکی‌یکی به سینه.", tip:"ریتم ثابت." },
-    { id:"o5", name:"ساید پلانک", how:"روی یک ساعد به پهلو؛ دو طرف.", tip:"مبتدی: زانو زمین." },
+  core:[
+    {id:"o1",name:"پلانک",how:"ساعد؛ بدن صاف.",tip:"باسن هم‌تراز"},
+    {id:"o2",name:"کرانچ",how:"شانه جدا از زمین.",tip:"گردن نکش"},
+    {id:"o3",name:"حشره مرده",how:"کمر به زمین؛ مخالف حرکت.",tip:"بدون قوس"},
+    {id:"o4",name:"کوهنورد",how:"پلانک؛ زانو به سینه.",tip:"ریتم"},
+    {id:"o5",name:"ساید پلانک",how:"به پهلو روی ساعد.",tip:"دو طرف"},
   ],
-  full: [
-    { id:"f1", name:"بورپی ساده", how:"اسکوات → پلانک → بلند شو. پرش اختیاری.", tip:"فشار مفاصل → بدون پرش." },
-    { id:"f2", name:"جامپینگ جک", how:"بپر پا باز، دست بالا.", tip:"فرود نرم." },
-    { id:"f3", name:"اسکوات + پرس بطری", how:"اسکوات؛ هنگام بلند شدن پرس بالای سر.", tip:"پا + شانه." },
+  full:[
+    {id:"f1",name:"بورپی ساده",how:"اسکوات→پلانک→بلند شو.",tip:"بدون پرش اگر لازم"},
+    {id:"f2",name:"جامپینگ جک",how:"بپر پا باز دست بالا.",tip:"فرود نرم"},
+    {id:"f3",name:"اسکوات+پرس",how:"اسکوات و پرس بطری.",tip:"پا+شانه"},
   ],
 };
-
-const CAT_NAME = { all:"همه", full:"کل بدن", chest:"سینه", back:"پشت", leg:"پا", shoulder:"شانه", core:"میان‌تنه" };
+const CAT_NAME={all:"همه",full:"کل بدن",chest:"سینه",back:"پشت",leg:"پا",shoulder:"شانه",core:"میان‌تنه"};
 
 function toast(m){const e=document.getElementById("toast");e.textContent=m;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1400)}
 function pad(n){return String(n).padStart(2,"0")}
-function todayKey(){
-  const d=new Date();
-  return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
-}
-function load(){
-  try{const r=localStorage.getItem(STORE);if(r)return JSON.parse(r)}catch(e){}
-  return { profile:{}, sets:{}, plan:[] };
-  // sets: { "2026-09-30": { "c1": 2, "l1": 3 } }  // تعداد ست انجام‌شده
-}
-function save(){ localStorage.setItem(STORE, JSON.stringify(state)); }
+function keyFromDate(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function todayDate(){const d=new Date();d.setHours(0,0,0,0);return d}
+function yesterdayDate(){const d=todayDate();d.setDate(d.getDate()-1);return d}
+function load(){try{const r=localStorage.getItem(STORE);if(r)return JSON.parse(r)}catch(e){} return {profile:{},sets:{},plan:[],chronoMs:0}}
+function save(){localStorage.setItem(STORE,JSON.stringify(state))}
 
-let state = load();
-let filter = "all";
+let state=load();
+let filter="all";
+let viewMode="today"; // today | yesterday
+let chronoRunning=false;
+let chronoBase=0; // accumulated ms when paused
+let chronoStart=0;
+let chronoTimer=null;
 
+/* —— کرنومتر —— */
+function formatMs(ms){
+  const s=Math.floor(ms/1000);
+  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60;
+  return pad(h)+":"+pad(m)+":"+pad(sec);
+}
+function tickChrono(){
+  const ms=chronoRunning ? chronoBase+(Date.now()-chronoStart) : chronoBase;
+  document.getElementById("chronoTime").textContent=formatMs(ms);
+}
+document.getElementById("chStart").onclick=()=>{
+  if(chronoRunning)return;
+  chronoRunning=true;
+  chronoStart=Date.now();
+  chronoTimer=setInterval(tickChrono,200);
+  document.getElementById("chStart").textContent="در حال اجرا…";
+};
+document.getElementById("chPause").onclick=()=>{
+  if(!chronoRunning)return;
+  chronoBase+=(Date.now()-chronoStart);
+  chronoRunning=false;
+  clearInterval(chronoTimer);
+  state.chronoMs=chronoBase; save();
+  document.getElementById("chStart").textContent="ادامه";
+  tickChrono();
+};
+document.getElementById("chReset").onclick=()=>{
+  chronoRunning=false; clearInterval(chronoTimer);
+  chronoBase=0; chronoStart=0; state.chronoMs=0; save();
+  document.getElementById("chStart").textContent="شروع";
+  tickChrono();
+};
+if(state.chronoMs){ chronoBase=state.chronoMs; tickChrono(); }
+
+/* —— پروفایل / برنامه —— */
 function analyze(age,h,w){
   const bmi=w/Math.pow(h/100,2);
-  let bmiLabel="نرمال";
-  if(bmi<18.5)bmiLabel="کم‌وزن";
-  else if(bmi<25)bmiLabel="نرمال";
-  else if(bmi<30)bmiLabel="اضافه‌وزن";
-  else bmiLabel="چاق";
+  let bmiLabel=bmi<18.5?"کم‌وزن":bmi<25?"نرمال":bmi<30?"اضافه‌وزن":"چاق";
   let level="intermediate";
   if(age<18)level="teen";
   else if(age<=35)level=bmi>=30?"beginner":"intermediate";
   else if(age<=50)level=bmi>=28?"beginner":"intermediate";
   else level="senior";
-  if(bmi<18.5 && level==="intermediate")level="beginner";
+  if(bmi<18.5&&level==="intermediate")level="beginner";
   return {bmi,bmiLabel,level};
 }
-
-function setCount(level){
-  return ({ teen:3, beginner:2, intermediate:3, senior:2 })[level] || 3;
+function setCount(L){return ({teen:3,beginner:2,intermediate:3,senior:2})[L]||3}
+function repsText(L,k){
+  const t={teen:{strength:"۱۰–۱۲",core:"۳۰–۴۰ث",cardio:"۸–۱۰"},beginner:{strength:"۸–۱۰",core:"۲۰–۳۰ث",cardio:"۶–۸"},intermediate:{strength:"۱۰–۱۵",core:"۴۰–۶۰ث",cardio:"۱۰–۱۵"},senior:{strength:"۸–۱۲ آرام",core:"۲۰–۳۰ث",cardio:"۶–۸"}};
+  return (t[L]||t.beginner)[k];
 }
-function repsText(level, kind){
-  const t={
-    teen:{strength:"۱۰–۱۲ تکرار", core:"۳۰–۴۰ ثانیه", cardio:"۸–۱۰ تکرار"},
-    beginner:{strength:"۸–۱۰ تکرار", core:"۲۰–۳۰ ثانیه", cardio:"۶–۸ تکرار"},
-    intermediate:{strength:"۱۰–۱۵ تکرار", core:"۴۰–۶۰ ثانیه", cardio:"۱۰–۱۵ تکرار"},
-    senior:{strength:"۸–۱۲ تکرار آرام", core:"۲۰–۳۰ ثانیه", cardio:"۶–۸ بدون پرش"},
-  };
-  return (t[level]||t.beginner)[kind];
-}
-
 function buildPlan(age,h,w){
-  const a=analyze(age,h,w);
-  const L=a.level;
-  const sets=setCount(L);
-  const plan=[];
-  const pick=(cat,ids,kind)=>{
-    ids.forEach(id=>{
-      const base=LIB[cat].find(x=>x.id===id);
-      if(!base)return;
-      plan.push({
-        ...base, cat, sets, kind,
-        dose: sets+" ست × "+repsText(L,kind),
-        level:L
-      });
-    });
-  };
+  const a=analyze(age,h,w); const L=a.level; const sets=setCount(L); const plan=[];
+  const pick=(cat,ids,kind)=>ids.forEach(id=>{
+    const b=LIB[cat].find(x=>x.id===id); if(!b)return;
+    plan.push({...b,cat,sets,dose:sets+" ست × "+repsText(L,kind),level:L});
+  });
   if(L==="senior"||L==="beginner"){
-    pick("chest",["c4","c1"],"strength");
-    pick("back",["k3","k1"],"strength");
-    pick("leg",["l4","l1","l3","l5"],"strength");
-    pick("shoulder",["s4","s2"],"strength");
-    pick("core",["o3","o1","o2"],"core");
-    pick("full",["f3"],"cardio");
-  }else if(L==="teen"){
-    pick("chest",["c1","c3","c2"],"strength");
-    pick("back",["k1","k3","k4"],"strength");
-    pick("leg",["l1","l2","l3","l5"],"strength");
-    pick("shoulder",["s1","s2","s3"],"strength");
-    pick("core",["o1","o4","o2","o5"],"core");
-    pick("full",["f2","f1"],"cardio");
-  }else{
-    pick("chest",["c1","c2","c3"],"strength");
-    pick("back",["k1","k2","k3","k4"],"strength");
-    pick("leg",["l1","l2","l3","l5"],"strength");
-    pick("shoulder",["s1","s2","s3","s4"],"strength");
-    pick("core",["o1","o2","o3","o4","o5"],"core");
-    pick("full",["f1","f2","f3"],"cardio");
+    pick("chest",["c4","c1"],"strength"); pick("back",["k3","k1"],"strength");
+    pick("leg",["l4","l1","l3"],"strength"); pick("shoulder",["s4","s2"],"strength");
+    pick("core",["o3","o1"],"core"); pick("full",["f3"],"cardio");
+  } else if(L==="teen"){
+    pick("chest",["c1","c3"],"strength"); pick("back",["k1","k3"],"strength");
+    pick("leg",["l1","l2","l3"],"strength"); pick("shoulder",["s1","s2"],"strength");
+    pick("core",["o1","o4","o2"],"core"); pick("full",["f2"],"cardio");
+  } else {
+    pick("chest",["c1","c2","c3"],"strength"); pick("back",["k1","k2","k3"],"strength");
+    pick("leg",["l1","l2","l3","l5"],"strength"); pick("shoulder",["s1","s2","s3"],"strength");
+    pick("core",["o1","o2","o3","o4"],"core"); pick("full",["f1","f3"],"cardio");
   }
-  if(a.bmi>=30){
-    return plan.filter(p=>p.id!=="f1"&&p.id!=="f2").map(p=>({
-      ...p, note:"فرم مهم‌تر از سرعت؛ بدون پرش."
-    }));
-  }
+  if(a.bmi>=30) return plan.filter(p=>p.id!=="f1"&&p.id!=="f2");
   return plan;
 }
-
-function levelText(L){
-  return ({
-    teen:"رده نوجوان — فرم و عادت",
-    beginner:"مبتدی — حجم کمتر",
-    intermediate:"متوسط — برنامه کامل",
-    senior:"احتیاط مفاصل — آرام و پایدار"
-  })[L]||"";
-}
+function levelText(L){return ({teen:"نوجوان",beginner:"مبتدی",intermediate:"متوسط",senior:"احتیاط مفاصل"})[L]||""}
 
 function gen(){
-  const age=+document.getElementById("age").value;
-  const height=+document.getElementById("height").value;
-  const weight=+document.getElementById("weight").value;
-  if(!age||!height||!weight){toast("سن، قد و وزن را پر کن");return}
-  if(age<12||age>80||height<120||height>220||weight<35||weight>200){toast("مقادیر نامعتبر");return}
+  const age=+ageEl.value, height=+heightEl.value, weight=+weightEl.value;
+  if(!age||!height||!weight){toast("سن قد وزن را پر کن");return}
   state.profile={age,height,weight};
   state.plan=buildPlan(age,height,weight);
   save();
   const a=analyze(age,height,weight);
-  document.getElementById("bmiInfo").innerHTML=
-    `BMI: <b>${a.bmi.toFixed(1)}</b> (${a.bmiLabel}) · <b>${levelText(a.level)}</b><br>هر تیک = ۱ ست · فقط برای <b>امروز</b>`;
-  document.getElementById("levelHint").textContent=levelText(a.level);
-  render();
-  toast("برنامه ذخیره شد");
+  bmiInfo.innerHTML=`BMI <b>${a.bmi.toFixed(1)}</b> (${a.bmiLabel}) · <b>${levelText(a.level)}</b>`;
+  levelHint.textContent=levelText(a.level);
+  render(); toast("برنامه ذخیره شد");
 }
 
-/** تعداد ست انجام‌شده امروز برای یک حرکت */
+const ageEl=document.getElementById("age"), heightEl=document.getElementById("height"), weightEl=document.getElementById("weight");
+const bmiInfo=document.getElementById("bmiInfo"), levelHint=document.getElementById("levelHint");
+
+function panelDate(){ return viewMode==="today" ? todayDate() : yesterdayDate(); }
+function panelKey(){ return keyFromDate(panelDate()); }
+function isLocked(){ return viewMode==="yesterday"; }
+
 function getSetsDone(id){
-  const k=todayKey();
+  const k=panelKey();
   return (state.sets[k] && state.sets[k][id]) || 0;
 }
-/** تیک ست: فقط تا سقف setsTarget و فقط امروز */
 function toggleSet(id, setIndex, maxSets){
-  const k=todayKey();
+  if(isLocked()){ toast("دیروز قفل است"); return; }
+  const k=panelKey();
   if(!state.sets[k]) state.sets[k]={};
-  let cur = state.sets[k][id] || 0;
-  // اگر روی ست پرشده زد → تا همان ست کم کن؛ اگر روی ست بعدی زد → پر کن
-  if(setIndex < cur){
-    state.sets[k][id] = setIndex; // مثلاً ست ۳ از ۳ پر بود و زد روی ۲ → می‌شود ۲
-  } else {
-    state.sets[k][id] = setIndex + 1;
-  }
-  if(state.sets[k][id] > maxSets) state.sets[k][id] = maxSets;
-  if(state.sets[k][id] <= 0) delete state.sets[k][id];
-  save();
-  render();
+  let cur=state.sets[k][id]||0;
+  if(setIndex < cur) state.sets[k][id]=setIndex;
+  else state.sets[k][id]=setIndex+1;
+  if(state.sets[k][id]>maxSets) state.sets[k][id]=maxSets;
+  if(state.sets[k][id]<=0) delete state.sets[k][id];
+  save(); render();
 }
 
-function todayTotals(){
+function dayCompletionRatio(dateObj){
   const habits=state.plan||[];
-  let done=0, total=0;
+  if(!habits.length) return 0;
+  const k=keyFromDate(dateObj);
+  const map=state.sets[k]||{};
+  let done=0,total=0;
   habits.forEach(h=>{
-    total += h.sets || 0;
-    done += Math.min(getSetsDone(h.id), h.sets || 0);
+    total += h.sets||0;
+    done += Math.min(map[h.id]||0, h.sets||0);
   });
-  return {done, total, pct: total?Math.round(done*100/total):0};
+  return total? done/total : 0;
+}
+function isDayComplete(dateObj){ return dayCompletionRatio(dateObj) >= 0.999; }
+
+function computeStats(){
+  const habits=state.plan||[];
+  const today=todayDate();
+  // هفته: ۶ روز قبل تا امروز
+  let weekFull=0, weekHalf=0;
+  const dots=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(today); d.setDate(d.getDate()-i);
+    const r=dayCompletionRatio(d);
+    if(r>=0.999) weekFull++;
+    else if(r>0) weekHalf++;
+    dots.push({d,r, isToday:i===0});
+  }
+  // ماه
+  const y=today.getFullYear(), m=today.getMonth();
+  const dim=new Date(y,m+1,0).getDate();
+  let monthFull=0, recorded=0;
+  for(let day=1;day<=dim;day++){
+    const d=new Date(y,m,day);
+    if(d>today) break;
+    const r=dayCompletionRatio(d);
+    if(r>0) recorded++;
+    if(r>=0.999) monthFull++;
+  }
+  // استریک از امروز به عقب
+  let streak=0;
+  for(let i=0;i<365;i++){
+    const d=new Date(today); d.setDate(d.getDate()-i);
+    if(isDayComplete(d)) streak++;
+    else break;
+  }
+  // کل روزهای ثبت‌شده در state
+  let totalRecorded=Object.keys(state.sets||{}).filter(k=>{
+    const map=state.sets[k]||{};
+    return Object.keys(map).length>0;
+  }).length;
+
+  return {weekFull, weekHalf, dots, monthFull, dim, recorded, streak, totalRecorded};
 }
 
-function faDate(){
-  try{
-    return new Date().toLocaleDateString("fa-IR",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
-  }catch(e){
-    return todayKey();
-  }
+function renderStats(){
+  const s=computeStats();
+  const weekPct=Math.round(s.weekFull/7*100);
+  document.getElementById("weekDonut").style.setProperty("--p", weekPct+"%");
+  document.getElementById("weekPct").textContent=weekPct+"%";
+  document.getElementById("weekSub").textContent=s.weekFull+" از ۷ روز کامل · "+s.weekHalf+" ناقص";
+
+  const daysPassed=Math.min(s.dim, todayDate().getDate());
+  const monthPct=daysPassed?Math.round(s.monthFull/daysPassed*100):0;
+  document.getElementById("monthDonut").style.setProperty("--p", monthPct+"%");
+  document.getElementById("monthPct").textContent=monthPct+"%";
+  document.getElementById("monthSub").textContent=s.monthFull+" روز کامل از "+daysPassed+" روز گذشته";
+
+  document.getElementById("streakN").textContent=s.streak;
+  document.getElementById("totalDaysN").textContent=s.totalRecorded;
+  document.getElementById("completeDaysN").textContent=s.monthFull;
+
+  const box=document.getElementById("weekDots");
+  box.innerHTML=s.dots.map(x=>{
+    const cls=x.r>=0.999?"full":x.r>0?"half":"empty";
+    const mark=x.isToday?" today-mark":"";
+    return `<div class="dot ${cls}${mark}" title="${keyFromDate(x.d)}">${x.d.getDate()}</div>`;
+  }).join("");
 }
 
 function render(){
-  document.getElementById("todayDate").textContent = faDate();
-  document.getElementById("todayTitle").textContent = "تمرین امروز";
+  // اگر نیمه‌شب رد شد و هنوز روی «امروز» بودیم، داده همان کلید تاریخ است
+  const locked=isLocked();
+  document.getElementById("lockBanner").classList.toggle("on", locked);
+  document.getElementById("btnToday").className=viewMode==="today"?"on":"";
+  document.getElementById("btnYesterday").className=viewMode==="yesterday"?"lock-on":"";
 
-  const ts=todayTotals();
-  document.getElementById("todaySets").textContent = ts.done+" / "+ts.total+" ست";
-  document.getElementById("todayRing").style.setProperty("--p", ts.pct);
-  document.getElementById("todayPct").textContent = ts.pct+"%";
+  const pd=panelDate();
+  try{
+    document.getElementById("panelDate").textContent=pd.toLocaleDateString("fa-IR",{weekday:"short",month:"short",day:"numeric"});
+  }catch(e){
+    document.getElementById("panelDate").textContent=panelKey();
+  }
+
+  const habits=state.plan||[];
+  let done=0,total=0;
+  habits.forEach(h=>{ total+=h.sets||0; done+=Math.min(getSetsDone(h.id),h.sets||0); });
+  document.getElementById("daySets").textContent=done+" / "+total;
+
+  renderStats();
 
   const list=document.getElementById("list");
   list.innerHTML="";
-  const habits=(state.plan||[]).filter(h=>filter==="all"||h.cat===filter);
-  if(!habits.length){
-    list.innerHTML=`<div style="color:var(--muted);text-align:center;padding:24px">سن، قد و وزن را بده و برنامه بساز.</div>`;
+  const show=habits.filter(h=>filter==="all"||h.cat===filter);
+  if(!show.length){
+    list.innerHTML=`<div style="color:var(--muted);text-align:center;padding:24px">برنامه بساز تا ست‌ها بیاید.</div>`;
     return;
   }
-
-  habits.forEach(h=>{
-    const max = h.sets || 3;
-    const done = Math.min(getSetsDone(h.id), max);
-    const setsHtml = Array.from({length:max},(_,i)=>{
-      const on = i < done;
-      return `<div class="set ${on?"done":""}" data-id="${h.id}" data-i="${i}" data-max="${max}">${on?"✓":(i+1)}</div>`;
+  show.forEach(h=>{
+    const max=h.sets||3;
+    const cur=Math.min(getSetsDone(h.id),max);
+    const setsHtml=Array.from({length:max},(_,i)=>{
+      const on=i<cur;
+      return `<div class="set ${on?"done":""} ${locked?"disabled":""}" data-id="${h.id}" data-i="${i}" data-max="${max}">${on?"✓":(i+1)}</div>`;
     }).join("");
-
     const el=document.createElement("div");
-    el.className="habit";
+    el.className="habit"+(locked?" locked":"");
     el.innerHTML=`
       <div class="top">
-        <div>
-          <div class="name">${h.name}</div>
-          <div class="meta">${h.dose}${h.note?" · "+h.note:""}</div>
-        </div>
+        <div><div class="name">${h.name}</div><div class="meta">${h.dose}</div></div>
         <span class="tag">${CAT_NAME[h.cat]}</span>
       </div>
-      <div class="set-label">ست‌های امروز: <b style="color:var(--text)">${done}</b> از <b style="color:var(--text)">${max}</b> — هر تیک یک ست</div>
+      <div class="set-label">ست: <b style="color:var(--text)">${cur}</b> / ${max}${locked?" · قفل":""}</div>
       <div class="sets">${setsHtml}</div>
-      <button type="button" class="detail-btn" data-detail="${h.id}">جزئیات حرکت</button>`;
+      <button type="button" class="detail-btn" data-detail="${h.id}">جزئیات</button>`;
     list.appendChild(el);
   });
-
-  list.querySelectorAll(".set").forEach(el=>{
-    el.onclick=()=>{
-      toggleSet(el.dataset.id, +el.dataset.i, +el.dataset.max);
-    };
+  list.querySelectorAll(".set:not(.disabled)").forEach(el=>{
+    el.onclick=()=>toggleSet(el.dataset.id,+el.dataset.i,+el.dataset.max);
   });
   list.querySelectorAll("[data-detail]").forEach(b=>{
     b.onclick=()=>{
-      const h=state.plan.find(x=>x.id===b.dataset.detail);
-      if(!h)return;
-      document.getElementById("mTitle").textContent=h.name;
-      document.getElementById("mBody").textContent=
-        "دسته: "+CAT_NAME[h.cat]+"\nامروز: "+h.dose+"\n\nنحوه اجرا:\n"+h.how+"\n\nنکته:\n"+h.tip+(h.note?"\n\n"+h.note:"");
-      document.getElementById("modal").classList.add("on");
+      const h=state.plan.find(x=>x.id===b.dataset.detail); if(!h)return;
+      mTitle.textContent=h.name;
+      mBody.textContent="دسته: "+CAT_NAME[h.cat]+"\n"+h.dose+"\n\n"+h.how+"\n\nنکته: "+h.tip;
+      modal.classList.add("on");
     };
   });
 }
 
+const modal=document.getElementById("modal"), mTitle=document.getElementById("mTitle"), mBody=document.getElementById("mBody");
+
+document.getElementById("btnToday").onclick=()=>{viewMode="today";render()};
+document.getElementById("btnYesterday").onclick=()=>{viewMode="yesterday";render()};
 document.getElementById("tabs").onclick=e=>{
   const b=e.target.closest("button[data-cat]"); if(!b)return;
   filter=b.dataset.cat;
@@ -405,27 +549,37 @@ document.getElementById("tabs").onclick=e=>{
   render();
 };
 document.getElementById("btnGen").onclick=gen;
-document.getElementById("btnResetToday").onclick=()=>{
-  if(!confirm("ست‌های امروز پاک شود؟"))return;
-  delete state.sets[todayKey()];
-  save(); render(); toast("ست‌های امروز پاک شد");
+document.getElementById("btnResetDay").onclick=()=>{
+  if(isLocked()){toast("دیروز قفل است");return}
+  if(!confirm("ست‌های این روز پاک شود؟"))return;
+  delete state.sets[panelKey()]; save(); render(); toast("پاک شد");
 };
-document.getElementById("mClose").onclick=()=>document.getElementById("modal").classList.remove("on");
+document.getElementById("mClose").onclick=()=>modal.classList.remove("on");
 
 if(state.profile&&state.profile.age){
-  document.getElementById("age").value=state.profile.age;
-  document.getElementById("height").value=state.profile.height;
-  document.getElementById("weight").value=state.profile.weight;
+  ageEl.value=state.profile.age; heightEl.value=state.profile.height; weightEl.value=state.profile.weight;
   if(state.plan&&state.plan.length){
     const a=analyze(state.profile.age,state.profile.height,state.profile.weight);
-    document.getElementById("bmiInfo").innerHTML=
-      `BMI: <b>${a.bmi.toFixed(1)}</b> (${a.bmiLabel}) · <b>${levelText(a.level)}</b>`;
-    document.getElementById("levelHint").textContent=levelText(a.level);
+    bmiInfo.innerHTML=`BMI <b>${a.bmi.toFixed(1)}</b> (${a.bmiLabel}) · <b>${levelText(a.level)}</b>`;
+    levelHint.textContent=levelText(a.level);
   }
 }
+
+// تشخیص تعویض روز: هر دقیقه چک؛ اگر تاریخ عوض شد رندر کن (امروز جدید، دیروز قفل)
+let lastKey=keyFromDate(todayDate());
+setInterval(()=>{
+  tickChrono();
+  const now=keyFromDate(todayDate());
+  if(now!==lastKey){
+    lastKey=now;
+    // روز عوض شد → پنل روی «امروز» جدید
+    viewMode="today";
+    toast("روز جدید شروع شد");
+    render();
+  }
+}, 1000);
+
 render();
-// هر بار باز شدن = روز سیستم؛ نیمه‌شب خودکار روز جدید
-setInterval(()=>{ render(); }, 60*1000);
 </script>
 </body>
 </html>
