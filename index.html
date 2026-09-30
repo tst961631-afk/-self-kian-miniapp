@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Discipline ↗ — ترکر عادت</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg: #090b10;
+    --bg2: #0e1118;
+    --card: #141822;
+    --card-hover: #1a1f2e;
+    --border: #252a3a;
+    --border2: #2f3548;
+    --text: #f0f2f5;
+    --muted: #8b92a8;
+    --dim: #5c6378;
+    --blue: #5b9aff;
+    --blue-dim: rgba(91,154,255,0.15);
+    --green: #3dd68c;
+    --green-dim: rgba(61,214,140,0.15);
+    --pink: #ff6b9d;
+    --pink-dim: rgba(255,107,157,0.15);
+    --yellow: #ffc14a;
+    --yellow-dim: rgba(255,193,74,0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.15);
+    --cyan: #22d3ee;
+    --red: #f87171;
+    --gradient: linear-gradient(135deg, #5b9aff 0%, #a78bfa 50%, #ff6b9d 100%);
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --radius: 18px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -40%; right: -20%;
+    width: 70vw; height: 70vw;
+    background: radial-gradient(circle, rgba(91,154,255,0.08) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -30%; left: -15%;
+    width: 50vw; height: 50vw;
+    background: radial-gradient(circle, rgba(167,139,250,0.06) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .app {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 20px 16px 100px;
+  }
+
+  .header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px; flex-wrap: wrap; gap: 14px;
+  }
+  .logo-block { display: flex; align-items: center; gap: 12px; }
+  .logo-icon {
+    width: 44px; height: 44px; border-radius: 14px;
+    background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: 900;
+    box-shadow: 0 4px 20px rgba(91,154,255,0.35);
+  }
+  .logo-text { font-size: 1.45rem; font-weight: 900; letter-spacing: -0.5px; }
+  .logo-text span {
+    background: var(--gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .logo-sub { font-size: 0.7rem; color: var(--muted); font-weight: 400; }
+
+  .header-controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  select, button, input[type="text"], textarea {
+    font-family: inherit; font-size: 0.85rem; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+    padding: 9px 14px; outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  select:focus, input:focus, textarea:focus { border-color: var(--blue); background: var(--card-hover); }
+
+  button { cursor: pointer; font-weight: 600; transition: transform 0.12s, opacity 0.12s, box-shadow 0.12s; }
+  button:active { transform: scale(0.97); }
+  button.primary {
+    background: var(--gradient); border: none; color: #fff;
+    box-shadow: 0 4px 16px rgba(91,154,255,0.3);
+  }
+  button.primary:hover { box-shadow: 0 6px 24px rgba(91,154,255,0.45); }
+  button.ghost { background: transparent; border-color: var(--border); color: var(--muted); }
+  button.ghost:hover { border-color: var(--muted); color: var(--text); }
+  button.danger {
+    background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.3); color: var(--red);
+  }
+  button.danger:hover { background: rgba(248,113,113,0.22); }
+
+  .section { margin-bottom: 28px; }
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; gap: 10px;
+  }
+  .section-title {
+    font-size: 1.05rem; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--blue); box-shadow: 0 0 8px var(--blue);
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+    box-shadow: var(--shadow); transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border2); }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 14px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .stat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .stat-card.s1::before { background: var(--blue); }
+  .stat-card.s2::before { background: var(--green); }
+  .stat-card.s3::before { background: var(--yellow); }
+  .stat-card.s4::before { background: var(--purple); }
+
+  .ring-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto 10px; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-wrap .pct {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.05rem;
+  }
+  .stat-val { font-size: 1.9rem; font-weight: 900; line-height: 1.15; }
+  .stat-lbl { font-size: 0.72rem; color: var(--muted); margin-top: 4px; font-weight: 500; }
+
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 0 4px; }
+
+  .habit-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 720px; }
+  .habit-table th, .habit-table td { padding: 5px 3px; text-align: center; font-size: 0.7rem; }
+  .habit-table th {
+    font-weight: 600; color: var(--dim); position: sticky; top: 0;
+    background: var(--card); z-index: 2; padding-bottom: 8px;
+  }
+
+  .habit-name-cell {
+    text-align: right !important; font-weight: 500; font-size: 0.82rem !important;
+    white-space: nowrap; padding: 6px 8px 6px 4px !important; min-width: 170px;
+    position: sticky; right: 0; background: var(--card); z-index: 3;
+  }
+  .habit-name-cell .row { display: flex; align-items: center; gap: 4px; }
+  .habit-name-cell input {
+    width: 100%; background: transparent; border: 1px solid transparent;
+    color: var(--text); font-family: inherit; font-size: 0.82rem;
+    text-align: right; padding: 5px 8px; border-radius: 8px;
+  }
+  .habit-name-cell input:hover { border-color: var(--border); }
+  .habit-name-cell input:focus { background: var(--bg2); border-color: var(--blue); }
+
+  .week-band { font-size: 0.62rem !important; letter-spacing: 0.3px; }
+  .w1 { background: var(--blue-dim); }
+  .w2 { background: var(--green-dim); }
+  .w3 { background: var(--pink-dim); }
+  .w4 { background: var(--yellow-dim); }
+  .w5 { background: var(--purple-dim); }
+  .day-num { font-size: 0.62rem; color: var(--dim); font-weight: 500; }
+
+  .chk {
+    width: 24px; height: 24px; border-radius: 7px;
+    border: 2px solid var(--border2); background: transparent; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1); margin: 0 auto;
+  }
+  .chk:hover { border-color: var(--muted); transform: scale(1.08); }
+  .chk.on { transform: scale(1); border-color: transparent; }
+  .chk.on::after { content: '✓'; color: #fff; font-size: 13px; font-weight: 800; }
+  .chk.w1.on { background: var(--blue); box-shadow: 0 2px 10px rgba(91,154,255,0.4); }
+  .chk.w2.on { background: var(--green); box-shadow: 0 2px 10px rgba(61,214,140,0.4); }
+  .chk.w3.on { background: var(--pink); box-shadow: 0 2px 10px rgba(255,107,157,0.4); }
+  .chk.w4.on { background: var(--yellow); box-shadow: 0 2px 10px rgba(255,193,74,0.4); }
+  .chk.w4.on::after { color: #1a1a1a; }
+  .chk.w5.on { background: var(--purple); box-shadow: 0 2px 10px rgba(167,139,250,0.4); }
+
+  .sum-cell { font-weight: 800; font-size: 0.78rem !important; color: var(--muted); min-width: 36px; }
+
+  .add-row { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .add-row input { flex: 1; min-width: 200px; }
+
+  .del-btn {
+    background: transparent !important; border: none !important; color: var(--dim) !important;
+    cursor: pointer; font-size: 0.85rem; padding: 2px 5px !important;
+    border-radius: 6px !important; box-shadow: none !important;
+  }
+  .del-btn:hover { color: var(--red) !important; background: rgba(248,113,113,0.1) !important; }
+
+  .weeks-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;
+  }
+  .week-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 12px; text-align: center;
+  }
+  .week-card .wlabel { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+
+  .pbar-list { display: flex; flex-direction: column; gap: 14px; }
+  .pbar-item {
+    display: grid; grid-template-columns: minmax(120px, 180px) 1fr 55px;
+    gap: 12px; align-items: center;
+  }
+  .pbar-name {
+    font-size: 0.82rem; font-weight: 500;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .pbar-track {
+    height: 12px; background: var(--bg2); border-radius: 99px;
+    overflow: hidden; border: 1px solid var(--border);
+  }
+  .pbar-fill {
+    height: 100%; border-radius: 99px;
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    background: var(--gradient);
+  }
+  .pbar-cnt { font-size: 0.75rem; color: var(--muted); text-align: left; font-weight: 600; }
+
+  .notes-area {
+    width: 100%; min-height: 120px; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px 16px; color: var(--text); font-family: inherit;
+    font-size: 0.9rem; resize: vertical; line-height: 1.7;
+  }
+
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(9,11,16,0.92);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px; display: flex; justify-content: center; gap: 10px; z-index: 50;
+  }
+
+  .toast {
+    position: fixed; top: 24px; left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: var(--green); color: #0a0a0a;
+    padding: 12px 24px; border-radius: 14px; font-weight: 700; font-size: 0.88rem;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 100; pointer-events: none;
+    box-shadow: 0 8px 30px rgba(61,214,140,0.35);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .empty { text-align: center; padding: 30px; color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="header">
+    <div class="logo-block">
+      <div class="logo-icon">D</div>
+      <div>
+        <div class="logo-text">Discipline <span>↗</span></div>
+        <div class="logo-sub">ترکر عادت · شمسی</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <select id="monthSelect"></select>
+      <select id="yearSelect"></select>
+      <button class="ghost" onclick="exportData()" title="دانلود بک‌آپ">⬇</button>
+      <button class="ghost" onclick="document.getElementById('importFile').click()" title="بارگذاری بک‌آپ">⬆</button>
+      <input type="file" id="importFile" accept=".json" hidden onchange="importData(event)">
+    </div>
+  </header>
+
+  <!-- 1. STATS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="dot"></span> نمای کلی ماه</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card s1">
+        <div class="ring-wrap">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="33" fill="none" stroke="#252a3a" stroke-width="7"/>
+            <circle id="mainRing" cx="40" cy="40" r="33" fill="none" stroke="url(#grad)" stroke-width="7"
+              stroke-linecap="round" stroke-dasharray="207.3" stroke-dashoffset="207.3"/>
+            <defs>
+              <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#5b9aff"/>
+                <stop offset="100%" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="pct" id="mainPct">0%</div>
+        </div>
+        <div class="stat-lbl">پیشرفت کل</div>
+      </div>
+      <div class="stat-card s2">
+        <div class="stat-val" id="doneCount" style="color:var(--green)">0</div>
+        <div class="stat-lbl">تکمیل‌شده</div>
+      </div>
+      <div class="stat-card s3">
+        <div class="stat-val" id="activeDays" style="color:var(--yellow)">0</div>
+        <div class="stat-lbl">روز فعال</div>
+      </div>
+      <div class="stat-card s4">
+        <div class="stat-val" id="habitCount" style="color:var(--purple)">0</div>
+        <div class="stat-lbl">تعداد عادت</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. WEEKLY -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="dot" style="background:var(--green)"></span> پیشرفت هفتگی</div>
+    </div>
+    <div class="card">
+      <div class="weeks-grid" id="weeksGrid"></div>
+    </div>
+  </section>
+
+  <!-- 3. DAILY HABITS -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="dot" style="background:var(--pink)"></span> عادات روزانه</div>
+    </div>
+    <div class="card">
+      <div class="table-scroll">
+        <table class="habit-table">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="add-row">
+        <input type="text" id="newHabit" placeholder="عادت جدید... مثلاً خواندن ۲۰ صفحه" maxlength="50">
+        <button class="primary" onclick="addHabit()">＋ افزودن</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. PER HABIT -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="dot" style="background:var(--yellow)"></span> پیشرفت هر عادت</div>
+    </div>
+    <div class="card">
+      <div class="pbar-list" id="progressBars"></div>
+    </div>
+  </section>
+
+  <!-- 5. NOTES -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="dot" style="background:var(--cyan)"></span> یادداشت ماه</div>
+    </div>
+    <div class="card">
+      <textarea class="notes-area" id="notes" placeholder="هدف‌ها، چالش‌ها، نکات این ماه..." oninput="saveNotes()"></textarea>
+    </div>
+  </section>
+
+</div>
+
+<div class="footer-bar">
+  <button class="danger" onclick="resetMonth()">🗑 پاک کردن ماه</button>
+  <button class="primary" onclick="saveAll()" id="saveBtn">💾 ذخیره</button>
+</div>
+<div class="toast" id="toast">ذخیره شد ✓</div>
+
+<script>
+const JALALI_MONTHS = [
+  {id:1,name:'فروردین',days:31},{id:2,name:'اردیبهشت',days:31},{id:3,name:'خرداد',days:31},
+  {id:4,name:'تیر',days:31},{id:5,name:'مرداد',days:31},{id:6,name:'شهریور',days:31},
+  {id:7,name:'مهر',days:30},{id:8,name:'آبان',days:30},{id:9,name:'آذر',days:30},
+  {id:10,name:'دی',days:30},{id:11,name:'بهمن',days:30},{id:12,name:'اسفند',days:29},
+];
+const WEEK_COLORS = ['w1','w2','w3','w4','w5'];
+const DEFAULT_HABITS = [
+  '💧 خوردن ۸ لیوان آب','🏋️ ۳۰ دقیقه ورزش','😴 ۸ ساعت خواب',
+  '🚶 پیاده‌روی','🧘 ۱۵ دقیقه مدیتیشن','📖 مطالعه','📵 کم کردن گوشی',
+];
+
+let state = { year:1405, month:5, habits:[...DEFAULT_HABITS], checks:{}, notes:'' };
+
+function storageKey() { return `discipline_v2_${state.year}_${state.month}`; }
+
+function load() {
+  try {
+    const raw = localStorage.getItem(storageKey());
+    if (raw) {
+      const d = JSON.parse(raw);
+      state.habits = d.habits || state.habits;
+      state.checks = d.checks || {};
+      state.notes = d.notes || '';
+    } else { state.checks = {}; state.notes = ''; }
+  } catch { state.checks = {}; }
+  document.getElementById('notes').value = state.notes;
+}
+
+function saveAll() {
+  localStorage.setItem(storageKey(), JSON.stringify({
+    habits: state.habits, checks: state.checks, notes: state.notes
+  }));
+  const btn = document.getElementById('saveBtn');
+  btn.textContent = '✓ ذخیره شد';
+  showToast('ذخیره شد ✓');
+  setTimeout(() => { btn.textContent = '💾 ذخیره'; }, 1400);
+}
+
+function saveNotes() {
+  state.notes = document.getElementById('notes').value;
+  localStorage.setItem(storageKey(), JSON.stringify({
+    habits: state.habits, checks: state.checks, notes: state.notes
+  }));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1700);
+}
+
+function daysInMonth() {
+  const m = JALALI_MONTHS.find(x => x.id === state.month);
+  let days = m ? m.days : 30;
+  if (state.month === 12 && ((state.year + 1) % 4 === 0)) days = 30;
+  return days;
+}
+function getWeek(day) { return Math.ceil(day / 7); }
+
+function initSelects() {
+  const ms = document.getElementById('monthSelect');
+  const ys = document.getElementById('yearSelect');
+  ms.innerHTML = JALALI_MONTHS.map(m =>
+    `<option value="${m.id}" ${m.id===state.month?'selected':''}>${m.name}</option>`
+  ).join('');
+  let yo = '';
+  for (let y = 1403; y <= 1410; y++)
+    yo += `<option value="${y}" ${y===state.year?'selected':''}>${y}</option>`;
+  ys.innerHTML = yo;
+  ms.onchange = () => { saveAll(); state.month = +ms.value; load(); render(); };
+  ys.onchange = () => { saveAll(); state.year = +ys.value; load(); render(); };
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+}
+
+function renderHead() {
+  const days = daysInMonth();
+  let h = '<tr><th class="habit-name-cell">عادت</th>';
+  for (let d = 1; d <= days; d++) {
+    const w = getWeek(d);
+    h += `<th class="${WEEK_COLORS[(w-1)%5]}"><div class="day-num">${d}</div></th>`;
+  }
+  h += '<th>∑</th></tr><tr><th class="habit-name-cell"></th>';
+  let d = 1;
+  while (d <= days) {
+    const w = getWeek(d); let span = 0;
+    while (d <= days && getWeek(d) === w) { span++; d++; }
+    h += `<th colspan="${span}" class="week-band ${WEEK_COLORS[(w-1)%5]}">هفته ${w}</th>`;
+  }
+  h += '<th></th></tr>';
+  document.getElementById('tableHead').innerHTML = h;
+}
+
+function renderBody() {
+  const days = daysInMonth();
+  let html = '';
+  state.habits.forEach((habit, hi) => {
+    html += `<tr><td class="habit-name-cell"><div class="row">
+      <button class="del-btn" onclick="removeHabit(${hi})">✕</button>
+      <input value="${escapeHtml(habit)}" onchange="renameHabit(${hi},this.value)">
+    </div></td>`;
+    let done = 0;
+    for (let d = 1; d <= days; d++) {
+      const key = `${hi}-${d}`;
+      const on = !!state.checks[key];
+      if (on) done++;
+      const wc = WEEK_COLORS[(getWeek(d)-1)%5];
+      html += `<td><div class="chk ${wc} ${on?'on':''}" onclick="toggle(${hi},${d})"></div></td>`;
+    }
+    html += `<td class="sum-cell">${done}</td></tr>`;
+  });
+  document.getElementById('tableBody').innerHTML = html;
+}
+
+function toggle(hi, day) {
+  const key = `${hi}-${day}`;
+  if (state.checks[key]) delete state.checks[key];
+  else state.checks[key] = true;
+  saveAll(); render();
+}
+
+function addHabit() {
+  const inp = document.getElementById('newHabit');
+  const v = inp.value.trim();
+  if (!v) return;
+  state.habits.push(v); inp.value = '';
+  saveAll(); render(); showToast('عادت اضافه شد');
+}
+
+function removeHabit(hi) {
+  if (!confirm('این عادت حذف شود؟')) return;
+  state.habits.splice(hi, 1);
+  const nc = {};
+  Object.keys(state.checks).forEach(k => {
+    const [h, d] = k.split('-').map(Number);
+    if (h < hi) nc[k] = true;
+    else if (h > hi) nc[`${h-1}-${d}`] = true;
+  });
+  state.checks = nc; saveAll(); render();
+}
+
+function renameHabit(hi, name) {
+  state.habits[hi] = name.trim() || state.habits[hi];
+  saveAll();
+}
+
+function updateStats() {
+  const days = daysInMonth();
+  const total = state.habits.length * days;
+  let done = 0;
+  Object.keys(state.checks).forEach(k => {
+    const [h, d] = k.split('-').map(Number);
+    if (h < state.habits.length && d >= 1 && d <= days) done++;
+  });
+  const pct = total ? Math.round(done / total * 100) : 0;
+
+  document.getElementById('doneCount').textContent = done;
+  document.getElementById('habitCount').textContent = state.habits.length;
+  document.getElementById('mainPct').textContent = pct + '%';
+  const circ = 2 * Math.PI * 33;
+  document.getElementById('mainRing').style.strokeDashoffset = circ - (pct/100)*circ;
+
+  let active = 0;
+  for (let d = 1; d <= days; d++) {
+    for (let h = 0; h < state.habits.length; h++) {
+      if (state.checks[`${h}-${d}`]) { active++; break; }
+    }
+  }
+  document.getElementById('activeDays').textContent = active;
+
+  const maxWeek = getWeek(days);
+  let weeksHtml = '';
+  const colors = ['var(--blue)','var(--green)','var(--pink)','var(--yellow)','var(--purple)'];
+  for (let w = 1; w <= maxWeek; w++) {
+    let wDone = 0, wTotal = 0;
+    const start = (w-1)*7 + 1, end = Math.min(w*7, days);
+    for (let d = start; d <= end; d++) {
+      for (let h = 0; h < state.habits.length; h++) {
+        wTotal++;
+        if (state.checks[`${h}-${d}`]) wDone++;
+      }
+    }
+    const wp = wTotal ? Math.round(wDone/wTotal*100) : 0;
+    const r = 26, c = 2*Math.PI*r;
+    weeksHtml += `<div class="week-card">
+      <div class="wlabel">هفته ${w}</div>
+      <div class="ring-wrap" style="width:64px;height:64px">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="${r}" fill="none" stroke="#252a3a" stroke-width="5"/>
+          <circle cx="32" cy="32" r="${r}" fill="none" stroke="${colors[(w-1)%5]}" stroke-width="5"
+            stroke-linecap="round" stroke-dasharray="${c}"
+            stroke-dashoffset="${c*(1-wp/100)}" style="transform:rotate(-90deg);transform-origin:center"/>
+        </svg>
+        <div class="pct" style="font-size:0.85rem">${wp}%</div>
+      </div>
+      <div style="font-size:0.7rem;color:var(--dim);margin-top:4px">${wDone}/${wTotal}</div>
+    </div>`;
+  }
+  document.getElementById('weeksGrid').innerHTML = weeksHtml;
+
+  let bars = '';
+  if (!state.habits.length) {
+    bars = '<div class="empty">هنوز عادتی اضافه نکردی</div>';
+  } else {
+    state.habits.forEach((habit, hi) => {
+      let c = 0;
+      for (let d = 1; d <= days; d++) if (state.checks[`${hi}-${d}`]) c++;
+      const p = days ? Math.round(c/days*100) : 0;
+      bars += `<div class="pbar-item">
+        <div class="pbar-name">${escapeHtml(habit)}</div>
+        <div class="pbar-track"><div class="pbar-fill" style="width:${p}%"></div></div>
+        <div class="pbar-cnt">${c}/${days}</div>
+      </div>`;
+    });
+  }
+  document.getElementById('progressBars').innerHTML = bars;
+}
+
+function render() { renderHead(); renderBody(); updateStats(); }
+
+function resetMonth() {
+  if (!confirm('همه چک‌باکس‌ها و یادداشت این ماه پاک شود؟\nعادت‌ها باقی می‌مانند.')) return;
+  state.checks = {}; state.notes = '';
+  document.getElementById('notes').value = '';
+  saveAll(); render(); showToast('ماه ریست شد');
+}
+
+function exportData() {
+  const data = {
+    year: state.year, month: state.month,
+    habits: state.habits, checks: state.checks, notes: state.notes,
+    exportedAt: new Date().toISOString()
+  };
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download = `discipline_${state.year}_${state.month}.json`;
+  a.click(); showToast('دانلود شد');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (d.year) state.year = d.year;
+      if (d.month) state.month = d.month;
+      if (d.habits) state.habits = d.habits;
+      if (d.checks) state.checks = d.checks;
+      if (d.notes != null) state.notes = d.notes;
+      document.getElementById('monthSelect').value = state.month;
+      document.getElementById('yearSelect').value = state.year;
+      document.getElementById('notes').value = state.notes;
+      saveAll(); render(); showToast('بارگذاری شد ✓');
+    } catch { alert('فایل نامعتبر'); }
+  };
+  r.readAsText(file); e.target.value = '';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('newHabit').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addHabit();
+  });
+  initSelects(); load(); render();
+});
+setInterval(() => {
+  localStorage.setItem(storageKey(), JSON.stringify({
+    habits: state.habits, checks: state.checks, notes: state.notes
+  }));
+}, 30000);
+</script>
+</body>
+</html>
